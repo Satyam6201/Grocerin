@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useAppContext } from '../../context/AppContext'
 import toast from 'react-hot-toast';
 
-const Sellerlogin = () => {
+const SellerLogin = () => {
     const {isSeller, setIsSeller, navigate, axios} = useAppContext();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -56,4 +56,4 @@ const Sellerlogin = () => {
   )
 }
 
-export default Sellerlogin
+export default SellerLogin

@@ -35,7 +35,11 @@ export const sellerLogin = async (req, res) => {
 // Seller Auth : /api/seller/is-auth
 export const isSellerAuth = async (req, res) => {
     try {
-        return res.json({ success: true });
+        if (req.seller) {
+            return res.json({ success: true });
+        } else {
+            return res.json({ success: false });
+        }
     } catch (error) {
         console.log(error.message);
 

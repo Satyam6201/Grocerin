@@ -40,10 +40,15 @@ const App = () => {
           <Route path = '/add-address' element = {<AddAddress/>} />
           <Route path = '/my-orders' element = {<MyOrders/>} />
           <Route path = '/loader' element = {<Loading/>} />
-          <Route path = '/seller' element = {isSeller ? <SellerLayout /> : <SellerLogin/>} >
-            <Route index element = {isSeller ? <AddProduct /> : null} />
-            <Route path='product-list' element = {<ProductList />} />
-            <Route path='orders' element = {<Orders />} />
+           {/* Seller Routes */}
+          <Route path="/seller" element={isSeller ? <SellerLayout /> : <SellerLogin />}>
+            {isSeller && (
+              <>
+                <Route index element={<AddProduct />} />
+                <Route path="product-list" element={<ProductList />} />
+                <Route path="orders" element={<Orders />} />
+              </>
+            )}
           </ Route >
         </Routes>
       </div>

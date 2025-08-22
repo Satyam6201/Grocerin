@@ -57,7 +57,7 @@ const Navbar = () => {
             <div className="hidden sm:flex items-center gap-8">
                 <NavLink
                     to="/seller"
-                    className="px-4 py-2 rounded-xl bg-primary text-white font-semibold shadow-lg hover:scale-105 hover:shadow-xl transition duration-300"
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-xl transition duration-300"
                 >
                     Seller Dashboard
                 </NavLink>

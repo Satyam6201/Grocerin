@@ -11,5 +11,4 @@ orderRouter.get('/user', authUser, getUserOrders);
 orderRouter.get('/seller', authSeller, getAllOrders);
 orderRouter.post('/stripe', authUser, placeOrderStripe);
 
-
 export default orderRouter;

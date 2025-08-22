@@ -187,7 +187,10 @@ export const getUserOrders = async (req, res) => {
             // $or: [{paymentType: "COD"},
             //     {isPaid: true}]
             }).populate("items.product address").sort({createdAt: -1});
-            res.json({ success: true, orders });
+            // Convert mongoose docs to plain objects
+            const cleanOrders = orders.map(order => order.toObject());
+
+            res.json({ success: true, orders: cleanOrders });
 
     } catch (error) {
         res.json({
@@ -204,7 +207,9 @@ export const getAllOrders = async (req, res) => {
             // $or: [{paymentType: "COD"},
             //     {isPaid: true}]
             }).populate("items.product address").sort({createdAt: -1});
-            res.json({ success: true, orders });
+            const cleanOrders = orders.map(order => order.toObject());
+
+            res.json({ success: true, orders: cleanOrders });
 
     } catch (error) {
         res.json({

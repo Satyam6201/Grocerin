@@ -703,7 +703,6 @@ export const dummyProducts = [
     _id: "in01f25u",
     name: "Maggi Noodles 280g",
     category: "Instant",
-
     price: 55,
     offerPrice: 50,
     image: [maggi_image],

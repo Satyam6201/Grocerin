@@ -69,7 +69,7 @@ import vanilla_muffins_image from "./vanilla_muffins_image.png";
 import quinoa_image from "./quinoa_image.png";
 import brown_rice_image from "./brown_rice_image.png";
 import barley_image from "./barley_image.png";
-import beauty_image from "./beauty_image.jpg";
+import beauty_images from "./beauty_images.jpg";
 import FaceWash_1 from "./FaceWash_1.webp";
 
 export const assets = {
@@ -148,7 +148,7 @@ export const categories = [
   {
   text: "Beauty & Personal Care",
   path: "BeautyCare",
-  image: beauty_image,   
+  image: beauty_images,   
   bgColor: "#FFE4EC",
  },
 ];

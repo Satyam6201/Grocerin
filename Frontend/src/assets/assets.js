@@ -71,6 +71,8 @@ import brown_rice_image from "./brown_rice_image.png";
 import barley_image from "./barley_image.png";
 import beauty_images from "./beauty_images.jpg";
 import FaceWash_1 from "./FaceWash_1.webp";
+import cooking_image from "./Cooking_Essentials.png";
+import Suger from "./Suger.webp";
 
 export const assets = {
   logo,
@@ -151,6 +153,12 @@ export const categories = [
   image: beauty_images,   
   bgColor: "#FFE4EC",
  },
+ {
+  text: "Cooking Essentials",
+  path: "CookingEssentials",
+  image: cooking_image,
+  bgColor: "#FFF3D6",
+}
 ];
 
 export const footerLinks = [
@@ -798,6 +806,23 @@ export const dummyProducts = [
     description: [
       "Clean Dark Circle",
       "Clean and Clear Face",
+    ],
+    createdAt: "2025-03-25T07:17:46.018Z",
+    updatedAt: "2025-03-25T07:18:13.103Z",
+    inStock: true,
+  },
+  // Cooking Essentials
+  {
+    _id: "in07l31s",
+    name: "Suger 1kg",
+    category: "CookingEssentials",
+    price: 35,
+    offerPrice: 30,
+    image: [Suger],
+    description: [
+      "Pure and high-quality refined sugar",
+      "Ideal for tea, coffee, and desserts",
+      "Perfect for daily household use"
     ],
     createdAt: "2025-03-25T07:17:46.018Z",
     updatedAt: "2025-03-25T07:18:13.103Z",

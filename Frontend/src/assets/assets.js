@@ -69,6 +69,8 @@ import vanilla_muffins_image from "./vanilla_muffins_image.png";
 import quinoa_image from "./quinoa_image.png";
 import brown_rice_image from "./brown_rice_image.png";
 import barley_image from "./barley_image.png";
+import beauty_image from "./beauty_image.jpg";
+import FaceWash_1 from "./FaceWash_1.webp";
 
 export const assets = {
   logo,
@@ -143,6 +145,12 @@ export const categories = [
     image: grain_image,
     bgColor: "#F1E3F9",
   },
+  {
+  text: "Beauty & Personal Care",
+  path: "BeautyCare",
+  image: beauty_image,   
+  bgColor: "#FFE4EC",
+ },
 ];
 
 export const footerLinks = [
@@ -774,6 +782,22 @@ export const dummyProducts = [
       "Healthy alternative with oats",
       "Good for digestion",
       "Perfect for breakfast or snacks",
+    ],
+    createdAt: "2025-03-25T07:17:46.018Z",
+    updatedAt: "2025-03-25T07:18:13.103Z",
+    inStock: true,
+  },
+  // beauty_image
+  {
+    _id: "in06k30r",
+    name: "Men Facewash",
+    category: "BeautyCare",
+    price: 75,
+    offerPrice: 70,
+    image: [FaceWash_1],
+    description: [
+      "Clean Dark Circle",
+      "Clean and Clear Face",
     ],
     createdAt: "2025-03-25T07:17:46.018Z",
     updatedAt: "2025-03-25T07:18:13.103Z",

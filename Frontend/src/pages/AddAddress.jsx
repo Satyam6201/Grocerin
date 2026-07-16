@@ -148,7 +148,7 @@ const AddAddress = () => {
                     />
 
                     <button className='w-full mt-6 bg-primary text while py-3 hover:bg-primary-dull
-                    transition cursor-pointer uppercase'>
+                    transition cursor-pointer uppercase rounded-2xl'>
                         Save Address
                     </button>
                 </form>

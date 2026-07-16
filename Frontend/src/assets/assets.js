@@ -73,6 +73,7 @@ import beauty_images from "./beauty_images.jpg";
 import FaceWash_1 from "./FaceWash_1.webp";
 import cooking_image from "./Cooking_Essentials.png";
 import Suger from "./Suger.webp";
+import nav_logo from "./navbar_logo.svg";
 
 export const assets = {
   logo,
@@ -102,6 +103,7 @@ export const assets = {
   bottom_banner_image_sm,
   add_address_iamge,
   box_icon,
+  nav_logo
 };
 
 export const categories = [
@@ -165,21 +167,21 @@ export const footerLinks = [
   {
     title: "Quick Links",
     links: [
-      { text: "Home", url: "#" },
-      { text: "Best Sellers", url: "#" },
-      { text: "Offers & Deals", url: "#" },
-      { text: "Contact Us", url: "#" },
-      { text: "FAQs", url: "#" },
+      { text: "Home", url: "/" },
+      { text: "Best Sellers", url: "/best-sellers" },
+      { text: "Offers & Deals", url: "/offer" },
+      { text: "Contact Us", url: "/contact" },
+      { text: "FAQs", url: "/faq" },
     ],
   },
   {
     title: "Need help?",
     links: [
-      { text: "Delivery Information", url: "#" },
-      { text: "Return & Refund Policy", url: "#" },
-      { text: "Payment Methods", url: "#" },
-      { text: "Track your Order", url: "#" },
-      { text: "Contact Us", url: "#" },
+      { text: "Delivery Information", url: "/DeliveryInfo" },
+      { text: "Return & Refund Policy", url: "/returnRefund" },
+      { text: "Payment Methods", url: "/paymentmethod" },
+      { text: "Track your Order", url: "/tractOrder" },
+      { text: "Contact Us", url: "/contact" },
     ],
   },
   {

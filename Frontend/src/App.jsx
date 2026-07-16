@@ -18,6 +18,14 @@ import ProductList from './pages/seller/ProductList';
 import Orders from './pages/seller/Orders';
 import Loading from './components/Loading';
 import SellerLogin from './components/seller/SellerLogin';
+import Contact from './components/Contact';
+import FAQ from './components/FAQ';
+import DeliveryInformation from './components/DeliveryInformation';
+import PaymentMethods from './components/PaymentMethods';
+import ReturnRefund from './components/ReturnRefund';
+import BestSeller from './components/BestSeller';
+import OffersDeals from './components/OffersDeals';
+import TrackOrder from './components/TrackOrder';
 
 const App = () => {
   const isSellerPath = useLocation().pathname.includes("seller");
@@ -50,6 +58,16 @@ const App = () => {
               </>
             )}
           </ Route >
+
+          {/* Extra Page */}
+          <Route path='/contact' element={<Contact/>} />
+          <Route path='/faq' element={<FAQ/>} />
+          <Route path='/DeliveryInfo' element={<DeliveryInformation/>} />
+          <Route path='/paymentmethod' element={<PaymentMethods/>} />
+          <Route path='/returnRefund' element={<ReturnRefund/>} />
+          <Route path='/best-sellers' element={<BestSeller />} />
+          <Route path='/tractOrder' element={<TrackOrder/>} />
+          <Route path='/offer' element={<OffersDeals />} />
         </Routes>
       </div>
       {!isSellerPath && <Footer />}

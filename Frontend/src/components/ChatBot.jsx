@@ -11,10 +11,12 @@ import {
 import { useAppContext } from '../context/AppContext';
 
 const SUGGESTED_PROMPTS = [
-    "What is your delivery time?",
-    "Suggest breakfast ingredients under ₹200",
-    "Are there any active discount coupons?",
-    "Recommend fresh organic vegetables"
+    "What is your 10-minute delivery SLA?",
+    "Paneer Butter Masala recipe & cost",
+    "Show active discount coupons",
+    "Healthy breakfast bundle under ₹300",
+    "Return & refund policy details",
+    "Recommend organic veggies in stock"
 ];
 
 const ChatBot = () => {
@@ -175,7 +177,7 @@ const ChatBot = () => {
                     </div>
 
                     {messages.length <= 2 && (
-                        <div className="p-2.5 bg-white border-t border-gray-100 flex flex-wrap gap-1.5">
+                        <div className="p-2.5 bg-white border-t border-gray-100 flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
                             {SUGGESTED_PROMPTS.map((p, idx) => (
                                 <button
                                     key={idx}

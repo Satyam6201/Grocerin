@@ -1,7 +1,7 @@
 import Order from "../models/Order.js";
 import Product from "../models/Product.js";
 import stripe from "stripe";
-import User from "../models/User.js"
+import User from "../models/User.js";
 
 // Place Order COD: /api/order/cod
 export const placeOrderCOD = async (req, res) => {
@@ -9,70 +9,90 @@ export const placeOrderCOD = async (req, res) => {
         const { items, address } = req.body;
         const userId = req.userId;
 
-        if (!address || items.length === 0) {
-            return res.json({success: false, message: "Invalid data"});
+        if (!address || !items || items.length === 0) {
+            return res.status(400).json({ success: false, message: "Invalid order data" });
         }
-        // Calculate Amount Using Itmes
-        let amount = await items.reduce(async (acc, item) => {
+
+        // Calculate Amount Using Items
+        let calculatedSubtotal = 0;
+        for (const item of items) {
             const product = await Product.findById(item.product);
-            return(await acc) + product.offerPrice * item.quantity;
-        }, 0);
+            if (!product) {
+                return res.status(404).json({ success: false, message: `Product not found: ${item.product}` });
+            }
+            calculatedSubtotal += product.offerPrice * item.quantity;
+        }
 
-        // Add Tax Charge(2%)
-        amount += Math.floor(amount * 0.02);
+        // 2% Tax Charge
+        const taxCharge = Math.floor(calculatedSubtotal * 0.02);
+        const finalAmount = calculatedSubtotal + taxCharge;
 
-        await Order.create({
+        const newOrder = await Order.create({
             userId,
             items,
-            amount,
+            amount: finalAmount,
             address,
             paymentType: "COD",
+            status: "Order Placed",
+            isPaid: false
         });
 
-        return res.json({success: true, message: "Order Placed Successfully"});
+        // Clear user's cart in DB
+        await User.findByIdAndUpdate(userId, { cartItems: {} });
+
+        return res.json({ 
+            success: true, 
+            message: "Order Placed Successfully",
+            orderId: newOrder._id
+        });
 
     } catch (error) {
-        res.json({
-                success: false,
-                message: error.message,
+        console.error("Place Order COD Error:", error.message);
+        res.status(500).json({
+            success: false,
+            message: error.message,
         });
     }
-}
+};
 
 // Place Order Stripe : /api/order/stripe
 export const placeOrderStripe = async (req, res) => {
     try {
         const { items, address } = req.body;
         const userId = req.userId;
+        const origin = req.headers.origin || 'http://localhost:5173';
 
-        const { origin } = req.headers;
-
-        if (!address || items.length === 0) {
-            return res.json({success: false, message: "Invalid data"});
+        if (!address || !items || items.length === 0) {
+            return res.status(400).json({ success: false, message: "Invalid order data" });
         }
 
         let productData = [];
-        // Calculate Amount Using Itmes
-        let amount = await items.reduce(async (acc, item) => {
+        let calculatedSubtotal = 0;
+
+        for (const item of items) {
             const product = await Product.findById(item.product);
+            if (!product) {
+                return res.status(404).json({ success: false, message: `Product not found: ${item.product}` });
+            }
             productData.push({
                 name: product.name,
                 price: product.offerPrice,
                 quantity: item.quantity,
             });
+            calculatedSubtotal += product.offerPrice * item.quantity;
+        }
 
-            return(await acc) + product.offerPrice * item.quantity;
-        }, 0);
-
-        // Add Tax Charge(2%)
-        amount += Math.floor(amount * 0.02);
+        const taxCharge = Math.floor(calculatedSubtotal * 0.02);
+        const finalAmount = calculatedSubtotal + taxCharge;
 
         const order = await Order.create({
             userId,
             items,
-            amount,
+            amount: finalAmount,
             address,
             paymentType: "Online",
+            status: "Pending Payment",
+            isPaid: false
         });
 
         // Stripe Gateway Initialize 
@@ -86,17 +106,16 @@ export const placeOrderStripe = async (req, res) => {
                     product_data: {
                         name: item.name,
                     },
-                    unit_amount: Math.floor(item.price + item.price * 0.02) * 100
+                    unit_amount: Math.round((item.price + item.price * 0.02) * 100)
                 },
                 quantity: item.quantity,
-            }
-        })
+            };
+        });
 
         // create session 
         const session = await stripeInstance.checkout.sessions.create({
             line_items, 
             mode: "payment",
-            // currency: "usd",   
             success_url: `${origin}/loader?next=my-orders`,
             cancel_url: `${origin}/cart`,
             locale: "auto",
@@ -104,24 +123,23 @@ export const placeOrderStripe = async (req, res) => {
                 orderId: order._id.toString(),
                 userId,
             }
-        })
+        });
 
-        return res.json({success: true, url: session.url});
+        return res.json({ success: true, url: session.url });
 
     } catch (error) {
-        res.json({
-                success: false,
-                message: error.message,
+        console.error("Place Order Stripe Error:", error.message);
+        res.status(500).json({
+            success: false,
+            message: error.message,
         });
     }
-}
+};
 
-//  Stripe Webhooks to Verify Payment Action: /stripe
+// Stripe Webhooks to Verify Payment Action: /stripe
 export const stripeWebhook = async (request, response) => {
-    // Stripe Gateway Initialize 
     const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
-
-    const sig = request.headers("stripe-signature");
+    const sig = request.headers['stripe-signature'];
     let event;
 
     try {
@@ -131,90 +149,135 @@ export const stripeWebhook = async (request, response) => {
             process.env.STRIPE_WEBHOOK_SECRET
         );
     } catch (error) {
-        response.status(400).send(`Webhook Error: ${error.message}`);
+        console.error(`Webhook Error: ${error.message}`);
+        return response.status(400).send(`Webhook Error: ${error.message}`);
     }
 
-    // Handle the event 
     switch (event.type) {
         case "payment_intent.succeeded": {
             const paymentIntent = event.data.object;
-            const paymentIntentId = paymentIntent.id;
-
-            // Getting Session Metadata
-            const session = await stripeInstance.checkout.sessions.list({
-                payment_intent: paymentIntentId,
+            const sessions = await stripeInstance.checkout.sessions.list({
+                payment_intent: paymentIntent.id,
             });
 
-            const { orderId, userId } = session.data[0].metadata;
-            // Mark Payment as Paid 
-            await Order.findByIdAndUpdate(orderId, {
-                isPaid: true,
-                status: "Payment Successful",
-                updatedAt: Date.now()
-            });
-            // Clear user Cart 
-            await User.findByIdAndUpdate(userId, {cartItems: {}});
+            if (sessions.data.length > 0) {
+                const { orderId, userId } = sessions.data[0].metadata;
+                await Order.findByIdAndUpdate(orderId, {
+                    isPaid: true,
+                    status: "Order Placed",
+                    updatedAt: Date.now()
+                });
+                await User.findByIdAndUpdate(userId, { cartItems: {} });
+            }
             break;
         }
 
         case "payment_intent.payment_failed": {
             const paymentIntent = event.data.object;
-            const paymentIntentId = paymentIntent.id;
-
-            // Getting Session Metadata
-            const session = await stripeInstance.checkout.sessions.list({
-                payment_intent: paymentIntentId,
+            const sessions = await stripeInstance.checkout.sessions.list({
+                payment_intent: paymentIntent.id,
             });
-
-            const { orderId } = session.data[0].metadata;
-            await Order.findByIdAndUpdate(orderId);
+            if (sessions.data.length > 0) {
+                const { orderId } = sessions.data[0].metadata;
+                await Order.findByIdAndUpdate(orderId, {
+                    status: "Payment Failed"
+                });
+            }
             break;
         }
     
         default:
-            console.error(`Unhandled event type ${event.type}`);
             break;
     }
-    response.json({received: true});
-}
+    response.json({ received: true });
+};
 
 // Get Orders by User ID: /api/order/user
 export const getUserOrders = async (req, res) => {
     try {
-        const userId  = req.userId;
-        const orders = await Order.find({
-            userId,
-            // $or: [{paymentType: "COD"},
-            //     {isPaid: true}]
-            }).populate("items.product address").sort({createdAt: -1});
-            // Convert mongoose docs to plain objects
-            const cleanOrders = orders.map(order => order.toObject());
+        const userId = req.userId;
+        const orders = await Order.find({ userId })
+            .populate("items.product")
+            .populate("address")
+            .sort({ createdAt: -1 })
+            .lean();
 
-            res.json({ success: true, orders: cleanOrders });
+        res.json({ success: true, orders });
 
     } catch (error) {
-        res.json({
-                success: false,
-                message: error.message,
+        res.status(500).json({
+            success: false,
+            message: error.message,
         });
     }
-}
+};
 
-// Get All Orders (for seller/ admin): /api/order/seller
+// Get All Orders (for seller/admin): /api/order/seller
 export const getAllOrders = async (req, res) => {
     try {
-        const orders = await Order.find({
-            // $or: [{paymentType: "COD"},
-            //     {isPaid: true}]
-            }).populate("items.product address").sort({createdAt: -1});
-            const cleanOrders = orders.map(order => order.toObject());
+        const orders = await Order.find({})
+            .populate("items.product")
+            .populate("address")
+            .sort({ createdAt: -1 })
+            .lean();
 
-            res.json({ success: true, orders: cleanOrders });
+        res.json({ success: true, orders });
 
     } catch (error) {
-        res.json({
-                success: false,
-                message: error.message,
+        res.status(500).json({
+            success: false,
+            message: error.message,
         });
     }
-}
+};
+
+// Update Order Status (for seller): /api/order/status
+export const updateOrderStatus = async (req, res) => {
+    try {
+        const { orderId, status } = req.body;
+        if (!orderId || !status) {
+            return res.status(400).json({ success: false, message: "Order ID and status required" });
+        }
+
+        const validStatuses = ["Order Placed", "Confirmed", "Packing", "Out for Delivery", "Delivered", "Cancelled"];
+        if (!validStatuses.includes(status)) {
+            return res.status(400).json({ success: false, message: "Invalid status value" });
+        }
+
+        const updatedOrder = await Order.findByIdAndUpdate(
+            orderId, 
+            { status, updatedAt: Date.now() }, 
+            { new: true }
+        );
+
+        res.json({ success: true, message: `Status updated to ${status}`, order: updatedOrder });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// Get Seller Dashboard Analytics: /api/order/stats
+export const getOrderStats = async (req, res) => {
+    try {
+        const totalOrders = await Order.countDocuments();
+        const deliveredOrders = await Order.countDocuments({ status: "Delivered" });
+        const pendingOrders = await Order.countDocuments({ 
+            status: { $in: ["Order Placed", "Confirmed", "Packing", "Out for Delivery"] } 
+        });
+
+        const allOrders = await Order.find({ isPaid: true }).select('amount');
+        const totalRevenue = allOrders.reduce((acc, order) => acc + (order.amount || 0), 0);
+
+        res.json({
+            success: true,
+            stats: {
+                totalOrders,
+                deliveredOrders,
+                pendingOrders,
+                totalRevenue
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};

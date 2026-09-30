@@ -1,7 +1,11 @@
-import React from 'react'
-import Navbar from './components/Navbar'
+import React from 'react';
+import Navbar from './components/Navbar';
+import CategoryNav from './components/CategoryNav';
+import CartDrawer from './components/CartDrawer';
+import LocationModal from './components/LocationModal';
+import MobileCartBar from './components/MobileCartBar';
 import { Route, Routes, useLocation } from "react-router-dom";
-import Home from './pages/Home'
+import Home from './pages/Home';
 import { Toaster } from "react-hot-toast";
 import Footer from './components/Footer';
 import { useAppContext } from './context/AppContext';
@@ -13,6 +17,7 @@ import Cart from './pages/Cart';
 import AddAddress from './pages/AddAddress';
 import MyOrders from './pages/MyOrders';
 import SellerLayout from './pages/seller/SellerLayout';
+import Dashboard from './pages/seller/Dashboard';
 import AddProduct from './pages/seller/AddProduct';
 import ProductList from './pages/seller/ProductList';
 import Orders from './pages/seller/Orders';
@@ -32,48 +37,71 @@ const App = () => {
   const { showUserLogin, isSeller } = useAppContext();
 
   return (
-    <div className='text-default min-h-screen text-gary-700 bg-white '>
-      {isSellerPath ? null : <Navbar/>}
-      {showUserLogin ? <Login /> : null}
-      {}
-      <Toaster />
-      
-      <div className={`${isSellerPath ? "" : "px-6 md:px-16 lg:px-24 xl:px-32"}`}>
-        <Routes>
-          <Route path = '/' element = {<Home />} />
-          <Route path = '/product' element = {<AllProducts/>} />
-          <Route path = '/products/:category' element = {<ProductCategory/>} />
-          <Route path = '/products/:category/:id' element = {<ProductDetails/>} />
-          <Route path = '/cart' element = {<Cart/>} />
-          <Route path = '/add-address' element = {<AddAddress/>} />
-          <Route path = '/my-orders' element = {<MyOrders/>} />
-          <Route path = '/loader' element = {<Loading/>} />
-           {/* Seller Routes */}
-          <Route path="/seller" element={isSeller ? <SellerLayout /> : <SellerLogin />}>
-            {isSeller && (
-              <>
-                <Route index element={<AddProduct />} />
-                <Route path="product-list" element={<ProductList />} />
-                <Route path="orders" element={<Orders />} />
-              </>
-            )}
-          </ Route >
+    <div className='min-h-screen text-gray-800 bg-[#fbfbfa] flex flex-col justify-between selection:bg-emerald-100 selection:text-emerald-900'>
+      <div>
+        {/* Global Overlays & Quick-Commerce Drawers */}
+        <CartDrawer />
+        <LocationModal />
+        <MobileCartBar />
 
-          {/* Extra Page */}
-          <Route path='/contact' element={<Contact/>} />
-          <Route path='/faq' element={<FAQ/>} />
-          <Route path='/DeliveryInfo' element={<DeliveryInformation/>} />
-          <Route path='/paymentmethod' element={<PaymentMethods/>} />
-          <Route path='/returnRefund' element={<ReturnRefund/>} />
-          <Route path='/best-sellers' element={<BestSeller />} />
-          <Route path='/tractOrder' element={<TrackOrder/>} />
-          <Route path='/offer' element={<OffersDeals />} />
-        </Routes>
+        {!isSellerPath && <Navbar />}
+        {!isSellerPath && <CategoryNav />}
+
+        {showUserLogin && <Login />}
+
+        <Toaster 
+          position="bottom-right"
+          toastOptions={{
+            duration: 2500,
+            style: {
+              background: '#111827',
+              color: '#ffffff',
+              fontSize: '13px',
+              borderRadius: '12px',
+              padding: '12px 16px',
+            },
+          }}
+        />
+        
+        <main className={`${isSellerPath ? "" : "px-4 md:px-12 lg:px-20 xl:px-28"}`}>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/product' element={<AllProducts />} />
+            <Route path='/products/:category' element={<ProductCategory />} />
+            <Route path='/products/:category/:id' element={<ProductDetails />} />
+            <Route path='/cart' element={<Cart />} />
+            <Route path='/add-address' element={<AddAddress />} />
+            <Route path='/my-orders' element={<MyOrders />} />
+            <Route path='/loader' element={<Loading />} />
+
+            {/* Seller / Admin Portal Routes */}
+            <Route path="/seller" element={isSeller ? <SellerLayout /> : <SellerLogin />}>
+              {isSeller && (
+                <>
+                  <Route index element={<Dashboard />} />
+                  <Route path="add-product" element={<AddProduct />} />
+                  <Route path="product-list" element={<ProductList />} />
+                  <Route path="orders" element={<Orders />} />
+                </>
+              )}
+            </Route>
+
+            {/* Support & Informational Pages */}
+            <Route path='/contact' element={<Contact />} />
+            <Route path='/faq' element={<FAQ />} />
+            <Route path='/DeliveryInfo' element={<DeliveryInformation />} />
+            <Route path='/paymentmethod' element={<PaymentMethods />} />
+            <Route path='/returnRefund' element={<ReturnRefund />} />
+            <Route path='/best-sellers' element={<BestSeller />} />
+            <Route path='/tractOrder' element={<TrackOrder />} />
+            <Route path='/offer' element={<OffersDeals />} />
+          </Routes>
+        </main>
       </div>
-      {!isSellerPath && <Footer />}
-      
-    </div>
-  )
-}
 
-export default App
+      {!isSellerPath && <Footer />}
+    </div>
+  );
+};
+
+export default App;

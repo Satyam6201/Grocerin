@@ -1,4 +1,4 @@
-import { BadgePercent, ArrowRight } from "lucide-react";
+import { BadgePercent, ArrowRight, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const offers = [
@@ -53,9 +53,12 @@ export default function OffersDeals() {
 
       {/* Coupon Banner */}
       <section className="max-w-6xl mx-auto px-6 py-12">
-        <div className="bg-gradient-to-r from-green-600 to-green-500 rounded-3xl p-10 text-white flex flex-col md:flex-row justify-between items-center shadow-lg">
+        <div className="bg-linear-to-r from-green-600 to-green-500 rounded-3xl p-10 text-white flex flex-col md:flex-row justify-between items-center shadow-lg">
           <div>
-            <h2 className="text-4xl font-bold">🎉 FLAT ₹250 OFF</h2>
+            <h2 className="text-4xl font-bold flex items-center gap-3">
+              <Sparkles className="w-8 h-8 text-amber-300" />
+              <span>FLAT ₹250 OFF</span>
+            </h2>
 
             <p className="mt-3 text-green-100">
               On orders above <strong>₹1499</strong>
@@ -63,8 +66,8 @@ export default function OffersDeals() {
           </div>
 
           <button
-            className="mt-6 md:mt-0 bg-white text-green-600 px-8 py-3 rounded-xl font-semibold hover:bg-green-100 transition"
-            onClick={() => navigate("/products")}
+            className="mt-6 md:mt-0 bg-white text-green-600 px-8 py-3 rounded-xl font-semibold hover:bg-green-100 transition cursor-pointer"
+            onClick={() => navigate("/product")}
           >
             Use Code: GROCER250
           </button>

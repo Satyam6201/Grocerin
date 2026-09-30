@@ -1,12 +1,59 @@
-# React + Vite
+# Grocerin Client - React 19 Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The client-side single page application for the Grocerin Quick-Commerce Grocery Platform, built with React 19, Vite, Tailwind CSS, and vector icons.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Highlights
 
-## Expanding the ESLint configuration
+- **Vite & React 19**: Ultra-fast HMR and optimized production bundling.
+- **GPS Location & PIN Code Auto-Fill**: Dual-engine geocoding (BigDataCloud + OpenStreetMap Nominatim fallback) detects both the locality and 6-digit postal PIN code.
+- **Animated Security Padlock**: Amazon-style physical 3D lock that springs open dynamically as password criteria are met.
+- **Dark Store Management**: Executive command center, live order pipeline switcher, SKU inventory controls, and pricing calculators.
+- **100% Vector Icons**: Crisp SVG rendering powered by `react-icons/hi2` and `lucide-react` with zero raw emojis.
+- **Docker Ready**: Multi-stage Dockerfile packaging production assets into an NGINX Alpine container.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Directory Layout
+
+```
+src/
+├── assets/          # Bundled images, product icons, and category definitions
+├── components/      # UI components (Navbar, CartDrawer, LocationModal, AnimatedPadlock, etc.)
+│   └── seller/      # Dark store login modal and seller widgets
+├── context/         # AppContext (Auth, Cart, GPS location, Catalog state)
+├── pages/           # Customer pages (Home, Cart, AllProducts, ProductCategory, MyOrders, AddAddress)
+│   └── seller/      # Dark store command center (Dashboard, ProductList, AddProduct, Orders)
+├── App.jsx          # Application route definitions
+├── index.css        # Tailwind styling & animations
+└── main.jsx         # Vite entry point
+```
+
+---
+
+## Scripts
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build production bundle
+npm run build
+
+# Preview production build locally
+npm run preview
+```
+
+---
+
+## Environment Configuration
+
+Create a `.env` file in the `Frontend/` folder:
+
+```env
+VITE_BACKEND_URL=http://localhost:5000
+```

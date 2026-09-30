@@ -1,70 +1,143 @@
 import { v2 as cloudinary } from "cloudinary";
 import Product from "../models/Product.js";
+import { getCache, setCache, delCache } from "../configs/redis.js";
 
 // Add Product : /api/product/add
 export const addProduct = async (req, res) => {
     try {
         let productData = JSON.parse(req.body.productData);
 
-        const images = req.files;
+        const images = req.files || [];
         let imageUrl = await Promise.all(
             images.map(async (item) => {
                 let result = await cloudinary.uploader.upload(item.path, 
-                    {resource_type: 'image'});
+                    { resource_type: 'image', folder: 'grocerin_products' });
                 return result.secure_url;
             })
         );
 
-        await Product.create({...productData, image: imageUrl});
+        const newProduct = await Product.create({
+            ...productData, 
+            image: imageUrl.length > 0 ? imageUrl : productData.image || []
+        });
+
+        // Invalidate product caches
+        await delCache('product_list*');
 
         res.json({
             success: true,
-            message: "Product Added"
+            message: "Product Added Successfully",
+            product: newProduct
         });
 
     } catch (error) {
-        console.log(error.message);
-
-        res.json({
-                success: false,
-                message: error.message,
+        console.error("Add Product Error:", error.message);
+        res.status(500).json({
+            success: false,
+            message: error.message,
         });
     }
 };
 
-// Get Product : /api/product/list
+// Get Product List with Redis Caching, Advanced Filtering, Search & Sorting
+// /api/product/list
 export const productList = async (req, res) => {
     try {
-        const products = await Product.find({});
-        res.json({success: true, products});
+        const { category, search, sortBy, inStockOnly } = req.query;
 
-    } catch (error) {
-        console.log(error.message);
+        // If simple request with no custom filters, use Redis cached result
+        const isPlainRequest = !category && !search && !sortBy && !inStockOnly;
+        const cacheKey = isPlainRequest ? 'product_list_all' : `product_list_${category || 'all'}_${search || ''}_${sortBy || ''}`;
+
+        const cachedData = await getCache(cacheKey);
+        if (cachedData) {
+            return res.json({
+                success: true,
+                products: cachedData,
+                source: 'cache'
+            });
+        }
+
+        // Build Mongo Query
+        const query = {};
+        if (category && category !== 'all') {
+            query.category = { $regex: new RegExp(`^${category}$`, 'i') };
+        }
+        if (inStockOnly === 'true') {
+            query.inStock = true;
+        }
+        if (search) {
+            query.$or = [
+                { name: { $regex: search, $options: 'i' } },
+                { category: { $regex: search, $options: 'i' } }
+            ];
+        }
+
+        let mongoQuery = Product.find(query);
+
+        // Sorting
+        if (sortBy === 'price_asc') {
+            mongoQuery = mongoQuery.sort({ offerPrice: 1 });
+        } else if (sortBy === 'price_desc') {
+            mongoQuery = mongoQuery.sort({ offerPrice: -1 });
+        } else if (sortBy === 'newest') {
+            mongoQuery = mongoQuery.sort({ createdAt: -1 });
+        } else {
+            mongoQuery = mongoQuery.sort({ createdAt: -1 });
+        }
+
+        const products = await mongoQuery.lean();
+
+        // Cache result for 5 minutes (300 seconds)
+        await setCache(cacheKey, products, 300);
 
         res.json({
-                success: false,
-                message: error.message,
+            success: true,
+            products,
+            count: products.length,
+            source: 'database'
+        });
+
+    } catch (error) {
+        console.error("Product List Error:", error.message);
+        res.status(500).json({
+            success: false,
+            message: error.message,
         });
     }
-}
+};
 
 // Get Single Product : /api/product/id
 export const productById = async (req, res) => {
     try {
-        const { id } = req.body;
-        const product = await Product.findById(id);
+        const id = req.body.id || req.params.id || req.query.id;
+        if (!id) {
+            return res.status(400).json({ success: false, message: "Product ID required" });
+        }
 
-        res.json({success: true, product});
+        const cacheKey = `product_${id}`;
+        const cachedProduct = await getCache(cacheKey);
+        if (cachedProduct) {
+            return res.json({ success: true, product: cachedProduct, source: 'cache' });
+        }
+
+        const product = await Product.findById(id).lean();
+        if (!product) {
+            return res.status(404).json({ success: false, message: "Product not found" });
+        }
+
+        await setCache(cacheKey, product, 600);
+
+        res.json({ success: true, product, source: 'database' });
 
     } catch (error) {
-        console.log(error.message);
-
-        res.json({
-                success: false,
-                message: error.message,
+        console.error("Product By ID Error:", error.message);
+        res.status(500).json({
+            success: false,
+            message: error.message,
         });
     }
-}
+};
 
 // Change Product inStock : /api/product/stock
 export const changeStock = async (req, res) => {
@@ -72,14 +145,33 @@ export const changeStock = async (req, res) => {
         const { id, inStock } = req.body;
         await Product.findByIdAndUpdate(id, { inStock });
 
-        res.json({success: true, message: "Stock Updated"});
+        // Invalidate caches
+        await delCache('product_list*');
+        await delCache(`product_${id}`);
+
+        res.json({ success: true, message: "Inventory Stock Updated" });
 
     } catch (error) {
-        console.log(error.message);
-
-        res.json({
-                success: false,
-                message: error.message,
+        console.error("Change Stock Error:", error.message);
+        res.status(500).json({
+            success: false,
+            message: error.message,
         });
     }
-}
+};
+
+// Delete Product : /api/product/delete (seller only)
+export const deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.body;
+        await Product.findByIdAndDelete(id);
+
+        // Invalidate caches
+        await delCache('product_list*');
+        await delCache(`product_${id}`);
+
+        res.json({ success: true, message: "Product Deleted Successfully" });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};

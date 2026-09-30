@@ -83,6 +83,7 @@ export const productList = async (req, res) => {
 
         await setCache(cacheKey, products, 300);
 
+        res.set('Cache-Control', 'public, max-age=30, stale-while-revalidate=60');
         res.json({
             success: true,
             products,

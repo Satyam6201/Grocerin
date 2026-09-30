@@ -12,6 +12,7 @@ import productRouter from './routes/productRoute.js';
 import cartRouter from './routes/cartRoute.js';
 import addressRouter from './routes/addressRoute.js';
 import orderRouter from './routes/orderRoute.js';
+import chatRouter from './routes/chatRoute.js';
 import { stripeWebhook } from './controllers/orderController.js';
 import { apiLimiter } from './middlewares/rateLimiter.js';
 import { getRedisStatus } from './configs/redis.js';
@@ -19,6 +20,10 @@ import mongoose from 'mongoose';
 
 const app = express();
 const port = process.env.PORT || 4000;
+
+app.set('trust proxy', 1);
+app.disable('x-powered-by');
+app.set('etag', 'strong');
 
 await connectDB();
 await connectCloudinary();
@@ -28,7 +33,7 @@ app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhook);
 app.use(helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
-app.use(compression());
+app.use(compression({ threshold: 1024, level: 6 }));
 
 const allowedOrigins = [
     'http://localhost:5173',
@@ -44,7 +49,7 @@ app.use(cors({
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
-            callback(null, true); // Permissive for quick-commerce demo / staging
+            callback(null, true);
         }
     },
     credentials: true
@@ -78,6 +83,7 @@ app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/address', addressRouter);
 app.use('/api/order', orderRouter);
+app.use('/api/chat', chatRouter);
 
 app.use((req, res) => {
     res.status(404).json({ success: false, message: `Route ${req.originalUrl} not found` });

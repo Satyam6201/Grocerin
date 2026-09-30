@@ -42,7 +42,6 @@ const Navbar = () => {
         isDetectingLocation
     } = useAppContext();
 
-    // User logout
     const logout = async () => {
         try {
             const { data } = await axios.get('/api/user/logout');
@@ -58,7 +57,6 @@ const Navbar = () => {
         }
     };
 
-    // Filtered search preview items
     const searchResults = React.useMemo(() => {
         if (!searchQuery || typeof searchQuery !== 'string' || searchQuery.trim().length === 0) {
             return [];
@@ -70,7 +68,6 @@ const Navbar = () => {
         ).slice(0, 5);
     }, [searchQuery, products]);
 
-    // Close search dropdown on click outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -88,13 +85,13 @@ const Navbar = () => {
         <header className="sticky top-0 z-40 bg-white border-b border-gray-100 shadow-xs">
             <div className="flex items-center justify-between px-4 md:px-12 lg:px-20 xl:px-28 py-3 gap-3 md:gap-8">
                 
-                {/* Brand & Location Selector */}
+                
                 <div className="flex items-center gap-3 lg:gap-5 shrink-0">
                     <NavLink to="/" className="flex items-center gap-2 group">
                         <img className="h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-102" src={assets.nav_logo} alt="Grocerin" />
                     </NavLink>
 
-                    {/* Delivery Location Pill with Direct GPS Detect */}
+                    
                     <div className="hidden sm:flex items-center bg-gray-50/80 hover:bg-gray-100/80 border border-gray-200/70 rounded-2xl p-1 pr-2 transition">
                         <button
                             onClick={() => setShowLocationModal(true)}
@@ -113,7 +110,7 @@ const Navbar = () => {
                             </div>
                         </button>
 
-                        {/* 1-Tap GPS Detect Button */}
+                        
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
@@ -133,7 +130,7 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                {/* Instant Search Bar with Live Dropdown */}
+                
                 <div ref={searchRef} className="relative flex-1 max-w-2xl">
                     <div className="relative flex items-center bg-gray-100 focus-within:bg-white border border-transparent focus-within:border-emerald-600 rounded-xl px-3.5 py-2 transition-all shadow-inner focus-within:shadow-xs">
                         <img src={assets.search_icon} alt="search" className="w-4 h-4 text-gray-400 opacity-60 mr-2.5 shrink-0" />
@@ -161,7 +158,7 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    {/* Instant Search Results Dropdown */}
+                    
                     {searchFocused && searchQuery.trim().length > 0 && (
                         <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 divide-y divide-gray-100 animate-in fade-in-50 duration-150">
                             {searchResults.length === 0 ? (
@@ -218,7 +215,7 @@ const Navbar = () => {
                     )}
                 </div>
 
-                {/* Right Action Icons (Seller, Profile, Cart CTA) */}
+                
                 <div className="flex items-center gap-3 md:gap-5 shrink-0">
                     <NavLink
                         to="/seller"
@@ -228,7 +225,7 @@ const Navbar = () => {
                         <span>Seller Portal</span>
                     </NavLink>
 
-                    {/* User Auth Popover */}
+                    
                     {!user ? (
                         <button
                             onClick={() => setShowUserLogin(true)}
@@ -244,7 +241,7 @@ const Navbar = () => {
                                     {user.name?.split(' ')[0] || "Account"}
                                 </span>
                             </button>
-                            {/* Dropdown Menu */}
+                            
                             <div className="hidden group-hover:block absolute right-0 top-full pt-1 w-44 z-50">
                                 <div className="bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 text-xs text-gray-700 divide-y divide-gray-100">
                                     <div className="px-3 py-2">
@@ -281,7 +278,7 @@ const Navbar = () => {
                         </div>
                     )}
 
-                    {/* Blinkit-Style Cart CTA Button */}
+                    
                     <button
                         onClick={() => setIsCartDrawerOpen(true)}
                         className={`flex items-center gap-2.5 px-3.5 md:px-4 py-2.5 rounded-xl font-bold transition-all shadow-xs cursor-pointer ${
@@ -303,7 +300,7 @@ const Navbar = () => {
                         </div>
                     </button>
 
-                    {/* Mobile Hamburger */}
+                    
                     <button
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                         className="sm:hidden p-1.5 text-gray-600 hover:text-gray-900 rounded-lg cursor-pointer"
@@ -313,7 +310,7 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* Mobile Location Bar with 1-Tap Current Location */}
+            
             <div className="sm:hidden bg-amber-50/90 px-4 py-2 border-t border-amber-100 flex items-center justify-between text-xs text-amber-950">
                 <div 
                     onClick={() => setShowLocationModal(true)}
@@ -340,7 +337,7 @@ const Navbar = () => {
                 </button>
             </div>
 
-            {/* Mobile Slide Navigation */}
+            
             {mobileMenuOpen && (
                 <div className="sm:hidden bg-white border-b border-gray-200 p-4 space-y-2 text-sm font-semibold text-gray-700 animate-in slide-in-from-top-2">
                     <NavLink to="/" onClick={() => setMobileMenuOpen(false)} className="block py-1.5">Home</NavLink>

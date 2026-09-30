@@ -50,10 +50,10 @@ const SellerLogin = () => {
     return !isSeller && (
         <div className="min-h-[85vh] flex items-center justify-center p-4">
             <div className="w-full max-w-md bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                {/* Header */}
+                
                 <div className="bg-linear-to-b from-emerald-50 via-emerald-50/40 to-white pt-10 pb-4 px-6 text-center flex flex-col items-center">
                     
-                    {/* Animated Amazon-style Padlock */}
+                    
                     <div 
                         onClick={() => setShowPassword(!showPassword)}
                         title="Click to toggle security lock"
@@ -93,7 +93,7 @@ const SellerLogin = () => {
                     </p>
                 </div>
 
-                {/* Form */}
+                
                 <form onSubmit={onSubmitHandler} className="p-6 md:p-8 pt-2 space-y-4">
                     <div className="space-y-1">
                         <label className="block text-xs font-bold text-gray-700">
@@ -171,7 +171,7 @@ const SellerLogin = () => {
                     </div>
                 </form>
 
-                {/* Footer Notice */}
+                
                 <div className="bg-gray-50 border-t border-gray-100 p-3.5 text-center text-[11px] text-gray-500 flex items-center justify-center gap-1.5">
                     <HiShieldCheck className="text-emerald-700 text-sm" />
                     <span>Protected by Enterprise 256-Bit SSL Dark Store Authentication</span>

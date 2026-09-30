@@ -3,7 +3,6 @@ import Redis from 'ioredis';
 let redisClient = null;
 let isRedisAvailable = false;
 
-// In-memory fallback cache when Redis is not running
 const memoryCache = new Map();
 
 const redisUrl = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
@@ -15,7 +14,6 @@ try {
         maxRetriesPerRequest: 1,
         retryStrategy(times) {
             if (times > 3) {
-                // Stop retrying quickly to avoid log spam if Redis is offline
                 return null;
             }
             return Math.min(times * 100, 1000);
@@ -31,7 +29,6 @@ try {
         isRedisAvailable = false;
     });
 
-    // Attempt non-blocking connection
     redisClient.connect().catch(() => {
         isRedisAvailable = false;
         console.log('ℹ️  Redis server not detected. Gracefully falling back to High-Speed In-Memory Cache.');
@@ -41,7 +38,6 @@ try {
     console.log('ℹ️  Redis initialization skipped, using In-Memory Cache fallback.');
 }
 
-//   Cache getter with automatic fallback
 export const getCache = async (key) => {
     try {
         if (isRedisAvailable && redisClient) {
@@ -49,7 +45,6 @@ export const getCache = async (key) => {
             return data ? JSON.parse(data) : null;
         }
     } catch (err) {
-        // Fallback to memory on error
     }
 
     const memItem = memoryCache.get(key);
@@ -63,7 +58,6 @@ export const getCache = async (key) => {
     return null;
 };
 
-//  Cache setter with TTL in seconds
 export const setCache = async (key, value, ttlSeconds = 300) => {
     try {
         if (isRedisAvailable && redisClient) {
@@ -71,7 +65,6 @@ export const setCache = async (key, value, ttlSeconds = 300) => {
             return;
         }
     } catch (err) {
-        // Fallback to memory on error
     }
 
     memoryCache.set(key, {
@@ -93,10 +86,8 @@ export const delCache = async (keyPattern) => {
             }
         }
     } catch (err) {
-        // ignore
     }
 
-    // Clean memory cache
     if (keyPattern.includes('*')) {
         const regex = new RegExp(`^${keyPattern.replace('*', '.*')}$`);
         for (const k of memoryCache.keys()) {

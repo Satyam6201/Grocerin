@@ -45,7 +45,6 @@ const AddAddress = () => {
         phone: '',
     });
 
-    // Populate user credentials if logged in
     useEffect(() => {
         if (user) {
             const nameParts = (user.name || '').trim().split(' ');
@@ -83,7 +82,6 @@ const AddAddress = () => {
         }));
     };
 
-    // Auto-detect current GPS location & precise PIN code
     const handleDetectCurrentLocation = () => {
         if (!navigator.geolocation) {
             return toast.error("Geolocation is not supported by your browser");
@@ -98,7 +96,6 @@ const AddAddress = () => {
                     const { latitude, longitude } = position.coords;
                     setGpsCoordinates({ latitude, longitude });
 
-                    // Layer 1: Reverse Geocoding
                     const response = await fetch(
                         `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
                     );
@@ -111,7 +108,6 @@ const AddAddress = () => {
                     let postcode = data.postcode || "";
                     const country = data.countryName || "India";
 
-                    // Layer 2: Nominatim OSM Fallback for PIN Code
                     if (!postcode || postcode.length < 5) {
                         try {
                             const nomRes = await fetch(
@@ -125,7 +121,6 @@ const AddAddress = () => {
                                 if (pinMatch) postcode = pinMatch[0];
                             }
                         } catch (e) {
-                            // silent fallback
                         }
                     }
 
@@ -189,7 +184,7 @@ const AddAddress = () => {
 
     return (
         <div className="py-8 max-w-6xl mx-auto min-h-screen">
-            {/* Header */}
+            
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-100">
                 <div>
                     <h1 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">
@@ -210,12 +205,12 @@ const AddAddress = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-6 items-start">
                 
-                {/* Left Form: Add New Address */}
+                
                 <div className="lg:col-span-7 bg-white rounded-3xl border border-gray-100 p-6 md:p-8 shadow-xs space-y-6">
                     
-                    {/* GPS Current Location Radar Banner */}
+                    
                     <div className="relative overflow-hidden bg-linear-to-r from-emerald-700 to-teal-800 text-white rounded-2xl p-4 md:p-5 shadow-sm">
-                        {/* Radar Pulse Animation Elements */}
+                        
                         {isDetectingGPS && (
                             <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
                                 <div className="w-16 h-16 rounded-full border-2 border-emerald-300/60 animate-ping absolute -top-8 -left-8" />
@@ -256,7 +251,7 @@ const AddAddress = () => {
                         </div>
                     </div>
 
-                    {/* Address Type Tag Selector */}
+                    
                     <div>
                         <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
                             Save Address As:
@@ -283,9 +278,9 @@ const AddAddress = () => {
                         </div>
                     </div>
 
-                    {/* Address Form */}
+                    
                     <form onSubmit={onSubmitHandler} className="space-y-4 text-xs md:text-sm">
-                        {/* Name Fields */}
+                        
                         <div className="grid grid-cols-2 gap-3">
                             <div className="space-y-1">
                                 <label className="block text-xs font-bold text-gray-700">First Name</label>
@@ -313,7 +308,7 @@ const AddAddress = () => {
                             </div>
                         </div>
 
-                        {/* Email & Phone */}
+                        
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div className="space-y-1">
                                 <label className="block text-xs font-bold text-gray-700">Email Address</label>
@@ -341,7 +336,7 @@ const AddAddress = () => {
                             </div>
                         </div>
 
-                        {/* Street & House Details */}
+                        
                         <div className="space-y-1">
                             <label className="block text-xs font-bold text-gray-700">
                                 House / Flat No., Building & Street Address
@@ -357,7 +352,7 @@ const AddAddress = () => {
                             />
                         </div>
 
-                        {/* City & State */}
+                        
                         <div className="grid grid-cols-2 gap-3">
                             <div className="space-y-1">
                                 <label className="block text-xs font-bold text-gray-700">City / District</label>
@@ -385,7 +380,7 @@ const AddAddress = () => {
                             </div>
                         </div>
 
-                        {/* Zipcode & Country */}
+                        
                         <div className="grid grid-cols-2 gap-3">
                             <div className="space-y-1">
                                 <div className="flex justify-between items-center">
@@ -421,7 +416,7 @@ const AddAddress = () => {
                             </div>
                         </div>
 
-                        {/* Save CTA */}
+                        
                         <button
                             type="submit"
                             disabled={isSaving}
@@ -442,9 +437,9 @@ const AddAddress = () => {
                     </form>
                 </div>
 
-                {/* Right Side: Saved Addresses & Dark Store Fulfillment Info */}
+                
                 <div className="lg:col-span-5 space-y-4">
-                    {/* Saved Addresses List */}
+                    
                     <div className="bg-white rounded-3xl border border-gray-100 p-6 shadow-xs space-y-4">
                         <div className="flex items-center justify-between pb-3 border-b border-gray-100">
                             <h3 className="font-extrabold text-sm text-gray-900">Your Saved Addresses</h3>
@@ -504,7 +499,7 @@ const AddAddress = () => {
                         )}
                     </div>
 
-                    {/* Quick-Commerce Guarantee Banner */}
+                    
                     <div className="bg-emerald-50/70 border border-emerald-100 rounded-3xl p-5 text-xs text-emerald-900 space-y-2">
                         <div className="flex items-center gap-2 font-black text-sm">
                             <HiTruck className="text-emerald-700 text-base" />

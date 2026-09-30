@@ -18,7 +18,6 @@ const AddProduct = () => {
     const { axios, currency, fetchProducts } = useAppContext();
     const navigate = useNavigate();
 
-    // Discount percentage preview
     const numPrice = Number(price);
     const numOffer = Number(offerPrice);
     const discountPercent = numPrice > 0 && numOffer > 0 && numPrice > numOffer
@@ -92,7 +91,7 @@ const AddProduct = () => {
 
             <form onSubmit={onSubmitHandler} className="bg-white rounded-3xl border border-gray-100 p-6 md:p-8 shadow-xs max-w-2xl space-y-6">
                 
-                {/* Multi-Image Upload Area */}
+                
                 <div>
                     <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
                         Product Images (Up to 4)
@@ -133,7 +132,7 @@ const AddProduct = () => {
                     </div>
                 </div>
 
-                {/* Name & Unit Weight */}
+                
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="md:col-span-2 space-y-1">
                         <label className="block text-xs font-bold text-gray-700">Product Title</label>
@@ -158,7 +157,7 @@ const AddProduct = () => {
                     </div>
                 </div>
 
-                {/* Category Selection */}
+                
                 <div className="space-y-1">
                     <label className="block text-xs font-bold text-gray-700">Grocery Category</label>
                     <select
@@ -174,7 +173,7 @@ const AddProduct = () => {
                     </select>
                 </div>
 
-                {/* Pricing & Dynamic Calculator */}
+                
                 <div className="p-4 rounded-2xl bg-gray-50 border border-gray-100 space-y-3">
                     <span className="text-xs font-extrabold text-gray-700 uppercase tracking-wider block">
                         Pricing & Profit Margin
@@ -217,7 +216,7 @@ const AddProduct = () => {
                     )}
                 </div>
 
-                {/* Product Description */}
+                
                 <div className="space-y-1">
                     <label className="block text-xs font-bold text-gray-700">Product Bullet Points (1 per line)</label>
                     <textarea
@@ -230,7 +229,7 @@ const AddProduct = () => {
                     />
                 </div>
 
-                {/* Submit CTA */}
+                
                 <button
                     type="submit"
                     disabled={isUploading}

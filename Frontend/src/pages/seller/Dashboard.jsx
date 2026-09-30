@@ -62,7 +62,7 @@ const Dashboard = () => {
 
     return (
         <div className="flex-1 p-4 md:p-8 space-y-6 overflow-y-auto max-h-[92vh]">
-            {/* Header */}
+            
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <div className="flex items-center gap-2.5">
@@ -92,9 +92,9 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Quick KPI Stat Cards */}
+            
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                {/* Total Revenue */}
+                
                 <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-2xs relative overflow-hidden">
                     <div className="flex justify-between items-start">
                         <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Gross Sales</span>
@@ -106,7 +106,7 @@ const Dashboard = () => {
                     <p className="text-[11px] text-emerald-700 font-semibold mt-1">↑ +14.8% from last week</p>
                 </div>
 
-                {/* Total Orders */}
+                
                 <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-2xs relative overflow-hidden">
                     <div className="flex justify-between items-start">
                         <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Orders</span>
@@ -118,7 +118,7 @@ const Dashboard = () => {
                     <p className="text-[11px] text-blue-700 font-semibold mt-1">{stats.deliveredOrders} Completed</p>
                 </div>
 
-                {/* Pending Dispatch */}
+                
                 <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-2xs relative overflow-hidden">
                     <div className="flex justify-between items-start">
                         <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Active Packing</span>
@@ -130,7 +130,7 @@ const Dashboard = () => {
                     <p className="text-[11px] text-amber-700 font-semibold mt-1">Target dispatch &lt; 3 mins</p>
                 </div>
 
-                {/* Total SKUs & Out of stock */}
+                
                 <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-2xs relative overflow-hidden">
                     <div className="flex justify-between items-start">
                         <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Active Catalog</span>
@@ -155,9 +155,9 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Quick Action Banner & System Health */}
+            
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                {/* Dark Store Status Card */}
+                
                 <div className="lg:col-span-2 bg-linear-to-r from-emerald-800 to-teal-900 text-white rounded-3xl p-6 shadow-md flex flex-col justify-between">
                     <div>
                         <div className="flex items-center gap-2 text-emerald-300 text-xs font-bold uppercase tracking-wider">
@@ -189,7 +189,7 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* DevOps & Cache Metrics Card */}
+                
                 <div className="bg-white p-5 rounded-3xl border border-gray-100 shadow-2xs flex flex-col justify-between space-y-4">
                     <div>
                         <h3 className="text-sm font-black text-gray-900">System Infrastructure</h3>
@@ -223,7 +223,7 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Recent Orders Table */}
+            
             <div className="bg-white rounded-3xl border border-gray-100 p-5 md:p-6 shadow-xs">
                 <div className="flex items-center justify-between pb-4 border-b border-gray-100">
                     <div>

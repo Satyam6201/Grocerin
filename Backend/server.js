@@ -23,16 +23,13 @@ const port = process.env.PORT || 4000;
 await connectDB();
 await connectCloudinary();
 
-// Stripe Webhook MUST be defined BEFORE express.json() to preserve raw body buffer
 app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhook);
 
-// Production Security & Performance Middlewares
 app.use(helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 app.use(compression());
 
-// Allow multiple origins 
 const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:3000',
@@ -53,10 +50,8 @@ app.use(cors({
     credentials: true
 }));
 
-// Apply general API rate limiting to all /api routes
 app.use('/api', apiLimiter);
 
-// System Health Check Endpoint (Senior DevOps & Production Grade)
 app.get('/health', (req, res) => {
     const memory = process.memoryUsage();
     res.json({
@@ -77,7 +72,6 @@ app.get('/health', (req, res) => {
 
 app.get('/', (req, res) => res.send("Grocerin Quick-Commerce Production API is running"));
 
-// API Route Mounts
 app.use('/api/user', userRouter);
 app.use('/api/seller', sellerRouter);
 app.use('/api/product', productRouter);
@@ -85,12 +79,10 @@ app.use('/api/cart', cartRouter);
 app.use('/api/address', addressRouter);
 app.use('/api/order', orderRouter);
 
-// Centralized 404 handler
 app.use((req, res) => {
     res.status(404).json({ success: false, message: `Route ${req.originalUrl} not found` });
 });
 
-// Centralized Error Handling Middleware
 app.use((err, req, res, next) => {
     console.error("Unhandled API Error:", err.stack);
     res.status(500).json({

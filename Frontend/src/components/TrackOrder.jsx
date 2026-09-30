@@ -1,213 +1,147 @@
-import {
-  Search,
-  Package,
-  Truck,
-  CheckCircle,
-  Home,
-  Clock,
-} from "lucide-react";
+import React, { useState } from "react";
+import { Search, Package, Truck, CheckCircle, Home, Clock, ArrowRight } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
 
 export default function TrackOrder() {
+  const [orderQuery, setOrderQuery] = useState("");
+  const { user } = useAppContext();
+  const navigate = useNavigate();
+
+  const handleTrack = (e) => {
+    e.preventDefault();
+    if (!orderQuery.trim()) {
+      toast.error("Please enter a valid Order ID");
+      return;
+    }
+    navigate('/my-orders');
+  };
+
   return (
     <div className="bg-gray-50 min-h-screen">
+      <section className="bg-gradient-to-r from-emerald-800 to-teal-900 py-16 text-white text-center">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-xs">
+            <Package size={32} className="text-emerald-300" />
+          </div>
 
-      {/* Hero */}
-
-      <section className="bg-gradient-to-r from-green-600 to-green-500 py-20 text-white">
-
-        <div className="max-w-5xl mx-auto text-center px-6">
-
-          <Package size={60} className="mx-auto mb-5"/>
-
-          <h1 className="text-5xl font-bold">
-            Track Your Order
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">
+            Track Live Grocery Delivery
           </h1>
 
-          <p className="text-green-100 mt-4">
-            Enter your Order ID to check live delivery status.
+          <p className="text-emerald-100 text-xs sm:text-sm mt-3 max-w-xl mx-auto leading-relaxed">
+            Real-time fulfillment tracking from your neighborhood dark store hub straight to your doorstep.
           </p>
 
-          <div className="mt-10 flex">
-
+          <form onSubmit={handleTrack} className="mt-8 max-w-lg mx-auto flex items-center shadow-lg rounded-2xl overflow-hidden bg-white p-1 border border-emerald-500/20">
             <input
-              placeholder="Enter Order ID..."
-              className="flex-1 rounded-l-xl p-4 text-gray-700 outline-none"
+              type="text"
+              value={orderQuery}
+              onChange={(e) => setOrderQuery(e.target.value)}
+              placeholder="Enter Order ID (e.g. 64FA9B12)..."
+              className="flex-1 px-4 py-3 text-xs md:text-sm text-gray-800 outline-none"
             />
-
-            <button className="bg-black px-8 rounded-r-xl">
-              <Search/>
+            <button
+              type="submit"
+              className="bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-3 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shrink-0"
+            >
+              <span>Track Live</span>
+              <Search size={15} />
             </button>
-
-          </div>
-
+          </form>
         </div>
-
       </section>
 
-      {/* Order Card */}
-
-      <section className="max-w-5xl mx-auto px-6 py-16">
-
-        <div className="bg-white rounded-3xl shadow-lg p-8">
-
-          <div className="flex justify-between flex-wrap">
-
+      <section className="max-w-4xl mx-auto px-4 py-12">
+        <div className="bg-white rounded-3xl border border-gray-100 shadow-xs p-6 sm:p-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-100">
             <div>
-
-              <h2 className="text-3xl font-bold">
-                Order #GRN458726
+              <span className="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                10-Minute Dark Store Dispatch
+              </span>
+              <h2 className="text-xl font-black text-gray-900 mt-2">
+                Live Fulfillment Pipeline
               </h2>
-
-              <p className="text-gray-500">
-                Ordered on 14 July 2026
+              <p className="text-xs text-gray-400 mt-0.5">
+                Every grocery bag undergoes 4-step quality packing
               </p>
-
             </div>
 
-            <span className="bg-green-100 text-green-700 px-5 py-2 rounded-full font-semibold">
-              Out for Delivery
-            </span>
-
+            <Link
+              to="/my-orders"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs rounded-xl transition cursor-pointer"
+            >
+              <span>View Your Order History</span>
+              <ArrowRight size={14} />
+            </Link>
           </div>
 
-          {/* Timeline */}
-
-          <div className="mt-12">
-
-            <div className="flex items-center gap-6">
-
-              <CheckCircle className="text-green-600"/>
-
-              <div>
-
-                <h3 className="font-semibold">
-                  Order Confirmed
-                </h3>
-
-                <p className="text-gray-500">
-                  09:20 AM
-                </p>
-
+          <div className="py-8 grid grid-cols-1 sm:grid-cols-4 gap-6">
+            <div className="flex sm:flex-col items-center gap-3 text-left sm:text-center">
+              <div className="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shadow-xs shrink-0">
+                1
               </div>
-
+              <div>
+                <h4 className="text-xs font-bold text-gray-900">Order Placed</h4>
+                <p className="text-[11px] text-gray-400 mt-0.5">Payment confirmed</p>
+              </div>
             </div>
 
-            <div className="h-12 border-l ml-3 border-green-500"/>
-
-            <div className="flex items-center gap-6">
-
-              <Package className="text-green-600"/>
-
-              <div>
-
-                <h3 className="font-semibold">
-                  Packed
-                </h3>
-
-                <p className="text-gray-500">
-                  09:45 AM
-                </p>
-
+            <div className="flex sm:flex-col items-center gap-3 text-left sm:text-center">
+              <div className="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shadow-xs shrink-0">
+                2
               </div>
-
+              <div>
+                <h4 className="text-xs font-bold text-gray-900">Packing at Hub</h4>
+                <p className="text-[11px] text-gray-400 mt-0.5">Item quality inspection</p>
+              </div>
             </div>
 
-            <div className="h-12 border-l ml-3 border-green-500"/>
-
-            <div className="flex items-center gap-6">
-
-              <Truck className="text-green-600"/>
-
-              <div>
-
-                <h3 className="font-semibold">
-                  Out for Delivery
-                </h3>
-
-                <p className="text-gray-500">
-                  Delivery Partner: Rahul Kumar
-                </p>
-
+            <div className="flex sm:flex-col items-center gap-3 text-left sm:text-center">
+              <div className="w-10 h-10 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-sm shadow-xs shrink-0 animate-pulse">
+                3
               </div>
-
+              <div>
+                <h4 className="text-xs font-bold text-amber-700">Out for Delivery</h4>
+                <p className="text-[11px] text-gray-400 mt-0.5">Rider on bike &lt; 5 mins</p>
+              </div>
             </div>
 
-            <div className="h-12 border-l ml-3 border-gray-300"/>
-
-            <div className="flex items-center gap-6 opacity-50">
-
-              <Home/>
-
-              <div>
-
-                <h3 className="font-semibold">
-                  Delivered
-                </h3>
-
-                <p>Expected in 18 Minutes</p>
-
+            <div className="flex sm:flex-col items-center gap-3 text-left sm:text-center opacity-60">
+              <div className="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-sm shrink-0">
+                4
               </div>
-
+              <div>
+                <h4 className="text-xs font-bold text-gray-700">Delivered</h4>
+                <p className="text-[11px] text-gray-400 mt-0.5">Handed over safely</p>
+              </div>
             </div>
-
           </div>
-
         </div>
-
       </section>
 
-      {/* Summary */}
-
-      <section className="max-w-5xl mx-auto px-6 pb-20">
-
-        <div className="grid md:grid-cols-3 gap-6">
-
-          <div className="bg-white rounded-2xl shadow p-6">
-
-            <Clock className="text-green-600 mb-4"/>
-
-            <h3 className="font-bold">
-              Estimated Delivery
-            </h3>
-
-            <p className="text-gray-500 mt-2">
-              18 Minutes
-            </p>
-
+      <section className="max-w-4xl mx-auto px-4 pb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-xs text-center">
+            <Clock className="text-emerald-600 mx-auto mb-2" size={24} />
+            <h3 className="font-bold text-xs text-gray-900">Target Delivery SLA</h3>
+            <p className="text-gray-500 text-[11px] mt-1">Average 8.4 mins to doorstep</p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow p-6">
-
-            <Truck className="text-green-600 mb-4"/>
-
-            <h3 className="font-bold">
-              Delivery Partner
-            </h3>
-
-            <p className="text-gray-500 mt-2">
-              Rahul Kumar
-            </p>
-
+          <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-xs text-center">
+            <Truck className="text-blue-600 mx-auto mb-2" size={24} />
+            <h3 className="font-bold text-xs text-gray-900">Dedicated Fleet</h3>
+            <p className="text-gray-500 text-[11px] mt-1">Local electric bike couriers</p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow p-6">
-
-            <Home className="text-green-600 mb-4"/>
-
-            <h3 className="font-bold">
-              Delivery Address
-            </h3>
-
-            <p className="text-gray-500 mt-2">
-              Kamla Nagar, Bhopal, Madhya Pradesh
-            </p>
-
+          <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-xs text-center">
+            <Home className="text-purple-600 mx-auto mb-2" size={24} />
+            <h3 className="font-bold text-xs text-gray-900">Contactless Drop</h3>
+            <p className="text-gray-500 text-[11px] mt-1">Secure porch & doorstep handoff</p>
           </div>
-
         </div>
-
       </section>
-
     </div>
   );
 }

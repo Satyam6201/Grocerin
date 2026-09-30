@@ -52,13 +52,13 @@ const LocationModal = () => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Backdrop */}
+            
             <div 
                 onClick={() => setShowLocationModal(false)}
                 className="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
             />
 
-            {/* Modal Card */}
+            
             <div className="relative bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl z-10 animate-in fade-in zoom-in-95 duration-200">
                 <div className="flex items-center justify-between pb-3 border-b border-gray-100">
                     <div>
@@ -73,7 +73,7 @@ const LocationModal = () => {
                     </button>
                 </div>
 
-                {/* Detect GPS Current Location Button */}
+                
                 <div className="mt-4">
                     <button
                         onClick={detectCurrentLocation}
@@ -107,7 +107,7 @@ const LocationModal = () => {
                     <div className="grow border-t border-gray-200"></div>
                 </div>
 
-                {/* Custom Input */}
+                
                 <form onSubmit={handleCustomSubmit} className="space-y-3">
                     <div className="flex gap-2">
                         <input
@@ -126,7 +126,7 @@ const LocationModal = () => {
                     </div>
                 </form>
 
-                {/* Quick Delivery Hubs */}
+                
                 <div className="mt-5">
                     <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2.5 flex items-center gap-1">
                         <HiBolt className="text-amber-500 text-sm" />

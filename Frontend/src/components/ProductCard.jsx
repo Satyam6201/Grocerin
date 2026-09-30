@@ -22,7 +22,7 @@ const ProductCard = ({ product }) => {
             }}
             className="group relative flex flex-col justify-between bg-white border border-gray-100 hover:border-gray-300 rounded-2xl p-3 md:p-3.5 shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer overflow-hidden"
         >
-            {/* Top Badges (Discount & Delivery ETA) */}
+            
             <div className="flex items-center justify-between gap-1 mb-2">
                 <div className="flex items-center gap-1 bg-amber-50 text-amber-700 text-[10px] md:text-xs font-semibold px-2 py-0.5 rounded-full border border-amber-200">
                     <HiBolt className="text-amber-500 text-xs" />
@@ -35,7 +35,7 @@ const ProductCard = ({ product }) => {
                 )}
             </div>
 
-            {/* Product Image */}
+            
             <div className="relative w-full aspect-square flex items-center justify-center bg-gray-50/60 rounded-xl p-2 overflow-hidden mb-2">
                 <img 
                     src={product.image?.[0] || assets.logo} 
@@ -52,7 +52,7 @@ const ProductCard = ({ product }) => {
                 )}
             </div>
 
-            {/* Product Info */}
+            
             <div className="flex-1 flex flex-col justify-between">
                 <div>
                     <p className="text-[11px] md:text-xs font-medium text-gray-400 uppercase tracking-wider mb-0.5">
@@ -66,7 +66,7 @@ const ProductCard = ({ product }) => {
                     </p>
                 </div>
 
-                {/* Rating */}
+                
                 <div className="flex items-center gap-1 mt-1.5">
                     <div className="flex items-center bg-emerald-50 text-emerald-700 text-[11px] font-bold px-1.5 py-0.5 rounded gap-0.5">
                         <span>4.3</span>
@@ -75,7 +75,7 @@ const ProductCard = ({ product }) => {
                     <span className="text-[11px] text-gray-400">(42)</span>
                 </div>
 
-                {/* Price & Add to Cart Action */}
+                
                 <div className="flex items-center justify-between pt-3 mt-2 border-t border-gray-100">
                     <div className="flex flex-col">
                         <span className="text-base md:text-lg font-bold text-gray-900 leading-tight">
@@ -88,7 +88,7 @@ const ProductCard = ({ product }) => {
                         )}
                     </div>
 
-                    {/* Quick Add CTA */}
+                    
                     <div onClick={(e) => e.stopPropagation()} className="relative">
                         {!product.inStock ? (
                             <button disabled className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-gray-100 text-gray-400 cursor-not-allowed">

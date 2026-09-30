@@ -52,7 +52,7 @@ const MyOrders = () => {
 
     return (
         <div className="py-8 max-w-4xl mx-auto min-h-screen">
-            {/* Header */}
+            
             <div className="flex items-center justify-between pb-6 border-b border-gray-100">
                 <div>
                     <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">
@@ -108,7 +108,7 @@ const MyOrders = () => {
                                 key={order._id}
                                 className="bg-white rounded-2xl border border-gray-100 p-5 md:p-6 shadow-xs hover:shadow-sm transition"
                             >
-                                {/* Top Header Info */}
+                                
                                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
                                     <div className="space-y-0.5">
                                         <div className="flex items-center gap-2">
@@ -147,10 +147,10 @@ const MyOrders = () => {
                                     </div>
                                 </div>
 
-                                {/* Order Tracker Pipeline */}
+                                
                                 <div className="py-6 px-2">
                                     <div className="relative flex items-center justify-between">
-                                        {/* Connector Track */}
+                                        
                                         <div className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-gray-200 w-full z-0" />
                                         <div 
                                             className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-emerald-600 transition-all duration-500 z-0"
@@ -184,7 +184,7 @@ const MyOrders = () => {
                                     </div>
                                 </div>
 
-                                {/* Items List */}
+                                
                                 <div className="divide-y divide-gray-100 pt-2 border-t border-gray-100">
                                     {order.items?.map((item, idx) => {
                                         const product = item.product || {};
@@ -213,7 +213,7 @@ const MyOrders = () => {
                                     })}
                                 </div>
 
-                                {/* Delivery Address Pill */}
+                                
                                 {order.address && (
                                     <div className="mt-4 bg-gray-50 rounded-xl p-3 text-xs text-gray-600 flex items-start gap-2 border border-gray-100">
                                         <HiMapPin className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />

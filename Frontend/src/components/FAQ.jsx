@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   ChevronDown,
   ChevronUp,
@@ -7,67 +7,62 @@ import {
   Phone,
   Mail,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const faqs = [
   {
     category: "Orders",
     question: "How can I place an order?",
     answer:
-      "Browse products, add items to your cart, proceed to checkout, choose your delivery address, and complete payment using Stripe or Cash on Delivery.",
+      "Browse grocery items, add products to your cart, proceed to checkout, select your saved or GPS-detected address, and choose Stripe Online Payment or Cash on Delivery.",
   },
   {
     category: "Orders",
     question: "Can I cancel my order?",
     answer:
-      "Yes. Orders can be cancelled before they are dispatched. Once dispatched, cancellation is no longer available.",
+      "Yes. Orders can be cancelled from the My Orders dashboard while in 'Order Placed' status before our packing team prepares the dispatch box.",
   },
   {
     category: "Delivery",
     question: "How long does delivery take?",
     answer:
-      "Most deliveries arrive within 15–30 minutes depending on your location and product availability.",
+      "Our ultra-fast hyper-local dark stores dispatch groceries immediately. Most orders arrive at your doorstep in under 10 minutes within our active service radius.",
   },
   {
     category: "Delivery",
-    question: "Can I schedule my delivery?",
+    question: "How is my delivery location determined?",
     answer:
-      "Yes. During checkout, you can choose an available delivery slot that works best for you.",
+      "Grocerin features dual-layer GPS reverse-geocoding that automatically detects your street locality and precise 6-digit postal PIN code with 1 click.",
   },
   {
     category: "Payments",
-    question: "Which payment methods do you accept?",
+    question: "Which payment methods are accepted?",
     answer:
-      "We support Stripe, Debit/Credit Cards, UPI, Net Banking, Wallets, and Cash on Delivery.",
+      "We accept Stripe credit/debit cards (Visa, Mastercard, RuPay), UPI apps, NetBanking, and Cash on Delivery (COD).",
   },
   {
     category: "Payments",
     question: "Is online payment secure?",
     answer:
-      "Absolutely. All online payments are processed securely through Stripe using encrypted transactions.",
+      "All card transactions are encrypted with 256-bit SSL security through Stripe PCI-DSS Level 1 compliant infrastructure. We never store payment credentials.",
   },
   {
     category: "Account",
-    question: "How do I reset my password?",
+    question: "How do I customize my password after forgetting it?",
     answer:
-      "Go to the Login page, click 'Forgot Password', and follow the instructions sent to your registered email.",
-  },
-  {
-    category: "Account",
-    question: "Can I manage multiple addresses?",
-    answer:
-      "Yes. You can add, edit, or delete multiple delivery addresses from your profile settings.",
+      "Click 'Forgot password?' on the Sign In modal, enter your registered email to receive a 6-digit verification code, and customize your new password directly with live strength validation.",
   },
   {
     category: "Returns",
-    question: "What if I receive damaged or expired products?",
+    question: "What if I receive damaged or incorrect items?",
     answer:
-      "Contact our support team within 24 hours with your order details and product photos. We'll arrange a replacement or refund.",
+      "Our 100% Freshness Guarantee ensures instant replacement or refund. Report the issue to customer care within 24 hours for immediate resolution.",
   },
   {
     category: "Seller",
-    question: "Can I become a seller on Grocerin?",
+    question: "How can I access the Dark Store Command Center?",
     answer:
-      "Yes. Register as a seller, complete verification, and start listing your grocery products through the Seller Dashboard.",
+      "Authorized dark store hub managers can sign in via the Seller Portal to manage SKU stock levels, view live dispatch metrics, and update order statuses.",
   },
 ];
 
@@ -83,165 +78,89 @@ export default function FAQ() {
   );
 
   return (
-    <div className="bg-gray-50 min-h-screen">
-
-      {/* Hero */}
-
-      <section className="bg-gradient-to-r from-green-600 to-green-500 text-white py-20">
-
-        <div className="max-w-6xl mx-auto px-6 text-center">
-
-          <HelpCircle className="mx-auto mb-4" size={60} />
-
-          <h1 className="text-5xl font-bold mb-4">
+    <div className="bg-gray-50 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+        <div className="text-center space-y-2 mb-8">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto">
+            <HelpCircle size={28} />
+          </div>
+          <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">
             Frequently Asked Questions
-          </h1>
-
-          <p className="text-green-100 max-w-2xl mx-auto">
-            Find quick answers to common questions about orders, payments,
-            delivery, accounts, and more.
+          </h2>
+          <p className="text-xs md:text-sm text-gray-500 max-w-md mx-auto">
+            Everything you need to know about our 10-minute grocery delivery service and account features.
           </p>
 
-          <div className="relative max-w-xl mx-auto mt-10">
-
-            <Search
-              className="absolute left-4 top-4 text-gray-400"
-              size={20}
-            />
-
+          <div className="relative max-w-md mx-auto mt-4">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
             <input
               type="text"
-              placeholder="Search your question..."
-              className="w-full rounded-full py-4 pl-12 pr-5 text-gray-700 outline-none"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search by topic, question, or keyword..."
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-white text-xs outline-none focus:border-emerald-600 transition shadow-xs"
             />
-
           </div>
-
         </div>
 
-      </section>
+        <div className="space-y-3">
+          {filteredFAQs.length === 0 ? (
+            <div className="p-8 text-center bg-white rounded-2xl border border-gray-100 text-xs text-gray-400">
+              No matching answers found for "{search}". Contact support for assistance.
+            </div>
+          ) : (
+            filteredFAQs.map((faq, index) => {
+              const isOpen = open === index;
+              return (
+                <div
+                  key={index}
+                  className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-2xs transition"
+                >
+                  <button
+                    onClick={() => setOpen(isOpen ? null : index)}
+                    className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 cursor-pointer hover:bg-gray-50/50 transition"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800">
+                        {faq.category}
+                      </span>
+                      <span className="text-xs sm:text-sm font-bold text-gray-900">
+                        {faq.question}
+                      </span>
+                    </div>
+                    {isOpen ? (
+                      <ChevronUp className="w-4 h-4 text-emerald-700 shrink-0" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4 text-gray-400 shrink-0" />
+                    )}
+                  </button>
 
-      {/* Categories */}
-
-      <section className="max-w-6xl mx-auto px-6 py-10">
-
-        <div className="flex flex-wrap justify-center gap-3">
-
-          {[
-            "Orders",
-            "Delivery",
-            "Payments",
-            "Account",
-            "Returns",
-            "Seller",
-          ].map((cat) => (
-            <span
-              key={cat}
-              className="px-5 py-2 bg-white rounded-full shadow text-gray-700 font-medium"
-            >
-              {cat}
-            </span>
-          ))}
-
-        </div>
-
-      </section>
-
-      {/* FAQ */}
-
-      <section className="max-w-4xl mx-auto px-6 pb-20">
-
-        <div className="space-y-5">
-
-          {filteredFAQs.map((faq, index) => (
-
-            <div
-              key={index}
-              className="bg-white rounded-2xl shadow-md overflow-hidden"
-            >
-
-              <button
-                onClick={() =>
-                  setOpen(open === index ? null : index)
-                }
-                className="w-full flex justify-between items-center px-6 py-5 text-left"
-              >
-
-                <div>
-
-                  <span className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full">
-                    {faq.category}
-                  </span>
-
-                  <h3 className="font-semibold text-lg mt-2">
-                    {faq.question}
-                  </h3>
-
+                  {isOpen && (
+                    <div className="px-4 sm:px-5 pb-5 text-xs text-gray-600 leading-relaxed border-t border-gray-50 pt-3">
+                      {faq.answer}
+                    </div>
+                  )}
                 </div>
-
-                {open === index ? (
-                  <ChevronUp className="text-green-600" />
-                ) : (
-                  <ChevronDown className="text-green-600" />
-                )}
-
-              </button>
-
-              {open === index && (
-                <div className="px-6 pb-6 text-gray-600 leading-7">
-                  {faq.answer}
-                </div>
-              )}
-
-            </div>
-
-          ))}
-
+              );
+            })
+          )}
         </div>
 
-      </section>
-
-      {/* Contact */}
-
-      <section className="bg-green-600 text-white py-16">
-
-        <div className="max-w-5xl mx-auto px-6 text-center">
-
-          <h2 className="text-4xl font-bold">
-            Still Need Help?
-          </h2>
-
-          <p className="mt-4 text-green-100">
-            Our support team is available every day to assist you with your
-            orders and account.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-6 mt-10">
-
-            <div className="bg-white text-gray-800 px-8 py-5 rounded-2xl shadow-lg flex items-center gap-4">
-              <Phone className="text-green-600" />
-              <div>
-                <p className="text-sm text-gray-500">Call Us</p>
-                <h3 className="font-semibold">+91 62019 XXXXX</h3>
-              </div>
-            </div>
-
-            <div className="bg-white text-gray-800 px-8 py-5 rounded-2xl shadow-lg flex items-center gap-4">
-              <Mail className="text-green-600" />
-              <div>
-                <p className="text-sm text-gray-500">Email</p>
-                <h3 className="font-semibold">support@grocerin.com</h3>
-              </div>
-            </div>
-
+        <div className="mt-8 p-5 bg-white rounded-2xl border border-gray-100 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+          <div>
+            <h4 className="text-xs font-bold text-gray-900">Still have questions?</h4>
+            <p className="text-[11px] text-gray-500 mt-0.5">
+              Can't find the answer you're looking for? Chat with our customer support team.
+            </p>
           </div>
-
+          <Link
+            to="/contact"
+            className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-xs transition shrink-0"
+          >
+            Get in Touch
+          </Link>
         </div>
-
-      </section>
-
+      </div>
     </div>
   );
 }

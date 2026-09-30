@@ -59,7 +59,7 @@ const ProductList = () => {
 
     return (
         <div className="flex-1 p-4 md:p-8 space-y-6 overflow-y-auto max-h-[92vh]">
-            {/* Header */}
+            
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-black text-gray-900 tracking-tight">Inventory Catalog</h1>
@@ -74,7 +74,7 @@ const ProductList = () => {
                 </Link>
             </div>
 
-            {/* Quick Inventory Summary Pills */}
+            
             <div className="flex flex-wrap gap-3">
                 <div className="bg-white border border-gray-100 rounded-xl px-4 py-2 text-xs shadow-2xs">
                     <span className="text-gray-400">Total SKUs:</span>{' '}
@@ -90,7 +90,7 @@ const ProductList = () => {
                 </div>
             </div>
 
-            {/* Filter & Search Bar */}
+            
             <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs flex flex-col sm:flex-row gap-3 items-center justify-between">
                 <div className="relative w-full sm:max-w-xs">
                     <input
@@ -118,7 +118,7 @@ const ProductList = () => {
                 </div>
             </div>
 
-            {/* Products Table */}
+            
             <div className="bg-white rounded-2xl border border-gray-100 shadow-xs overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs">
@@ -142,7 +142,7 @@ const ProductList = () => {
                             ) : (
                                 filteredProducts.map((product) => (
                                     <tr key={product._id} className="hover:bg-gray-50/50 transition">
-                                        {/* Name & Thumbnail */}
+                                        
                                         <td className="py-3 px-4 flex items-center gap-3">
                                             <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 p-1 shrink-0 flex items-center justify-center">
                                                 <img 
@@ -157,24 +157,24 @@ const ProductList = () => {
                                             </div>
                                         </td>
 
-                                        {/* Category */}
+                                        
                                         <td className="py-3 px-4">
                                             <span className="bg-gray-100 text-gray-700 px-2 py-0.5 rounded-md font-semibold text-[11px]">
                                                 {product.category}
                                             </span>
                                         </td>
 
-                                        {/* MRP */}
+                                        
                                         <td className="py-3 px-4 text-gray-400 line-through">
                                             {currency}{product.price}
                                         </td>
 
-                                        {/* Offer Price */}
+                                        
                                         <td className="py-3 px-4 font-black text-gray-900 text-sm">
                                             {currency}{product.offerPrice}
                                         </td>
 
-                                        {/* In-Stock Switch */}
+                                        
                                         <td className="py-3 px-4">
                                             <div className="flex items-center gap-2">
                                                 <label className="relative inline-flex items-center cursor-pointer">
@@ -192,7 +192,7 @@ const ProductList = () => {
                                             </div>
                                         </td>
 
-                                        {/* Actions: Delete */}
+                                        
                                         <td className="py-3 px-4 text-right">
                                             <button
                                                 onClick={() => handleDeleteProduct(product._id, product.name)}

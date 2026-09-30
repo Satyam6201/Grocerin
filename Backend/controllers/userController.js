@@ -2,7 +2,6 @@ import User from "../models/User.js";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-// Register User: /api/user/register
 
 export const register = async (req, res) => {
     try {
@@ -57,7 +56,6 @@ export const register = async (req, res) => {
     }
 }
 
-// Login User: /api/user/login
 
 export const login = async (req, res) => {
     try {
@@ -114,10 +112,8 @@ export const login = async (req, res) => {
     }
 }
 
-// Check Auth : /api/user/is-auth
 export const isAuth = async (req, res) => {
     try {
-        // const { userId } = req.body;
         const user = await User.findById(req.userId).select("-password");
         return res.json({ success: true, user });
 
@@ -131,7 +127,6 @@ export const isAuth = async (req, res) => {
     }
 }
 
-// Logout User : /api/user/logout
 export const logout = async (req, res) => {
     try {
         res.clearCookie('token', {
@@ -154,3 +149,88 @@ export const logout = async (req, res) => {
         });
     }
 }
+
+export const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            return res.json({ success: false, message: "Email is required" });
+        }
+
+        const user = await User.findOne({ email: email.toLowerCase().trim() });
+        if (!user) {
+            return res.json({ success: false, message: "No account registered with this email" });
+        }
+
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        user.resetOtp = otp;
+        user.resetOtpExpire = new Date(Date.now() + 15 * 60 * 1000); // 15 mins validity
+        await user.save();
+
+        console.log(`[Grocerin Auth] Password Reset OTP for ${email}: ${otp}`);
+
+        return res.json({
+            success: true,
+            message: "6-digit verification code generated",
+            otp: otp // Included for seamless quick-testing and development
+        });
+    } catch (error) {
+        console.error("Forgot password error:", error);
+        return res.json({ success: false, message: error.message || "Failed to process request" });
+    }
+};
+
+export const resetPassword = async (req, res) => {
+    try {
+        const { email, otp, newPassword } = req.body;
+
+        if (!email || !otp || !newPassword) {
+            return res.json({ success: false, message: "Email, OTP, and new password are required" });
+        }
+
+        if (newPassword.length < 6) {
+            return res.json({ success: false, message: "Password must be at least 6 characters" });
+        }
+
+        const user = await User.findOne({ email: email.toLowerCase().trim() });
+        if (!user) {
+            return res.json({ success: false, message: "User not found" });
+        }
+
+        if (!user.resetOtp || user.resetOtp !== otp.trim()) {
+            return res.json({ success: false, message: "Invalid verification code" });
+        }
+
+        if (new Date() > new Date(user.resetOtpExpire)) {
+            return res.json({ success: false, message: "Verification code has expired. Please request a new one." });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        user.resetOtp = null;
+        user.resetOtpExpire = null;
+        await user.save();
+
+        const token = jwt.sign(
+            { id: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: '7d' }
+        );
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+
+        return res.json({
+            success: true,
+            message: "Password reset successful! You are now logged in.",
+            user: { email: user.email, name: user.name }
+        });
+    } catch (error) {
+        console.error("Reset password error:", error);
+        return res.json({ success: false, message: error.message || "Password reset failed" });
+    }
+};

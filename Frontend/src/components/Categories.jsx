@@ -1,6 +1,7 @@
 import React from 'react';
 import { categories } from '../assets/assets';
 import { useAppContext } from "../context/AppContext";
+import { HiArrowRight } from 'react-icons/hi2';
 
 const Categories = () => {
   const { navigate } = useAppContext();
@@ -16,9 +17,10 @@ const Categories = () => {
         </div>
         <button 
           onClick={() => { navigate('/product'); window.scrollTo(0,0); }}
-          className="text-xs font-bold text-emerald-800 hover:underline cursor-pointer"
+          className="text-xs font-bold text-emerald-800 hover:text-emerald-900 flex items-center gap-1 cursor-pointer transition"
         >
-          See All &rarr;
+          <span>See All</span>
+          <HiArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
 

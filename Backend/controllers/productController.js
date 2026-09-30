@@ -2,7 +2,6 @@ import { v2 as cloudinary } from "cloudinary";
 import Product from "../models/Product.js";
 import { getCache, setCache, delCache } from "../configs/redis.js";
 
-// Add Product : /api/product/add
 export const addProduct = async (req, res) => {
     try {
         let productData = JSON.parse(req.body.productData);
@@ -21,7 +20,6 @@ export const addProduct = async (req, res) => {
             image: imageUrl.length > 0 ? imageUrl : productData.image || []
         });
 
-        // Invalidate product caches
         await delCache('product_list*');
 
         res.json({
@@ -39,13 +37,10 @@ export const addProduct = async (req, res) => {
     }
 };
 
-// Get Product List with Redis Caching, Advanced Filtering, Search & Sorting
-// /api/product/list
 export const productList = async (req, res) => {
     try {
         const { category, search, sortBy, inStockOnly } = req.query;
 
-        // If simple request with no custom filters, use Redis cached result
         const isPlainRequest = !category && !search && !sortBy && !inStockOnly;
         const cacheKey = isPlainRequest ? 'product_list_all' : `product_list_${category || 'all'}_${search || ''}_${sortBy || ''}`;
 
@@ -58,7 +53,6 @@ export const productList = async (req, res) => {
             });
         }
 
-        // Build Mongo Query
         const query = {};
         if (category && category !== 'all') {
             query.category = { $regex: new RegExp(`^${category}$`, 'i') };
@@ -75,7 +69,6 @@ export const productList = async (req, res) => {
 
         let mongoQuery = Product.find(query);
 
-        // Sorting
         if (sortBy === 'price_asc') {
             mongoQuery = mongoQuery.sort({ offerPrice: 1 });
         } else if (sortBy === 'price_desc') {
@@ -88,7 +81,6 @@ export const productList = async (req, res) => {
 
         const products = await mongoQuery.lean();
 
-        // Cache result for 5 minutes (300 seconds)
         await setCache(cacheKey, products, 300);
 
         res.json({
@@ -107,7 +99,6 @@ export const productList = async (req, res) => {
     }
 };
 
-// Get Single Product : /api/product/id
 export const productById = async (req, res) => {
     try {
         const id = req.body.id || req.params.id || req.query.id;
@@ -139,13 +130,11 @@ export const productById = async (req, res) => {
     }
 };
 
-// Change Product inStock : /api/product/stock
 export const changeStock = async (req, res) => {
     try {
         const { id, inStock } = req.body;
         await Product.findByIdAndUpdate(id, { inStock });
 
-        // Invalidate caches
         await delCache('product_list*');
         await delCache(`product_${id}`);
 
@@ -160,13 +149,11 @@ export const changeStock = async (req, res) => {
     }
 };
 
-// Delete Product : /api/product/delete (seller only)
 export const deleteProduct = async (req, res) => {
     try {
         const { id } = req.body;
         await Product.findByIdAndDelete(id);
 
-        // Invalidate caches
         await delCache('product_list*');
         await delCache(`product_${id}`);
 

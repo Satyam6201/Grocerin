@@ -14,7 +14,6 @@ const AllProducts = () => {
     const filteredAndSortedProducts = useMemo(() => {
         let result = [...products];
 
-        // Search Query Filter
         if (searchQuery && typeof searchQuery === 'string' && searchQuery.trim().length > 0) {
             const term = searchQuery.toLowerCase().trim();
             result = result.filter(p => 
@@ -23,17 +22,14 @@ const AllProducts = () => {
             );
         }
 
-        // Category Filter
         if (selectedCategory !== "all") {
             result = result.filter(p => p.category.toLowerCase() === selectedCategory.toLowerCase());
         }
 
-        // In Stock Filter
         if (onlyInStock) {
             result = result.filter(p => p.inStock);
         }
 
-        // Sorting
         if (sortBy === "price_asc") {
             result.sort((a, b) => (a.offerPrice || a.price) - (b.offerPrice || b.price));
         } else if (sortBy === "price_desc") {
@@ -51,7 +47,7 @@ const AllProducts = () => {
 
     return (
         <div className="py-6 min-h-screen">
-            {/* Header Banner & Controls */}
+            
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-gray-100">
                 <div>
                     <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">
@@ -62,9 +58,9 @@ const AllProducts = () => {
                     </p>
                 </div>
 
-                {/* Filters & Sorting */}
+                
                 <div className="flex flex-wrap items-center gap-3">
-                    {/* In Stock Only Toggle */}
+                    
                     <label className="flex items-center gap-2 text-xs font-semibold text-gray-700 bg-gray-50 border border-gray-200 px-3 py-2 rounded-xl cursor-pointer select-none hover:bg-gray-100 transition">
                         <input
                             type="checkbox"
@@ -75,7 +71,7 @@ const AllProducts = () => {
                         <span>In Stock Only</span>
                     </label>
 
-                    {/* Sort Dropdown */}
+                    
                     <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-700 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-xl">
                         <span>Sort:</span>
                         <select
@@ -92,7 +88,7 @@ const AllProducts = () => {
                 </div>
             </div>
 
-            {/* Quick Category Filter Bar */}
+            
             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-4 border-b border-gray-100">
                 <button
                     onClick={() => setSelectedCategory("all")}
@@ -119,7 +115,7 @@ const AllProducts = () => {
                 ))}
             </div>
 
-            {/* Product Grid */}
+            
             {loadingProducts ? (
                 <ProductSkeleton count={10} />
             ) : filteredAndSortedProducts.length === 0 ? (

@@ -192,7 +192,9 @@ Grocerin/
 |---|---|---|---|
 | `POST` | `/api/user/register` | Register new user account | Public |
 | `POST` | `/api/user/login` | Authenticate customer via email/password | Public |
-| `GET` | `/api/user/data` | Retrieve authenticated user profile | JWT |
+| `POST` | `/api/user/forgot-password` | Generate 6-digit OTP to recover forgotten password | Public |
+| `POST` | `/api/user/reset-password` | Validate OTP & customize new password with auto-login | Public |
+| `GET` | `/api/user/is-auth` | Retrieve authenticated user profile | JWT |
 | `GET` | `/api/user/logout` | Clear auth token session cookie | JWT |
 
 ### Catalog & Inventory (`/api/product`)

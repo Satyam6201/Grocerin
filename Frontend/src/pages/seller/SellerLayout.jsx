@@ -37,7 +37,7 @@ const SellerLayout = () => {
 
     return (
         <div className="min-h-screen bg-gray-50/60 flex flex-col">
-            {/* Top Seller Bar */}
+            
             <header className="flex items-center justify-between px-4 md:px-8 border-b border-gray-200 py-3 bg-white sticky top-0 z-40 shadow-2xs">
                 <div className="flex items-center gap-4">
                     <Link to="/">
@@ -73,7 +73,7 @@ const SellerLayout = () => {
                 </div>
             </header>
 
-            {/* Sidebar + Main Outlet */}
+            
             <div className="flex flex-1">
                 <aside className="w-16 md:w-64 bg-white border-r border-gray-200 p-3 md:p-4 space-y-1 shrink-0">
                     <div className="hidden md:block px-3 py-2 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">

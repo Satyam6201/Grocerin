@@ -1,6 +1,5 @@
 import rateLimit from 'express-rate-limit';
 
-// Standard rate limiter for public API endpoints
 export const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 300, // Limit each IP to 300 requests per `window`
@@ -12,7 +11,6 @@ export const apiLimiter = rateLimit({
     }
 });
 
-// Strict rate limiter for authentication endpoints (prevent brute-force)
 export const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 20, // 20 requests per window
@@ -24,7 +22,6 @@ export const authLimiter = rateLimit({
     }
 });
 
-// Order rate limiter
 export const orderLimiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
     max: 50,

@@ -49,7 +49,7 @@ const CartDrawer = () => {
 
     return (
         <div className="fixed inset-0 z-50 overflow-hidden">
-            {/* Backdrop */}
+            
             <div 
                 onClick={() => setIsCartDrawerOpen(false)}
                 className="absolute inset-0 bg-black/50 backdrop-blur-xs transition-opacity duration-300"
@@ -57,7 +57,7 @@ const CartDrawer = () => {
 
             <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
                 <div className="w-screen max-w-md bg-gray-50 flex flex-col shadow-2xl">
-                    {/* Drawer Header */}
+                    
                     <div className="p-4 bg-white border-b border-gray-200 flex items-center justify-between">
                         <div className="flex items-center gap-2">
                             <span className="text-xl font-bold text-gray-900">My Cart</span>
@@ -73,7 +73,7 @@ const CartDrawer = () => {
                         </button>
                     </div>
 
-                    {/* Delivery ETA Pill */}
+                    
                     <div className="bg-emerald-50 border-b border-emerald-100 p-3 px-4 flex items-center gap-3">
                         <div className="w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
                             <HiBolt className="text-base text-amber-300" />
@@ -88,7 +88,7 @@ const CartDrawer = () => {
                         </div>
                     </div>
 
-                    {/* Free Delivery Goal Bar */}
+                    
                     <div className="bg-white p-3 border-b border-gray-100">
                         <div className="flex justify-between text-xs font-medium text-gray-700 mb-1.5">
                             <span className="flex items-center gap-1">
@@ -109,7 +109,7 @@ const CartDrawer = () => {
                         </div>
                     </div>
 
-                    {/* Drawer Content */}
+                    
                     <div className="flex-1 overflow-y-auto p-4 space-y-3">
                         {cartArray.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-64 text-center">
@@ -132,7 +132,7 @@ const CartDrawer = () => {
                             </div>
                         ) : (
                             <>
-                                {/* Item List */}
+                                
                                 <div className="bg-white rounded-xl p-3 border border-gray-100 divide-y divide-gray-100">
                                     {cartArray.map((product) => (
                                         <div key={product._id} className="py-2.5 first:pt-0 last:pb-0 flex items-center justify-between gap-3">
@@ -152,7 +152,7 @@ const CartDrawer = () => {
                                                 </p>
                                             </div>
                                             <div className="flex items-center gap-2">
-                                                {/* Counter */}
+                                                
                                                 <div className="flex items-center bg-emerald-700 text-white rounded-md px-1 py-0.5 font-bold text-xs">
                                                     <button 
                                                         onClick={() => removeFromCart(product._id)}
@@ -176,7 +176,7 @@ const CartDrawer = () => {
                                     ))}
                                 </div>
 
-                                {/* Bill Summary */}
+                                
                                 <div className="bg-white rounded-xl p-4 border border-gray-100 space-y-2 text-xs">
                                     <h4 className="font-bold text-gray-900 text-sm mb-2">Bill Details</h4>
                                     <div className="flex justify-between text-gray-600">
@@ -199,7 +199,7 @@ const CartDrawer = () => {
                                     </div>
                                 </div>
 
-                                {/* Quick Cancellation Note */}
+                                
                                 <div className="bg-amber-50/70 border border-amber-200 rounded-lg p-2.5 text-[11px] text-amber-800 flex items-start gap-2">
                                     <HiInformationCircle className="text-base text-amber-700 shrink-0 mt-0.5" />
                                     <span>Orders once dispatched cannot be cancelled. Fast 10-minute delivery in progress.</span>
@@ -208,7 +208,7 @@ const CartDrawer = () => {
                         )}
                     </div>
 
-                    {/* Drawer Footer CTA */}
+                    
                     {cartArray.length > 0 && (
                         <div className="p-4 bg-white border-t border-gray-200">
                             <button

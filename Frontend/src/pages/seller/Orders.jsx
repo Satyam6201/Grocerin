@@ -79,7 +79,7 @@ const Orders = () => {
                 </button>
             </div>
 
-            {/* Seller KPI Metric Cards */}
+            
             {stats && (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-2xs">
@@ -101,7 +101,7 @@ const Orders = () => {
                 </div>
             )}
 
-            {/* Orders Feed */}
+            
             {loading ? (
                 <div className="space-y-4">
                     {[1, 2, 3].map(i => (
@@ -119,7 +119,7 @@ const Orders = () => {
                             key={order._id}
                             className="bg-white rounded-2xl p-5 border border-gray-100 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-5 hover:border-gray-200 transition"
                         >
-                            {/* Items Preview */}
+                            
                             <div className="flex gap-4 max-w-sm">
                                 <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
                                     <HiCube className="w-6 h-6 text-emerald-700" />
@@ -142,7 +142,7 @@ const Orders = () => {
                                  </div>
                              </div>
 
-                             {/* Customer Delivery Details */}
+                             
                              <div className="text-xs text-gray-600 space-y-0.5 max-w-xs">
                                  <p className="font-bold text-gray-900 text-sm">
                                      {order.address?.firstName} {order.address?.lastName}
@@ -155,7 +155,7 @@ const Orders = () => {
                                  </p>
                              </div>
 
-                            {/* Payment & Amount */}
+                            
                             <div className="flex flex-col text-xs space-y-1">
                                 <span className="font-extrabold text-base text-gray-900">{currency}{order.amount}</span>
                                 <span className="text-gray-500">Method: <strong className="text-gray-800">{order.paymentType}</strong></span>
@@ -166,7 +166,7 @@ const Orders = () => {
                                 </span>
                             </div>
 
-                            {/* Dynamic Live Status Switcher */}
+                            
                             <div className="flex flex-col gap-1.5 self-start lg:self-center">
                                 <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">
                                     Update Pipeline Status

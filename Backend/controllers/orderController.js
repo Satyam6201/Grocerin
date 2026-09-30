@@ -3,7 +3,6 @@ import Product from "../models/Product.js";
 import stripe from "stripe";
 import User from "../models/User.js";
 
-// Place Order COD: /api/order/cod
 export const placeOrderCOD = async (req, res) => {
     try {
         const { items, address } = req.body;
@@ -13,7 +12,6 @@ export const placeOrderCOD = async (req, res) => {
             return res.status(400).json({ success: false, message: "Invalid order data" });
         }
 
-        // Calculate Amount Using Items
         let calculatedSubtotal = 0;
         for (const item of items) {
             const product = await Product.findById(item.product);
@@ -23,7 +21,6 @@ export const placeOrderCOD = async (req, res) => {
             calculatedSubtotal += product.offerPrice * item.quantity;
         }
 
-        // 2% Tax Charge
         const taxCharge = Math.floor(calculatedSubtotal * 0.02);
         const finalAmount = calculatedSubtotal + taxCharge;
 
@@ -37,7 +34,6 @@ export const placeOrderCOD = async (req, res) => {
             isPaid: false
         });
 
-        // Clear user's cart in DB
         await User.findByIdAndUpdate(userId, { cartItems: {} });
 
         return res.json({ 
@@ -55,7 +51,6 @@ export const placeOrderCOD = async (req, res) => {
     }
 };
 
-// Place Order Stripe : /api/order/stripe
 export const placeOrderStripe = async (req, res) => {
     try {
         const { items, address } = req.body;
@@ -95,10 +90,8 @@ export const placeOrderStripe = async (req, res) => {
             isPaid: false
         });
 
-        // Stripe Gateway Initialize 
         const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
 
-        // create Line items for stripe 
         const line_items = productData.map((item) => {
             return {
                 price_data: {
@@ -112,7 +105,6 @@ export const placeOrderStripe = async (req, res) => {
             };
         });
 
-        // create session 
         const session = await stripeInstance.checkout.sessions.create({
             line_items, 
             mode: "payment",
@@ -136,7 +128,6 @@ export const placeOrderStripe = async (req, res) => {
     }
 };
 
-// Stripe Webhooks to Verify Payment Action: /stripe
 export const stripeWebhook = async (request, response) => {
     const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
     const sig = request.headers['stripe-signature'];
@@ -192,7 +183,6 @@ export const stripeWebhook = async (request, response) => {
     response.json({ received: true });
 };
 
-// Get Orders by User ID: /api/order/user
 export const getUserOrders = async (req, res) => {
     try {
         const userId = req.userId;
@@ -212,7 +202,6 @@ export const getUserOrders = async (req, res) => {
     }
 };
 
-// Get All Orders (for seller/admin): /api/order/seller
 export const getAllOrders = async (req, res) => {
     try {
         const orders = await Order.find({})
@@ -231,7 +220,6 @@ export const getAllOrders = async (req, res) => {
     }
 };
 
-// Update Order Status (for seller): /api/order/status
 export const updateOrderStatus = async (req, res) => {
     try {
         const { orderId, status } = req.body;
@@ -256,7 +244,6 @@ export const updateOrderStatus = async (req, res) => {
     }
 };
 
-// Get Seller Dashboard Analytics: /api/order/stats
 export const getOrderStats = async (req, res) => {
     try {
         const totalOrders = await Order.countDocuments();

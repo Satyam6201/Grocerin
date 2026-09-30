@@ -65,7 +65,6 @@ const Cart = () => {
                 }
             }
         } catch (error) {
-            // handle error
         }
     };
 
@@ -109,7 +108,6 @@ const Cart = () => {
                     toast.error(data.message);
                 }
             } else {
-                // Online Payment via Stripe
                 const { data } = await axios.post('/api/order/stripe', {
                     userId: user._id,
                     items: cartArray.map(item => ({
@@ -168,7 +166,7 @@ const Cart = () => {
 
     return (
         <div className="py-8 max-w-6xl mx-auto">
-            {/* Delivery ETA Pill */}
+            
             <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 mb-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold">
@@ -190,7 +188,7 @@ const Cart = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
-                {/* Left: Product Items List */}
+                
                 <div className="lg:col-span-7 bg-white rounded-2xl border border-gray-100 p-5 md:p-6 shadow-xs">
                     <div className="flex items-center justify-between pb-4 border-b border-gray-100">
                         <h2 className="text-lg font-bold text-gray-900">Items in Cart</h2>
@@ -224,7 +222,7 @@ const Cart = () => {
                                 </div>
 
                                 <div className="flex items-center gap-3 shrink-0">
-                                    {/* Counter */}
+                                    
                                     <div className="flex items-center bg-emerald-700 text-white rounded-lg px-1.5 py-0.5 font-bold text-xs">
                                         <button
                                             onClick={() => removeFromCart(product._id)}
@@ -250,10 +248,10 @@ const Cart = () => {
                     </div>
                 </div>
 
-                {/* Right: Checkout Sidebar */}
+                
                 <div className="lg:col-span-5 space-y-4">
                     
-                    {/* Delivery Address Card */}
+                    
                     <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-xs">
                         <div className="flex items-center justify-between pb-3 border-b border-gray-100">
                             <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">
@@ -286,7 +284,7 @@ const Cart = () => {
                                 </div>
                             )}
 
-                            {/* Address Selector Popup */}
+                            
                             {showAddress && (
                                 <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-xl p-3 z-30 space-y-2">
                                     <p className="text-xs font-bold text-gray-700">Select an address:</p>
@@ -314,7 +312,7 @@ const Cart = () => {
                         </div>
                     </div>
 
-                    {/* Payment Method Selector */}
+                    
                     <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-xs space-y-3">
                         <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">
                             Payment Method
@@ -356,7 +354,7 @@ const Cart = () => {
                         </div>
                     </div>
 
-                    {/* Bill Breakdown */}
+                    
                     <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-xs space-y-2.5 text-xs text-gray-600">
                         <h3 className="text-sm font-bold text-gray-900 pb-2 border-b border-gray-100">
                             Bill Details
@@ -381,7 +379,7 @@ const Cart = () => {
                         </div>
                     </div>
 
-                    {/* Order Placement CTA */}
+                    
                     <button
                         onClick={placeOrder}
                         disabled={isPlacingOrder}

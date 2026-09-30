@@ -10,7 +10,7 @@ const MainBanner = () => {
       <img src={assets.main_banner_bg_sm} alt="banner" className='w-full md:hidden object-cover' />
       
       <div className='absolute inset-0 flex flex-col items-center md:items-start justify-end md:justify-center pb-12 md:pb-0 px-6 md:pl-16 lg:pl-20 bg-linear-to-t md:bg-linear-to-r from-black/60 md:from-black/40 to-transparent'>
-        {/* Delivery Guarantee Pill */}
+        
         <div className="flex items-center gap-1.5 bg-amber-400 text-gray-950 font-extrabold text-xs px-3 py-1 rounded-full uppercase tracking-wider mb-3 shadow-md">
           <HiBolt className="text-sm" />
           <span>10-Minute Grocery Delivery</span>

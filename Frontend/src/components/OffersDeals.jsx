@@ -37,7 +37,7 @@ export default function OffersDeals() {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      {/* Hero Section */}
+      
       <section className="bg-gradient-to-r from-green-600 to-green-500 text-white py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <BadgePercent size={60} className="mx-auto mb-5" />
@@ -51,7 +51,7 @@ export default function OffersDeals() {
         </div>
       </section>
 
-      {/* Coupon Banner */}
+      
       <section className="max-w-6xl mx-auto px-6 py-12">
         <div className="bg-linear-to-r from-green-600 to-green-500 rounded-3xl p-10 text-white flex flex-col md:flex-row justify-between items-center shadow-lg">
           <div>
@@ -74,7 +74,7 @@ export default function OffersDeals() {
         </div>
       </section>
 
-      {/* Offers Grid */}
+      
       <section className="max-w-6xl mx-auto px-6 pb-20">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {offers.map((offer, index) => (

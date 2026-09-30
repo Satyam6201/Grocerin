@@ -31,7 +31,7 @@ const ProductCategory = () => {
 
     return (
         <div className="py-6 min-h-screen">
-            {/* Breadcrumbs & Header */}
+            
             <div className="flex flex-col gap-2 pb-4 border-b border-gray-100">
                 <div className="text-xs text-gray-400 flex items-center gap-1.5">
                     <Link to="/" className="hover:text-emerald-700">Home</Link>
@@ -56,7 +56,7 @@ const ProductCategory = () => {
                         </div>
                     </div>
 
-                    {/* Sort */}
+                    
                     <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-700 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-xl self-start sm:self-auto">
                         <span>Sort:</span>
                         <select
@@ -72,7 +72,7 @@ const ProductCategory = () => {
                 </div>
             </div>
 
-            {/* Content Grid */}
+            
             {loadingProducts ? (
                 <ProductSkeleton count={8} />
             ) : filteredCategoryProducts.length > 0 ? (

@@ -6,7 +6,6 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL || '';
 
-// Create context
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
@@ -21,7 +20,6 @@ export const AppContextProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState({});
     const [searchQuery, setSearchQuery] = useState("");
     
-    // Quick-commerce additions
     const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
     const [showLocationModal, setShowLocationModal] = useState(false);
     const [isDetectingLocation, setIsDetectingLocation] = useState(false);
@@ -29,7 +27,7 @@ export const AppContextProvider = ({ children }) => {
     const [deliveryLocation, setDeliveryLocation] = useState(() => {
         const saved = localStorage.getItem('grocerin_location');
         if (saved) {
-            try { return JSON.parse(saved); } catch (e) { /* ignore */ }
+            try { return JSON.parse(saved); } catch (e) {}
         }
         return {
             city: "Boring Road, Patna",
@@ -39,7 +37,6 @@ export const AppContextProvider = ({ children }) => {
         };
     });
 
-    // Detect GPS Current Location & Precise PIN Code
     const detectCurrentLocation = async () => {
         if (!navigator.geolocation) {
             toast.error("Geolocation is not supported by your browser");
@@ -54,7 +51,6 @@ export const AppContextProvider = ({ children }) => {
                 try {
                     const { latitude, longitude } = position.coords;
                     
-                    // Layer 1: BigDataCloud Reverse Geocoding
                     const response = await fetch(
                         `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
                     );
@@ -65,7 +61,6 @@ export const AppContextProvider = ({ children }) => {
                     const locationLabel = neighborhood ? `${neighborhood}, ${city}` : city;
                     let postcode = data.postcode || "";
 
-                    // Layer 2: OSM Nominatim Fallback if PIN Code is missing
                     if (!postcode || postcode.length < 5) {
                         try {
                             const nomRes = await fetch(
@@ -79,7 +74,6 @@ export const AppContextProvider = ({ children }) => {
                                 if (pinMatch) postcode = pinMatch[0];
                             }
                         } catch (e) {
-                            // silent fallback
                         }
                     }
 
@@ -114,13 +108,11 @@ export const AppContextProvider = ({ children }) => {
         );
     };
 
-    // Set custom location
     const updateLocation = (loc) => {
         setDeliveryLocation(loc);
         localStorage.setItem('grocerin_location', JSON.stringify(loc));
     };
 
-    // Fetch Seller Status 
     const fetchSeller = async () => {
         try {
             const { data } = await axios.get('/api/seller/is-auth');
@@ -130,7 +122,6 @@ export const AppContextProvider = ({ children }) => {
         }
     };
 
-    // Fetch User Auth Status, User Data and Cart Items 
     const fetchUser = async () => {
         try {
             const { data } = await axios.get('/api/user/is-auth');
@@ -145,7 +136,6 @@ export const AppContextProvider = ({ children }) => {
         }
     };
 
-    // Fetch All Products (backed by Redis cache on backend)
     const fetchProducts = async (filters = {}) => {
         try {
             setLoadingProducts(true);
@@ -164,7 +154,6 @@ export const AppContextProvider = ({ children }) => {
         }
     };
 
-    // Add Product to Cart
     const addToCart = (itemId) => {
         setCartItems(prev => {
             const updated = { ...prev };
@@ -177,7 +166,6 @@ export const AppContextProvider = ({ children }) => {
         });
     };
 
-    // Update Cart Item Quantity
     const updateCartItem = (itemId, quantity) => {
         setCartItems(prev => {
             const updated = { ...prev };
@@ -190,7 +178,6 @@ export const AppContextProvider = ({ children }) => {
         });
     };
     
-    // Remove Product from Cart
     const removeFromCart = (itemId) => {
         setCartItems(prev => {
             const updated = { ...prev };
@@ -203,12 +190,10 @@ export const AppContextProvider = ({ children }) => {
         });
     };
 
-    // Clear whole cart
     const clearCart = () => {
         setCartItems({});
     };
 
-    // Total count of items in cart
     const getCartCount = useMemo(() => {
         return () => {
             let totalCount = 0;
@@ -219,7 +204,6 @@ export const AppContextProvider = ({ children }) => {
         };
     }, [cartItems]);
 
-    // Total subtotal amount in cart
     const getCartAmount = useMemo(() => {
         return () => {
             let totalAmount = 0;
@@ -233,20 +217,17 @@ export const AppContextProvider = ({ children }) => {
         };
     }, [cartItems, products]);
 
-    // Initial load
     useEffect(() => {
         fetchUser();
         fetchSeller();
         fetchProducts();
     }, []);
 
-    // Sync Cart Items to database for authenticated users
     useEffect(() => {
         const updateCart = async () => {
             try {
                 await axios.post('/api/cart/update', { cartItems });
             } catch (error) {
-                // Silently handle background sync errors
             }
         };
 

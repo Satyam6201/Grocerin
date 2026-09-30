@@ -39,7 +39,7 @@ const App = () => {
   return (
     <div className='min-h-screen text-gray-800 bg-[#fbfbfa] flex flex-col justify-between selection:bg-emerald-100 selection:text-emerald-900'>
       <div>
-        {/* Global Overlays & Quick-Commerce Drawers */}
+        
         <CartDrawer />
         <LocationModal />
         <MobileCartBar />
@@ -74,7 +74,7 @@ const App = () => {
             <Route path='/my-orders' element={<MyOrders />} />
             <Route path='/loader' element={<Loading />} />
 
-            {/* Seller / Admin Portal Routes */}
+            
             <Route path="/seller" element={isSeller ? <SellerLayout /> : <SellerLogin />}>
               {isSeller && (
                 <>
@@ -86,7 +86,7 @@ const App = () => {
               )}
             </Route>
 
-            {/* Support & Informational Pages */}
+            
             <Route path='/contact' element={<Contact />} />
             <Route path='/faq' element={<FAQ />} />
             <Route path='/DeliveryInfo' element={<DeliveryInformation />} />

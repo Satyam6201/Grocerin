@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import CategoryNav from './components/CategoryNav';
 import CartDrawer from './components/CartDrawer';
@@ -39,6 +39,14 @@ import SdeArchitectureModal from './components/SdeArchitectureModal';
 import LiveTelemetryModal from './components/LiveTelemetryModal';
 import ScratchCardModal from './components/ScratchCardModal';
 
+const ScrollToTop = () => {
+  const { pathname, search } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [pathname, search]);
+  return null;
+};
+
 const App = () => {
   const location = useLocation();
   const isSellerPath = location.pathname.includes("seller");
@@ -48,6 +56,7 @@ const App = () => {
   return (
     <div className='min-h-screen text-gray-800 bg-[#fbfbfa] flex flex-col justify-between selection:bg-emerald-100 selection:text-emerald-900'>
       <div>
+        <ScrollToTop />
         <CartDrawer />
         <LocationModal />
         <MobileCartBar />

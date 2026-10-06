@@ -28,6 +28,10 @@ export default function TrackOrder() {
     const [loading, setLoading] = useState(false);
     const [searched, setSearched] = useState(false);
 
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }, []);
+
     const fetchOrderTracking = async (idToFetch) => {
         const targetId = idToFetch || orderQuery.trim();
         if (!targetId) {
@@ -41,6 +45,7 @@ export default function TrackOrder() {
             const { data } = await axios.get(`/api/order/track/${targetId}`);
             if (data.success) {
                 setTrackingData(data);
+                window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
             } else {
                 toast.error(data.message || "Order not found");
                 setTrackingData(null);

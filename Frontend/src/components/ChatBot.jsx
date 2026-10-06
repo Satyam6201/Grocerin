@@ -94,7 +94,7 @@ const ChatBot = () => {
     };
 
     return (
-        <div className="fixed bottom-5 right-5 z-40">
+        <div className={`fixed z-50 transition-all duration-300 ${isOpen ? 'bottom-4 sm:bottom-6 right-3 sm:right-6' : 'bottom-20 sm:bottom-6 right-4 sm:right-6'}`}>
             {!isOpen && (
                 <button
                     onClick={() => setIsOpen(true)}
@@ -112,7 +112,7 @@ const ChatBot = () => {
             )}
 
             {isOpen && (
-                <div className="w-[92vw] sm:w-[380px] md:w-[410px] h-[520px] max-h-[82vh] bg-white rounded-3xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-250">
+                <div className="w-[calc(100vw-24px)] sm:w-[380px] md:w-[410px] h-[520px] max-h-[82vh] bg-white rounded-3xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-250">
                     
                     <div className="bg-linear-to-r from-emerald-800 to-teal-900 text-white p-4 flex items-center justify-between shadow-xs">
                         <div className="flex items-center gap-2.5">

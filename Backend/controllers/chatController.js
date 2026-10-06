@@ -7,11 +7,6 @@ export const handleChat = async (req, res) => {
             return res.status(400).json({ success: false, message: "Valid message text is required" });
         }
 
-        const apiKey = process.env.GEMINI_API_KEY;
-        if (!apiKey) {
-            return res.status(500).json({ success: false, message: "Gemini API key is not configured" });
-        }
-
         const cleanTokens = message
             .toLowerCase()
             .replace(/[^a-z0-9\s]/g, ' ')
@@ -74,8 +69,6 @@ GROCERIN CORE FACTS & POLICIES:
 - Returns & 100% Freshness Guarantee: If any item is damaged, defective, or not fresh, customers can report it within 24 hours for instant replacement or refund. Refunds credit in 5-7 business days to original method or to bank/UPI for COD. Opened perishable food items cannot be returned once accepted unless spoiled on arrival.
 - Order Cancellation: Customers can cancel orders from 'My Orders' while status is 'Order Placed' before warehouse packing begins.
 - Dual-Engine Location Detection: GPS automatically pinpoints customer delivery locality and 6-digit postal PIN code with 1 click.
-- Account Customization: If a customer forgets their password, they click 'Forgot password?', enter their registered email to receive a 6-digit OTP code, and set a new password with live strength verification.
-- Dark Store Hub Portal: Store managers and franchise partners access order fulfillment via the '/seller' Command Center.
 
 CATALOG DEPARTMENTS & POPULAR STAPLES:
 1. Organic Veggies: Fresh spinach, red tomatoes, potatoes, onions, carrots, cauliflower, green chillies, ginger, coriander, broccoli.
@@ -99,65 +92,76 @@ CURATED RECIPES & INGREDIENT BUNDLES:
 - Fresh Fruit Detox Bowl (~₹295): Apple (₹110) + Banana (₹45) + Orange (₹75) + Grapes (₹65).
 - Midnight Comfort Snack (~₹171): Maggi 4-pack (₹56) + Cheese 200g (₹75) + Cold Drink (₹40).
 
-DIETARY GUIDELINES:
-- High-protein: Eggs, Paneer, Quinoa, Pulses/Dals, Milk, Cheese.
-- Gluten-free: Quinoa, Brown Rice, Fresh Fruits, Vegetables, Lentils.
-- Jain grocery friendly: Suggest no-onion, no-garlic, no-root alternatives; highlight tomatoes, capsicum, paneer, dairy, rice, and dals.
-- Diabetic-friendly: Oats, Quinoa, Green leafy vegetables, low-GI fresh fruits.
-
 RESPONSE RULES:
 1. Always be polite, concise, structured, and informative.
 2. Include exact item names and estimated prices whenever suggesting products or recipe bundles.
 3. Highlight that orders dispatch from the local dark store in under 10 minutes.
 4. STRICT REQUIREMENT: Do NOT output any raw unicode emojis anywhere in your response. Use neat bullet points, dashes, and clean formatting.`;
 
-        const formattedContents = [];
-        formattedContents.push({
-            role: "user",
-            parts: [{ text: `${systemInstruction}\n\nUser Question: ${message}` }]
-        });
-
-        if (Array.isArray(history) && history.length > 0) {
-            for (const item of history.slice(-6)) {
-                if (item.sender === 'user') {
-                    formattedContents.push({ role: "user", parts: [{ text: item.text }] });
-                } else if (item.sender === 'bot') {
-                    formattedContents.push({ role: "model", parts: [{ text: item.text }] });
-                }
-            }
-        }
-
-        const models = ['gemini-flash-lite-latest', 'gemini-flash-latest'];
+        const apiKey = process.env.GEMINI_API_KEY;
         let replyText = null;
 
-        for (const model of models) {
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: formattedContents,
-                        generationConfig: {
-                            temperature: 0.6,
-                            maxOutputTokens: 750
-                        }
-                    })
-                });
+        if (apiKey) {
+            const formattedContents = [];
+            formattedContents.push({
+                role: "user",
+                parts: [{ text: `${systemInstruction}\n\nUser Question: ${message}` }]
+            });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-                        replyText = data.candidates[0].content.parts[0].text;
-                        break;
+            if (Array.isArray(history) && history.length > 0) {
+                for (const item of history.slice(-6)) {
+                    if (item.sender === 'user') {
+                        formattedContents.push({ role: "user", parts: [{ text: item.text }] });
+                    } else if (item.sender === 'bot') {
+                        formattedContents.push({ role: "model", parts: [{ text: item.text }] });
                     }
                 }
-            } catch (err) {
-                continue;
+            }
+
+            const models = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-8b', 'gemini-1.5-pro'];
+
+            for (const model of models) {
+                try {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: formattedContents,
+                            generationConfig: {
+                                temperature: 0.6,
+                                maxOutputTokens: 750
+                            }
+                        })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+                            replyText = data.candidates[0].content.parts[0].text;
+                            break;
+                        }
+                    }
+                } catch (err) {
+                    continue;
+                }
             }
         }
 
         if (!replyText) {
-            replyText = "I am ready to help you with grocery recommendations, recipe ingredients, active discount coupons, and 10-minute dark store delivery status. What would you like to order today?";
+            const lower = message.toLowerCase();
+            if (lower.includes('recipe') || lower.includes('paneer') || lower.includes('cook') || lower.includes('masala')) {
+                replyText = "Here is our 10-Minute Paneer Butter Masala Kit:\n- Fresh Amul Paneer 200g (₹85)\n- Farm Red Tomatoes 1kg (₹35)\n- Fresh Onions 500g (₹19)\n- Amul Butter 100g (₹55)\nTotal kit cost: ₹194. Delivered to your doorstep in under 10 minutes!";
+            } else if (lower.includes('coupon') || lower.includes('offer') || lower.includes('discount') || lower.includes('promo')) {
+                replyText = "Active Grocerin Discount Coupons:\n- GROCER100: Flat ₹100 OFF on your first grocery basket\n- GROCER250: Flat ₹250 OFF on orders above ₹1499\nApply these directly at checkout for instant savings!";
+            } else if (lower.includes('delivery') || lower.includes('time') || lower.includes('sla') || lower.includes('fast') || lower.includes('speed')) {
+                replyText = "Grocerin guarantees instant 10-minute delivery direct from your nearest micro-fulfillment dark store. Orders are picked in under 2.5 minutes and dispatched via our 100% electric delivery bike fleet.";
+            } else if (lower.includes('refund') || lower.includes('return') || lower.includes('policy')) {
+                replyText = "100% Freshness Guarantee: If any item is defective, damaged, or unsatisfactory, simply request a refund or replacement within 24 hours from My Orders. Refunds are processed immediately.";
+            } else if (lower.includes('breakfast') || lower.includes('morning') || lower.includes('egg') || lower.includes('bread')) {
+                replyText = "Healthy Breakfast Kit:\n- Whole Wheat Brown Bread (₹45)\n- Farm Fresh Eggs 12-pack (₹85)\n- Amul Table Butter (₹55)\n- Shimla Apples 1kg (₹110)\nTotal: ₹295. All items in stock and arriving in 10 minutes!";
+            } else {
+                replyText = `I am your Grocerin AI Shopping Assistant. Here are our fresh highlights today:\n- 10-Minute Instant Delivery from local Dark Store\n- Fresh Fruits, Organic Veggies, Dairy & Instant Foods in stock\n- Active coupon 'GROCER100' for ₹100 OFF\nWhat groceries can I help you add to your cart?`;
+            }
         }
 
         replyText = replyText.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]/g, '');

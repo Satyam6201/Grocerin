@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { assets, categories } from '../../assets/assets';
+import { categories } from '../../assets/assets';
 import { useAppContext } from '../../context/AppContext';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -83,20 +83,18 @@ const AddProduct = () => {
     };
 
     return (
-        <div className="flex-1 p-4 md:p-8 space-y-6 overflow-y-auto max-h-[92vh]">
+        <div className="p-3 sm:p-5 md:p-8 space-y-4 sm:space-y-6 overflow-y-auto max-h-[calc(100vh-60px)]">
             <div>
-                <h1 className="text-2xl font-black text-gray-900 tracking-tight">Add New SKU to Dark Store</h1>
+                <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">Add New SKU to Dark Store</h1>
                 <p className="text-xs text-gray-500">List fresh items with photos, real-time prices, and fast delivery specs</p>
             </div>
 
-            <form onSubmit={onSubmitHandler} className="bg-white rounded-3xl border border-gray-100 p-6 md:p-8 shadow-xs max-w-2xl space-y-6">
-                
-                
+            <form onSubmit={onSubmitHandler} className="bg-white rounded-3xl border border-gray-100 p-4 sm:p-6 md:p-8 shadow-xs max-w-2xl space-y-4 sm:space-y-6">
                 <div>
                     <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
                         Product Images (Up to 4)
                     </label>
-                    <div className="grid grid-cols-4 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
                         {files.map((file, index) => (
                             <div key={index} className="relative aspect-square rounded-2xl border-2 border-dashed border-gray-200 hover:border-emerald-500 bg-gray-50 flex items-center justify-center overflow-hidden transition group">
                                 {file ? (
@@ -109,9 +107,9 @@ const AddProduct = () => {
                                         <button
                                             type="button"
                                             onClick={() => handleRemoveFile(index)}
-                                            className="absolute top-1.5 right-1.5 bg-rose-600 hover:bg-rose-700 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shadow-xs cursor-pointer transition"
+                                            className="absolute top-1.5 right-1.5 bg-rose-600 hover:bg-rose-700 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shadow-xs cursor-pointer transition"
                                         >
-                                            <HiXMark className="w-3.5 h-3.5" />
+                                            <HiXMark className="w-4 h-4" />
                                         </button>
                                     </>
                                 ) : (
@@ -132,9 +130,8 @@ const AddProduct = () => {
                     </div>
                 </div>
 
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="md:col-span-2 space-y-1">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                    <div className="sm:col-span-2 space-y-1">
                         <label className="block text-xs font-bold text-gray-700">Product Title</label>
                         <input
                             type="text"
@@ -142,7 +139,7 @@ const AddProduct = () => {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="e.g. Fresh Farm Spinach"
-                            className="w-full text-xs md:text-sm px-3.5 py-2.5 rounded-xl border border-gray-200 focus:border-emerald-600 outline-none"
+                            className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-gray-200 focus:border-emerald-600 outline-none"
                         />
                     </div>
                     <div className="space-y-1">
@@ -152,19 +149,18 @@ const AddProduct = () => {
                             value={weight}
                             onChange={(e) => setWeight(e.target.value)}
                             placeholder="e.g. 500 g, 1 kg, 1L"
-                            className="w-full text-xs md:text-sm px-3.5 py-2.5 rounded-xl border border-gray-200 focus:border-emerald-600 outline-none"
+                            className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-gray-200 focus:border-emerald-600 outline-none"
                         />
                     </div>
                 </div>
 
-                
                 <div className="space-y-1">
                     <label className="block text-xs font-bold text-gray-700">Grocery Category</label>
                     <select
                         required
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        className="w-full text-xs md:text-sm px-3.5 py-2.5 rounded-xl border border-gray-200 bg-gray-50 focus:border-emerald-600 outline-none font-medium cursor-pointer"
+                        className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-gray-200 bg-gray-50 focus:border-emerald-600 outline-none font-medium cursor-pointer"
                     >
                         <option value="">Choose a Category...</option>
                         {categories.map((c, i) => (
@@ -173,12 +169,11 @@ const AddProduct = () => {
                     </select>
                 </div>
 
-                
-                <div className="p-4 rounded-2xl bg-gray-50 border border-gray-100 space-y-3">
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-gray-50 border border-gray-100 space-y-3">
                     <span className="text-xs font-extrabold text-gray-700 uppercase tracking-wider block">
                         Pricing & Profit Margin
                     </span>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <div className="space-y-1">
                             <label className="block text-xs font-semibold text-gray-600">MRP / Regular Price</label>
                             <input
@@ -187,7 +182,7 @@ const AddProduct = () => {
                                 value={price}
                                 onChange={(e) => setPrice(e.target.value)}
                                 placeholder="e.g. 100"
-                                className="w-full text-xs md:text-sm px-3 py-2 rounded-xl border border-gray-200 bg-white focus:border-emerald-600 outline-none font-bold"
+                                className="w-full text-xs sm:text-sm px-3 py-2.5 rounded-xl border border-gray-200 bg-white focus:border-emerald-600 outline-none font-bold"
                             />
                         </div>
                         <div className="space-y-1">
@@ -198,7 +193,7 @@ const AddProduct = () => {
                                 value={offerPrice}
                                 onChange={(e) => setOfferPrice(e.target.value)}
                                 placeholder="e.g. 80"
-                                className="w-full text-xs md:text-sm px-3 py-2 rounded-xl border border-gray-200 bg-white focus:border-emerald-600 outline-none font-bold text-emerald-800"
+                                className="w-full text-xs sm:text-sm px-3 py-2.5 rounded-xl border border-gray-200 bg-white focus:border-emerald-600 outline-none font-bold text-emerald-800"
                             />
                         </div>
                     </div>
@@ -216,7 +211,6 @@ const AddProduct = () => {
                     )}
                 </div>
 
-                
                 <div className="space-y-1">
                     <label className="block text-xs font-bold text-gray-700">Product Bullet Points (1 per line)</label>
                     <textarea
@@ -225,20 +219,19 @@ const AddProduct = () => {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="Farm-fresh harvest&#10;Rich in essential nutrients&#10;100% Organic certified"
-                        className="w-full text-xs md:text-sm px-3.5 py-2.5 rounded-xl border border-gray-200 focus:border-emerald-600 outline-none resize-none"
+                        className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-gray-200 focus:border-emerald-600 outline-none resize-none"
                     />
                 </div>
 
-                
                 <button
                     type="submit"
                     disabled={isUploading}
-                    className="w-full py-4 bg-emerald-700 hover:bg-emerald-800 active:scale-[0.99] text-white font-extrabold text-sm rounded-2xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-70"
+                    className="w-full py-3.5 sm:py-4 bg-emerald-700 hover:bg-emerald-800 active:scale-[0.99] text-white font-extrabold text-xs sm:text-sm rounded-2xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-70 min-h-[44px]"
                 >
                     {isUploading ? (
                         <span className="flex items-center gap-2">
                             <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                            <span>Uploading Photos & Saving to Catalog...</span>
+                            <span>Uploading Photos & Saving SKU...</span>
                         </span>
                     ) : (
                         <span className="flex items-center gap-2">

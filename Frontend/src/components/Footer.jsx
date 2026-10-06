@@ -13,9 +13,7 @@ import {
     HiCheck, 
     HiClipboardDocumentCheck, 
     HiMapPin, 
-    HiSparkles,
-    HiCpuChip,
-    HiCommandLine
+    HiSparkles
 } from 'react-icons/hi2';
 import { 
     FaGooglePlay, 
@@ -27,7 +25,6 @@ import {
     FaGithub, 
     FaLinkedinIn 
 } from 'react-icons/fa6';
-import { useAppContext } from '../context/AppContext';
 
 const QUICK_CATEGORIES = [
     { label: "Vegetables", path: "/products/Vegetables" },
@@ -69,7 +66,6 @@ const VALUE_PROPS = [
 ];
 
 const Footer = () => {
-    const { setShowSdeModal } = useAppContext();
     const [email, setEmail] = useState('');
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [copiedCoupon, setCopiedCoupon] = useState(false);
@@ -351,34 +347,6 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                </div>
-            </div>
-
-            <div className="border-t border-slate-800 bg-linear-to-r from-slate-950 via-slate-900 to-slate-950 px-4 sm:px-6 lg:px-8 py-4">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div className="flex items-center gap-3 text-xs">
-                        <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
-                            <HiCpuChip className="w-4 h-4" />
-                        </div>
-                        <div>
-                            <div className="flex items-center gap-2">
-                                <span className="font-bold text-white tracking-wide">SDE Fullstack Architecture Engine</span>
-                                <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
-                                    SDE-1 / SDE-2 Showcase
-                                </span>
-                            </div>
-                            <p className="text-[11px] text-gray-400 mt-0.5">
-                                Redis Sub-15ms Caching • Gemini AI RAG Grounding • Rider Telemetry Engine • Zero-Downtime Pipeline
-                            </p>
-                        </div>
-                    </div>
-                    <button
-                        onClick={() => setShowSdeModal(true)}
-                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs rounded-xl shadow-lg shadow-emerald-950/40 transition-all transform hover:scale-[1.02] cursor-pointer shrink-0 border border-emerald-400/30"
-                    >
-                        <HiCommandLine className="w-4 h-4 text-emerald-200" />
-                        <span>Open Live System Telemetry Console</span>
-                    </button>
                 </div>
             </div>
 

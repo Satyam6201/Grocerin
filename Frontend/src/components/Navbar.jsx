@@ -15,7 +15,9 @@ import {
     HiArrowRight,
     HiCpuChip,
     HiGift,
-    HiSparkles
+    HiSparkles,
+    HiHome,
+    HiPhone
 } from 'react-icons/hi2';
 import { FaMotorcycle } from 'react-icons/fa6';
 import { TbLoader2 } from 'react-icons/tb';
@@ -91,11 +93,11 @@ const Navbar = () => {
 
     return (
         <header className="sticky top-0 z-40 bg-white border-b border-gray-100 shadow-xs">
-            <div className="flex items-center justify-between px-4 md:px-12 lg:px-20 xl:px-28 py-3 gap-3 md:gap-8">
+            <div className="flex items-center justify-between px-3 sm:px-6 md:px-12 lg:px-20 xl:px-28 py-2.5 sm:py-3 gap-2 sm:gap-4 md:gap-8">
                 
-                <div className="flex items-center gap-3 lg:gap-5 shrink-0">
+                <div className="flex items-center gap-2 sm:gap-4 lg:gap-5 shrink-0">
                     <NavLink to="/" className="flex items-center gap-2 group">
-                        <img className="h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-102" src={assets.nav_logo} alt="Grocerin" />
+                        <img className="h-8 sm:h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-102" src={assets.nav_logo} alt="Grocerin" />
                     </NavLink>
 
                     <div className="hidden sm:flex items-center bg-gray-50/80 hover:bg-gray-100/80 border border-gray-200/70 rounded-2xl p-1 pr-2 transition">
@@ -135,9 +137,9 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                <div ref={searchRef} className="relative flex-1 max-w-2xl">
-                    <div className="relative flex items-center bg-gray-100 focus-within:bg-white border border-transparent focus-within:border-emerald-600 rounded-xl px-3 py-1.5 transition-all shadow-inner focus-within:shadow-xs gap-1.5">
-                        <img src={assets.search_icon} alt="search" className="w-4 h-4 text-gray-400 opacity-60 mr-1 shrink-0" />
+                <div ref={searchRef} className="relative flex-1 max-w-2xl min-w-0">
+                    <div className="relative flex items-center bg-gray-100 focus-within:bg-white border border-transparent focus-within:border-emerald-600 rounded-xl px-2.5 sm:px-3 py-1.5 transition-all shadow-inner focus-within:shadow-xs gap-1.5">
+                        <img src={assets.search_icon} alt="search" className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 opacity-60 mr-0.5 shrink-0" />
                         <input
                             type="text"
                             value={searchQuery}
@@ -149,8 +151,8 @@ const Navbar = () => {
                                     navigate('/product');
                                 }
                             }}
-                            placeholder='Search "milk", "fresh potato", "bread", "maggi"...'
-                            className="w-full bg-transparent text-xs sm:text-sm text-gray-900 placeholder-gray-400 outline-none"
+                            placeholder='Search groceries...'
+                            className="w-full bg-transparent text-xs sm:text-sm text-gray-900 placeholder-gray-400 outline-none truncate"
                         />
                         {searchQuery && (
                             <button
@@ -222,7 +224,7 @@ const Navbar = () => {
                     )}
                 </div>
 
-                <div className="flex items-center gap-2 sm:gap-3 md:gap-4 shrink-0">
+                <div className="flex items-center gap-1.5 sm:gap-3 md:gap-4 shrink-0">
                     <button
                         onClick={() => setShowSdeModal(true)}
                         title="View Full SDE Architecture, Redis Telemetry & System Metrics"
@@ -260,14 +262,14 @@ const Navbar = () => {
                     {!user ? (
                         <button
                             onClick={() => setShowUserLogin(true)}
-                            className="text-xs md:text-sm font-bold text-gray-800 hover:text-emerald-700 px-3 py-2 rounded-xl transition cursor-pointer"
+                            className="text-xs md:text-sm font-bold text-gray-800 hover:text-emerald-700 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl transition cursor-pointer"
                         >
                             Login
                         </button>
                     ) : (
                         <div className="relative group">
                             <button className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 transition cursor-pointer">
-                                <img src={assets.profile_icon} alt="profile" className="w-8 h-8 rounded-full border border-gray-200" />
+                                <img src={assets.profile_icon} alt="profile" className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-gray-200" />
                                 <span className="hidden md:inline text-xs font-bold text-gray-800 truncate max-w-[90px]">
                                     {user.name?.split(' ')[0] || "Account"}
                                 </span>
@@ -318,42 +320,41 @@ const Navbar = () => {
 
                     <button
                         onClick={() => setIsCartDrawerOpen(true)}
-                        className={`flex items-center gap-2.5 px-3.5 md:px-4 py-2.5 rounded-xl font-bold transition-all shadow-xs cursor-pointer ${
+                        className={`flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold transition-all shadow-xs cursor-pointer ${
                             cartCount > 0
                                 ? "bg-emerald-700 hover:bg-emerald-800 text-white animate-in zoom-in-95"
                                 : "bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200"
                         }`}
                     >
-                        <HiShoppingBag className="text-base" />
+                        <HiShoppingBag className="text-sm sm:text-base" />
                         <div className="flex flex-col text-left leading-none">
-                            <span className="text-[10px] uppercase font-bold opacity-80">
-                                {cartCount > 0 ? `${cartCount} items` : "My Cart"}
+                            <span className="text-[9px] sm:text-[10px] uppercase font-bold opacity-80">
+                                {cartCount > 0 ? `${cartCount}` : "Cart"}
                             </span>
-                            {cartCount > 0 ? (
-                                <span className="text-xs font-black tracking-tight">{currency}{cartAmount}</span>
-                            ) : (
-                                <span className="text-xs font-semibold">Empty</span>
+                            {cartCount > 0 && (
+                                <span className="text-[11px] sm:text-xs font-black tracking-tight">{currency}{cartAmount}</span>
                             )}
                         </div>
                     </button>
 
                     <button
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="sm:hidden p-1.5 text-gray-600 hover:text-gray-900 rounded-lg cursor-pointer"
+                        className="sm:hidden p-1 text-gray-600 hover:text-gray-900 rounded-lg cursor-pointer"
+                        aria-label="Toggle navigation menu"
                     >
                         <img src={assets.menu_icon} alt="menu" className="w-5 h-5" />
                     </button>
                 </div>
             </div>
 
-            <div className="sm:hidden bg-amber-50/90 px-4 py-2 border-t border-amber-100 flex items-center justify-between text-xs text-amber-950">
+            <div className="sm:hidden bg-amber-50/90 px-3 py-1.5 border-t border-amber-100 flex items-center justify-between text-xs text-amber-950">
                 <div 
                     onClick={() => setShowLocationModal(true)}
                     className="flex items-center gap-1.5 font-semibold truncate cursor-pointer flex-1 mr-2"
                 >
                     <HiBolt className="text-amber-600 text-sm shrink-0" />
-                    <span>9 MINS to:</span>
-                    <span className="text-gray-800 truncate font-normal">
+                    <span className="font-black text-[11px]">9 MINS:</span>
+                    <span className="text-gray-800 truncate text-[11px] font-medium">
                         {deliveryLocation.city} {deliveryLocation.pincode ? `(${deliveryLocation.pincode})` : ''}
                     </span>
                 </div>
@@ -361,28 +362,69 @@ const Navbar = () => {
                 <button
                     onClick={detectCurrentLocation}
                     disabled={isDetectingLocation}
-                    className="flex items-center gap-1 bg-white border border-amber-300 text-amber-900 text-[10px] font-bold px-2 py-1 rounded-lg shrink-0 cursor-pointer shadow-2xs"
+                    className="flex items-center gap-1 bg-white border border-amber-300 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-lg shrink-0 cursor-pointer shadow-2xs"
                 >
                     {isDetectingLocation ? (
                         <TbLoader2 className="animate-spin text-xs" />
                     ) : (
-                        <HiMapPin className="text-xs" />
+                        <HiMapPin className="text-xs text-emerald-700" />
                     )}
-                    <span>{isDetectingLocation ? "Detecting" : "Current"}</span>
+                    <span>{isDetectingLocation ? "..." : "GPS"}</span>
                 </button>
             </div>
 
             {mobileMenuOpen && (
-                <div className="sm:hidden bg-white border-b border-gray-200 p-4 space-y-2 text-sm font-semibold text-gray-700 animate-in slide-in-from-top-2">
-                    <NavLink to="/" onClick={() => setMobileMenuOpen(false)} className="block py-1.5">Home</NavLink>
-                    <NavLink to="/product" onClick={() => setMobileMenuOpen(false)} className="block py-1.5">All Products</NavLink>
+                <div className="sm:hidden bg-white border-b border-gray-200 p-4 space-y-2.5 text-xs font-bold text-gray-700 animate-in slide-in-from-top-2 shadow-xl">
+                    <NavLink to="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 hover:text-emerald-700">
+                        <HiHome className="w-4 h-4 text-emerald-700" />
+                        <span>Home Store</span>
+                    </NavLink>
+                    <NavLink to="/product" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 hover:text-emerald-700">
+                        <HiCube className="w-4 h-4 text-emerald-700" />
+                        <span>All Products Catalog</span>
+                    </NavLink>
                     {user && (
-                        <NavLink to="/my-orders" onClick={() => setMobileMenuOpen(false)} className="block py-1.5">My Orders</NavLink>
+                        <NavLink to="/my-orders" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 hover:text-emerald-700">
+                            <HiShoppingBag className="w-4 h-4 text-emerald-700" />
+                            <span>My Orders History</span>
+                        </NavLink>
                     )}
-                    <NavLink to="/tractOrder" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-emerald-800 font-bold">Track Live Order</NavLink>
-                    <NavLink to="/biker" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-blue-700 font-bold">Biker Mode App</NavLink>
-                    <NavLink to="/seller" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-emerald-700">Seller Dashboard</NavLink>
-                    <NavLink to="/contact" onClick={() => setMobileMenuOpen(false)} className="block py-1.5">Contact Us</NavLink>
+                    <NavLink to="/tractOrder" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 text-emerald-800">
+                        <FaMotorcycle className="w-4 h-4 text-emerald-600" />
+                        <span>Track Live Delivery</span>
+                    </NavLink>
+                    <NavLink to="/biker" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 text-blue-700">
+                        <FaMotorcycle className="w-4 h-4 text-blue-600" />
+                        <span>Biker Mode (Rider App)</span>
+                    </NavLink>
+                    <NavLink to="/seller" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 text-emerald-700">
+                        <HiBuildingStorefront className="w-4 h-4 text-emerald-600" />
+                        <span>Dark Store Seller Portal</span>
+                    </NavLink>
+                    <button
+                        onClick={() => {
+                            setMobileMenuOpen(false);
+                            setShowSdeModal(true);
+                        }}
+                        className="w-full flex items-center gap-2 py-1.5 text-left text-slate-800 font-mono"
+                    >
+                        <HiCpuChip className="w-4 h-4 text-emerald-600" />
+                        <span>SDE Live Architecture Console</span>
+                    </button>
+                    <button
+                        onClick={() => {
+                            setMobileMenuOpen(false);
+                            setShowScratchCardModal(true);
+                        }}
+                        className="w-full flex items-center gap-2 py-1.5 text-left text-amber-800"
+                    >
+                        <HiGift className="w-4 h-4 text-amber-600" />
+                        <span>Scratch & Win Coupons</span>
+                    </button>
+                    <NavLink to="/contact" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 hover:text-emerald-700">
+                        <HiPhone className="w-4 h-4 text-emerald-700" />
+                        <span>Customer Support</span>
+                    </NavLink>
                 </div>
             )}
         </header>

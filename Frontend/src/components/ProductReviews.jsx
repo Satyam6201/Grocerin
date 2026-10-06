@@ -83,7 +83,6 @@ const ProductReviews = ({ product }) => {
                 toast.error(data.message || "Failed to submit review");
             }
         } catch (err) {
-            // Optimistic fallback for frontend
             const newRev = {
                 id: Date.now().toString(),
                 user: user?.name || "Verified Customer",
@@ -107,7 +106,6 @@ const ProductReviews = ({ product }) => {
 
     return (
         <div className="mt-12 bg-white rounded-3xl border border-gray-100 p-6 md:p-8 shadow-xs">
-            {/* Header & Overall Rating */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-100">
                 <div>
                     <h3 className="text-xl font-black text-gray-900 tracking-tight">
@@ -127,7 +125,6 @@ const ProductReviews = ({ product }) => {
                 </button>
             </div>
 
-            {/* Score Breakdown Bar */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 py-6 border-b border-gray-100 items-center">
                 <div className="md:col-span-4 flex flex-col items-center justify-center text-center p-4 bg-emerald-50/50 rounded-2xl border border-emerald-100">
                     <span className="text-4xl font-black text-emerald-950 font-mono">
@@ -143,7 +140,6 @@ const ProductReviews = ({ product }) => {
                     </span>
                 </div>
 
-                {/* Rating Distribution */}
                 <div className="md:col-span-8 space-y-1.5 text-xs">
                     {[
                         { star: 5, pct: 85 },
@@ -166,7 +162,6 @@ const ProductReviews = ({ product }) => {
                 </div>
             </div>
 
-            {/* Review Cards List */}
             <div className="divide-y divide-gray-100 mt-4">
                 {reviews.map((rev) => (
                     <div key={rev.id} className="py-4 space-y-2 text-xs">
@@ -183,7 +178,6 @@ const ProductReviews = ({ product }) => {
                             <span className="text-gray-400 text-[11px]">{rev.date || 'Recent'}</span>
                         </div>
 
-                        {/* Stars */}
                         <div className="flex items-center gap-0.5 text-amber-400">
                             {[1, 2, 3, 4, 5].map((s) => (
                                 <HiStar 
@@ -193,12 +187,10 @@ const ProductReviews = ({ product }) => {
                             ))}
                         </div>
 
-                        {/* Comment */}
                         <p className="text-gray-700 text-xs sm:text-sm leading-relaxed">
                             {rev.comment}
                         </p>
 
-                        {/* Helpful Toggle */}
                         <div className="pt-1 flex items-center gap-3">
                             <button
                                 onClick={() => handleVoteHelpful(rev.id)}
@@ -212,7 +204,6 @@ const ProductReviews = ({ product }) => {
                 ))}
             </div>
 
-            {/* Write Review Modal */}
             {showWriteModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
                     <div 

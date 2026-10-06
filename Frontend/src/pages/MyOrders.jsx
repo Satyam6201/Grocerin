@@ -257,7 +257,6 @@ const MyOrders = () => {
                                     </div>
                                 )}
 
-                                {/* Interactive Action Bar */}
                                 <div className="mt-4 pt-3 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3">
                                     <div className="flex flex-wrap items-center gap-2">
                                         {!isDelivered && order.status !== "Cancelled" && (

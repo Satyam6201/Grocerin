@@ -371,7 +371,6 @@ const Cart = () => {
                         </div>
                     </div>
 
-                    {/* Promo Coupons Card */}
                     <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-xs space-y-3">
                         <div className="flex justify-between items-center text-xs font-bold text-gray-900">
                             <span className="flex items-center gap-1.5">

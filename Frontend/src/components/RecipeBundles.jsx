@@ -68,7 +68,6 @@ const RecipeBundles = () => {
     const { products, addMultipleToCart, currency } = useAppContext();
 
     const handleAddKit = (kit) => {
-        // Match active catalog product IDs
         const matchedItemIds = [];
         kit.keywordMatch.forEach(kw => {
             const found = products.find(p => 
@@ -80,7 +79,6 @@ const RecipeBundles = () => {
             }
         });
 
-        // If specific keyword matching is short, take the first 3 active in-stock products
         if (matchedItemIds.length === 0 && products.length > 0) {
             matchedItemIds.push(...products.slice(0, 3).map(p => p._id));
         }
@@ -113,7 +111,6 @@ const RecipeBundles = () => {
                         className="bg-white rounded-3xl border border-gray-100 p-5 shadow-xs hover:shadow-md hover:border-emerald-200 transition-all flex flex-col justify-between group"
                     >
                         <div>
-                            {/* Card Top Pill */}
                             <div className="flex justify-between items-center mb-3">
                                 <span className="bg-emerald-50 text-emerald-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-emerald-100">
                                     {kit.badge}
@@ -124,7 +121,6 @@ const RecipeBundles = () => {
                                 </span>
                             </div>
 
-                            {/* Header Gradient Banner */}
                             <div className={`p-4 rounded-2xl bg-gradient-to-r ${kit.gradient} text-white mb-3 shadow-xs`}>
                                 <h3 className="font-extrabold text-sm sm:text-base leading-tight">
                                     {kit.title}
@@ -134,13 +130,11 @@ const RecipeBundles = () => {
                                 </p>
                             </div>
 
-                            {/* Description of bundled ingredients */}
                             <p className="text-xs text-gray-600 leading-relaxed font-medium">
                                 {kit.itemsDescription}
                             </p>
                         </div>
 
-                        {/* Bottom Pricing & 1-Click Action */}
                         <div className="mt-5 pt-3 border-t border-gray-100">
                             <div className="flex items-baseline justify-between mb-3">
                                 <div className="flex items-baseline gap-1.5">

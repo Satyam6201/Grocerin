@@ -34,11 +34,10 @@ export const register = async (req, res) => {
         );
 
         res.cookie('token', token, {
-            httpOnly: true,  // Prevent JavaScript to access cookie
-            secure: process.env.NODE_ENV === 'production', // use secure cookies in production
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict', // CSRF protection
-            maxAge: 7 * 24 * 60 * 60 * 1000, //Cookie expiration time
-
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
         return res.json({
@@ -164,7 +163,7 @@ export const forgotPassword = async (req, res) => {
 
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         user.resetOtp = otp;
-        user.resetOtpExpire = new Date(Date.now() + 15 * 60 * 1000); // 15 mins validity
+        user.resetOtpExpire = new Date(Date.now() + 15 * 60 * 1000);
         await user.save();
 
         console.log(`[Grocerin Auth] Password Reset OTP for ${email}: ${otp}`);
@@ -172,7 +171,7 @@ export const forgotPassword = async (req, res) => {
         return res.json({
             success: true,
             message: "6-digit verification code generated",
-            otp: otp // Included for seamless quick-testing and development
+            otp: otp
         });
     } catch (error) {
         console.error("Forgot password error:", error);

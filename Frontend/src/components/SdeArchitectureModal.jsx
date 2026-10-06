@@ -65,7 +65,6 @@ const SdeArchitectureModal = () => {
                 onClick={(e) => e.stopPropagation()}
                 className="relative bg-slate-950 text-slate-100 rounded-3xl shadow-2xl border border-slate-800 w-full max-w-4xl max-h-[92vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-250 font-sans"
             >
-                {/* Header with Hacker / Tech aesthetic */}
                 <div className="bg-slate-900/90 border-b border-slate-800 p-4 sm:p-5 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
@@ -104,7 +103,6 @@ const SdeArchitectureModal = () => {
                     </div>
                 </div>
 
-                {/* Key Metric Gauges */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 sm:p-5 bg-slate-900/40 border-b border-slate-800/80 text-xs font-mono">
                     <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-3">
                         <span className="text-[10px] text-slate-400 block">API LATENCY (p99)</span>
@@ -135,7 +133,6 @@ const SdeArchitectureModal = () => {
                     </div>
                 </div>
 
-                {/* Navigation Tabs */}
                 <div className="flex border-b border-slate-800 px-5 overflow-x-auto bg-slate-900/20 no-scrollbar">
                     {ARCHITECTURE_TABS.map(tab => (
                         <button
@@ -152,7 +149,6 @@ const SdeArchitectureModal = () => {
                     ))}
                 </div>
 
-                {/* Tab Body */}
                 <div className="p-5 sm:p-6 overflow-y-auto flex-1 space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
                     {activeTab === 'overview' && (
                         <div className="space-y-4 animate-in fade-in duration-150">
@@ -198,7 +194,7 @@ const SdeArchitectureModal = () => {
                             </p>
 
                             <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 font-mono text-xs space-y-2 text-sky-200">
-                                <div className="text-emerald-400 font-bold">// Redis Proactive Invalidation & Read Strategy</div>
+                                <div className="text-emerald-400 font-bold">Redis Proactive Invalidation & Read Strategy</div>
                                 <div>1. Query: Check Redis `product_list_all` (TTL: 300s)</div>
                                 <div>2. Cache Hit: Return in &lt; 2ms with `source: cache`</div>
                                 <div>3. Cache Miss: Query MongoDB Atlas, write to Redis, emit HTTP `Cache-Control: public, max-age=30, stale-while-revalidate=60`</div>
@@ -236,10 +232,10 @@ const SdeArchitectureModal = () => {
                         <div className="space-y-4 animate-in fade-in duration-150">
                             <h3 className="font-bold text-base text-white">MongoDB Atlas High-Concurrency Connection Pooling</h3>
                             <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 font-mono text-xs space-y-2 text-purple-200">
-                                <div>maxPoolSize: 100 // Allows 100 concurrent sockets per process</div>
-                                <div>minPoolSize: 10 // Maintains 10 hot standby connections</div>
-                                <div>socketTimeoutMS: 45000 // Prevents socket thread starvation</div>
-                                <div>autoIndex: false // Disables runtime re-indexing in production</div>
+                                <div>maxPoolSize: 100</div>
+                                <div>minPoolSize: 10</div>
+                                <div>socketTimeoutMS: 45000</div>
+                                <div>autoIndex: false</div>
                             </div>
                         </div>
                     )}
@@ -268,7 +264,6 @@ const SdeArchitectureModal = () => {
                     )}
                 </div>
 
-                {/* Footer */}
                 <div className="p-4 bg-slate-900/90 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
                     <div className="flex items-center gap-2 text-slate-400">
                         <HiCheckCircle className="text-emerald-400 w-4 h-4" />

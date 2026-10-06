@@ -23,7 +23,7 @@ const LiveTelemetryModal = () => {
         deliveryLocation 
     } = useAppContext();
 
-    const [secondsLeft, setSecondsLeft] = useState(540); // 9 minutes
+    const [secondsLeft, setSecondsLeft] = useState(540);
     const [riderSpeed, setRiderSpeed] = useState(28);
     const [riderDistance, setRiderDistance] = useState(1.2);
     const [coldTemp, setColdTemp] = useState(3.6);
@@ -64,7 +64,6 @@ const LiveTelemetryModal = () => {
                 onClick={(e) => e.stopPropagation()}
                 className="relative bg-white rounded-3xl shadow-2xl border border-gray-100 w-full max-w-xl overflow-hidden animate-in zoom-in-95 duration-250 flex flex-col max-h-[92vh] overflow-y-auto"
             >
-                {/* Header */}
                 <div className="bg-gradient-to-r from-emerald-800 to-teal-900 text-white p-5 flex items-center justify-between shadow-xs">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-amber-300">
@@ -93,7 +92,6 @@ const LiveTelemetryModal = () => {
                     </button>
                 </div>
 
-                {/* Main Countdown & ETA Banner */}
                 <div className="p-5 bg-gradient-to-b from-emerald-50/70 to-white border-b border-emerald-100/60 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <div>
                         <span className="text-[11px] font-bold text-emerald-800 uppercase tracking-wider block">
@@ -108,7 +106,6 @@ const LiveTelemetryModal = () => {
                         </p>
                     </div>
 
-                    {/* Quick Simulator Fast-Forward for Recruiters */}
                     <button
                         onClick={boostSimulator}
                         className="bg-emerald-700 hover:bg-emerald-800 active:scale-95 text-white text-xs font-extrabold px-4 py-2.5 rounded-2xl shadow-md transition flex items-center gap-1.5 cursor-pointer shrink-0"
@@ -118,10 +115,8 @@ const LiveTelemetryModal = () => {
                     </button>
                 </div>
 
-                {/* Animated Route Map Graphic */}
                 <div className="p-5 space-y-4">
                     <div className="relative bg-slate-900 rounded-3xl p-5 text-white overflow-hidden shadow-inner border border-slate-800">
-                        {/* Radar Scan Light Effect */}
                         <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
 
                         <div className="flex justify-between items-center text-xs font-mono mb-4 text-slate-400">
@@ -132,7 +127,6 @@ const LiveTelemetryModal = () => {
                             <span>Speed: <strong className="text-white">{riderSpeed} km/h</strong></span>
                         </div>
 
-                        {/* Visual Path */}
                         <div className="relative py-4">
                             <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
                                 <div 
@@ -141,7 +135,6 @@ const LiveTelemetryModal = () => {
                                 />
                             </div>
 
-                            {/* Hub Point */}
                             <div className="absolute left-0 -top-1 flex flex-col items-center">
                                 <div className="w-8 h-8 rounded-xl bg-emerald-600 border-2 border-white flex items-center justify-center text-white shadow-md">
                                     <HiBuildingStorefront className="w-4 h-4" />
@@ -149,7 +142,6 @@ const LiveTelemetryModal = () => {
                                 <span className="text-[10px] font-bold text-slate-300 mt-1 font-mono">Hub #102</span>
                             </div>
 
-                            {/* Moving Delivery Rider */}
                             <div 
                                 className="absolute -top-2 transition-all duration-700 flex flex-col items-center"
                                 style={{ left: `calc(${Math.min(88, Math.max(10, simulatedProgress))}% - 16px)` }}
@@ -162,7 +154,6 @@ const LiveTelemetryModal = () => {
                                 </span>
                             </div>
 
-                            {/* Destination Doorstep */}
                             <div className="absolute right-0 -top-1 flex flex-col items-center">
                                 <div className="w-8 h-8 rounded-xl bg-teal-500 border-2 border-white flex items-center justify-center text-white shadow-md">
                                     <HiMapPin className="w-4 h-4" />
@@ -171,7 +162,6 @@ const LiveTelemetryModal = () => {
                             </div>
                         </div>
 
-                        {/* Telemetry Metrics Grid */}
                         <div className="grid grid-cols-3 gap-2 mt-6 pt-4 border-t border-slate-800 text-center font-mono text-xs">
                             <div className="bg-slate-800/60 rounded-xl p-2 border border-slate-700/50">
                                 <span className="text-[10px] text-slate-400 block">COLD CHAIN</span>
@@ -188,7 +178,6 @@ const LiveTelemetryModal = () => {
                         </div>
                     </div>
 
-                    {/* Delivery Partner Contact Card */}
                     <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <div className="w-11 h-11 rounded-2xl bg-emerald-700 text-white font-extrabold flex items-center justify-center text-sm shadow-xs">
@@ -224,7 +213,6 @@ const LiveTelemetryModal = () => {
                     </div>
                 </div>
 
-                {/* Modal Footer */}
                 <div className="p-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-xs">
                     <span className="text-gray-500 font-medium flex items-center gap-1.5">
                         <HiShieldCheck className="text-emerald-700 text-base" />

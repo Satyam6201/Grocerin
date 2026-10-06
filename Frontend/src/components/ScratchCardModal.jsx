@@ -30,10 +30,9 @@ const ScratchCardModal = () => {
         const canvas = canvasRef.current;
         if (canvas) {
             const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#94a3b8'; // Slate silver foil
+            ctx.fillStyle = '#94a3b8';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Add shimmering scratch foil pattern
             ctx.fillStyle = '#64748b';
             ctx.font = 'bold 14px sans-serif';
             ctx.textAlign = 'center';
@@ -57,7 +56,6 @@ const ScratchCardModal = () => {
         ctx.arc(x, y, 22, 0, Math.PI * 2, false);
         ctx.fill();
 
-        // Check scratched percentage
         const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         let transparentPixels = 0;
         for (let i = 3; i < imgData.data.length; i += 4) {
@@ -127,9 +125,7 @@ const ScratchCardModal = () => {
                     Scratch the surface below with your mouse or finger to reveal an instant reward!
                 </p>
 
-                {/* Scratch Canvas Card Container */}
                 <div className="relative w-64 h-36 my-5 rounded-2xl overflow-hidden shadow-lg border-2 border-emerald-500/40 bg-gradient-to-br from-emerald-600 to-teal-800 flex flex-col items-center justify-center text-white p-3 select-none">
-                    {/* Underlying Secret Reward */}
                     <div className="flex flex-col items-center justify-center space-y-1">
                         <span className="text-[10px] font-bold tracking-widest uppercase text-emerald-200">
                             PROMO REWARD CODE
@@ -142,7 +138,6 @@ const ScratchCardModal = () => {
                         </p>
                     </div>
 
-                    {/* Scratch Canvas Foil */}
                     <canvas
                         ref={canvasRef}
                         width={256}

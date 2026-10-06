@@ -9,6 +9,7 @@ import {
     HiTruck, 
     HiArrowTopRightOnSquare 
 } from "react-icons/hi2";
+import { FaMotorcycle } from "react-icons/fa6";
 
 const SellerLayout = () => {
     const { axios, navigate, setIsSeller } = useAppContext();
@@ -18,6 +19,7 @@ const SellerLayout = () => {
         { name: "Catalog Inventory", path: "/seller/product-list", icon: HiCube },
         { name: "Add New SKU", path: "/seller/add-product", icon: HiPlus },
         { name: "Live Fulfillment", path: "/seller/orders", icon: HiTruck },
+        { name: "Delivery Fleet", path: "/seller/bikers", icon: FaMotorcycle },
     ];
 
     const logout = async () => {
@@ -37,7 +39,6 @@ const SellerLayout = () => {
 
     return (
         <div className="min-h-screen bg-gray-50/60 flex flex-col">
-            
             <header className="flex items-center justify-between px-4 md:px-8 border-b border-gray-200 py-3 bg-white sticky top-0 z-40 shadow-2xs">
                 <div className="flex items-center gap-4">
                     <Link to="/">
@@ -48,7 +49,16 @@ const SellerLayout = () => {
                     </span>
                 </div>
 
-                <div className="flex items-center gap-4 text-xs font-semibold">
+                <div className="flex items-center gap-3 text-xs font-semibold">
+                    <Link 
+                        to="/biker"
+                        target="_blank"
+                        className="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-xl transition shadow-xs"
+                    >
+                        <FaMotorcycle className="w-3.5 h-3.5 text-emerald-400" />
+                        <span>Biker Mode</span>
+                    </Link>
+
                     <Link 
                         to="/"
                         target="_blank"
@@ -73,7 +83,6 @@ const SellerLayout = () => {
                 </div>
             </header>
 
-            
             <div className="flex flex-1">
                 <aside className="w-16 md:w-64 bg-white border-r border-gray-200 p-3 md:p-4 space-y-1 shrink-0">
                     <div className="hidden md:block px-3 py-2 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">

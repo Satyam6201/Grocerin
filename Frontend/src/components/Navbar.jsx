@@ -17,6 +17,7 @@ import {
     HiGift,
     HiSparkles
 } from 'react-icons/hi2';
+import { FaMotorcycle } from 'react-icons/fa6';
 import { TbLoader2 } from 'react-icons/tb';
 import VoiceSearch from './VoiceSearch';
 
@@ -92,13 +93,11 @@ const Navbar = () => {
         <header className="sticky top-0 z-40 bg-white border-b border-gray-100 shadow-xs">
             <div className="flex items-center justify-between px-4 md:px-12 lg:px-20 xl:px-28 py-3 gap-3 md:gap-8">
                 
-                
                 <div className="flex items-center gap-3 lg:gap-5 shrink-0">
                     <NavLink to="/" className="flex items-center gap-2 group">
                         <img className="h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-102" src={assets.nav_logo} alt="Grocerin" />
                     </NavLink>
 
-                    
                     <div className="hidden sm:flex items-center bg-gray-50/80 hover:bg-gray-100/80 border border-gray-200/70 rounded-2xl p-1 pr-2 transition">
                         <button
                             onClick={() => setShowLocationModal(true)}
@@ -117,7 +116,6 @@ const Navbar = () => {
                             </div>
                         </button>
 
-                        
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
@@ -137,7 +135,6 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                
                 <div ref={searchRef} className="relative flex-1 max-w-2xl">
                     <div className="relative flex items-center bg-gray-100 focus-within:bg-white border border-transparent focus-within:border-emerald-600 rounded-xl px-3 py-1.5 transition-all shadow-inner focus-within:shadow-xs gap-1.5">
                         <img src={assets.search_icon} alt="search" className="w-4 h-4 text-gray-400 opacity-60 mr-1 shrink-0" />
@@ -169,7 +166,6 @@ const Navbar = () => {
                         }} />
                     </div>
 
-                    
                     {searchFocused && searchQuery.trim().length > 0 && (
                         <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 divide-y divide-gray-100 animate-in fade-in-50 duration-150">
                             {searchResults.length === 0 ? (
@@ -226,9 +222,7 @@ const Navbar = () => {
                     )}
                 </div>
 
-                
                 <div className="flex items-center gap-2 sm:gap-3 md:gap-4 shrink-0">
-                    {/* SDE Architecture Modal Trigger */}
                     <button
                         onClick={() => setShowSdeModal(true)}
                         title="View Full SDE Architecture, Redis Telemetry & System Metrics"
@@ -238,7 +232,6 @@ const Navbar = () => {
                         <span>SDE Telemetry</span>
                     </button>
 
-                    {/* Lucky Scratch Card Button */}
                     <button
                         onClick={() => setShowScratchCardModal(true)}
                         title="Scratch & Win Discount Coupons"
@@ -249,6 +242,14 @@ const Navbar = () => {
                     </button>
 
                     <NavLink
+                        to="/biker"
+                        className="hidden xl:flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-full text-xs font-bold transition shadow-2xs"
+                    >
+                        <FaMotorcycle className="text-emerald-400 text-xs" />
+                        <span>Biker Mode</span>
+                    </NavLink>
+
+                    <NavLink
                         to="/seller"
                         className="hidden xl:flex items-center gap-1.5 border border-gray-200 hover:border-emerald-600 px-3 py-1.5 rounded-full text-xs font-semibold text-gray-700 hover:text-emerald-700 transition"
                     >
@@ -256,7 +257,6 @@ const Navbar = () => {
                         <span>Seller Portal</span>
                     </NavLink>
 
-                    
                     {!user ? (
                         <button
                             onClick={() => setShowUserLogin(true)}
@@ -288,6 +288,13 @@ const Navbar = () => {
                                             <span>My Orders</span>
                                         </button>
                                         <button
+                                            onClick={() => navigate('/tractOrder')}
+                                            className="w-full text-left px-3 py-2 hover:bg-emerald-50 hover:text-emerald-800 flex items-center gap-2 cursor-pointer font-medium"
+                                        >
+                                            <FaMotorcycle className="text-emerald-700 text-sm" />
+                                            <span>Track Live Order</span>
+                                        </button>
+                                        <button
                                             onClick={() => navigate('/add-address')}
                                             className="w-full text-left px-3 py-2 hover:bg-emerald-50 hover:text-emerald-800 flex items-center gap-2 cursor-pointer font-medium"
                                         >
@@ -309,7 +316,6 @@ const Navbar = () => {
                         </div>
                     )}
 
-                    
                     <button
                         onClick={() => setIsCartDrawerOpen(true)}
                         className={`flex items-center gap-2.5 px-3.5 md:px-4 py-2.5 rounded-xl font-bold transition-all shadow-xs cursor-pointer ${
@@ -331,7 +337,6 @@ const Navbar = () => {
                         </div>
                     </button>
 
-                    
                     <button
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                         className="sm:hidden p-1.5 text-gray-600 hover:text-gray-900 rounded-lg cursor-pointer"
@@ -341,7 +346,6 @@ const Navbar = () => {
                 </div>
             </div>
 
-            
             <div className="sm:hidden bg-amber-50/90 px-4 py-2 border-t border-amber-100 flex items-center justify-between text-xs text-amber-950">
                 <div 
                     onClick={() => setShowLocationModal(true)}
@@ -368,7 +372,6 @@ const Navbar = () => {
                 </button>
             </div>
 
-            
             {mobileMenuOpen && (
                 <div className="sm:hidden bg-white border-b border-gray-200 p-4 space-y-2 text-sm font-semibold text-gray-700 animate-in slide-in-from-top-2">
                     <NavLink to="/" onClick={() => setMobileMenuOpen(false)} className="block py-1.5">Home</NavLink>
@@ -376,6 +379,8 @@ const Navbar = () => {
                     {user && (
                         <NavLink to="/my-orders" onClick={() => setMobileMenuOpen(false)} className="block py-1.5">My Orders</NavLink>
                     )}
+                    <NavLink to="/tractOrder" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-emerald-800 font-bold">Track Live Order</NavLink>
+                    <NavLink to="/biker" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-blue-700 font-bold">Biker Mode App</NavLink>
                     <NavLink to="/seller" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-emerald-700">Seller Dashboard</NavLink>
                     <NavLink to="/contact" onClick={() => setMobileMenuOpen(false)} className="block py-1.5">Contact Us</NavLink>
                 </div>

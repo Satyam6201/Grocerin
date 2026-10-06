@@ -22,6 +22,8 @@ import Dashboard from './pages/seller/Dashboard';
 import AddProduct from './pages/seller/AddProduct';
 import ProductList from './pages/seller/ProductList';
 import Orders from './pages/seller/Orders';
+import FleetBikers from './pages/seller/FleetBikers';
+import BikerMode from './pages/BikerMode';
 import Loading from './components/Loading';
 import SellerLogin from './components/seller/SellerLogin';
 import Contact from './components/Contact';
@@ -38,13 +40,14 @@ import LiveTelemetryModal from './components/LiveTelemetryModal';
 import ScratchCardModal from './components/ScratchCardModal';
 
 const App = () => {
-  const isSellerPath = useLocation().pathname.includes("seller");
+  const location = useLocation();
+  const isSellerPath = location.pathname.includes("seller");
+  const isBikerPath = location.pathname.includes("biker") || location.pathname.includes("rider");
   const { showUserLogin, isSeller } = useAppContext();
 
   return (
     <div className='min-h-screen text-gray-800 bg-[#fbfbfa] flex flex-col justify-between selection:bg-emerald-100 selection:text-emerald-900'>
       <div>
-        
         <CartDrawer />
         <LocationModal />
         <MobileCartBar />
@@ -52,9 +55,9 @@ const App = () => {
         <LiveTelemetryModal />
         <ScratchCardModal />
 
-        {!isSellerPath && <Navbar />}
-        {!isSellerPath && <CategoryNav />}
-        {!isSellerPath && <ChatBot />}
+        {!isSellerPath && !isBikerPath && <Navbar />}
+        {!isSellerPath && !isBikerPath && <CategoryNav />}
+        {!isSellerPath && !isBikerPath && <ChatBot />}
 
         {showUserLogin && <Login />}
 
@@ -72,7 +75,7 @@ const App = () => {
           }}
         />
         
-        <main className={`${isSellerPath ? "" : "px-4 md:px-12 lg:px-20 xl:px-28"}`}>
+        <main className={`${(isSellerPath || isBikerPath) ? "" : "px-4 md:px-12 lg:px-20 xl:px-28"}`}>
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/product' element={<AllProducts />} />
@@ -82,7 +85,8 @@ const App = () => {
             <Route path='/add-address' element={<AddAddress />} />
             <Route path='/my-orders' element={<MyOrders />} />
             <Route path='/loader' element={<Loading />} />
-
+            <Route path='/biker' element={<BikerMode />} />
+            <Route path='/rider' element={<BikerMode />} />
             
             <Route path="/seller" element={isSeller ? <SellerLayout /> : <SellerLogin />}>
               {isSeller && (
@@ -91,10 +95,10 @@ const App = () => {
                   <Route path="add-product" element={<AddProduct />} />
                   <Route path="product-list" element={<ProductList />} />
                   <Route path="orders" element={<Orders />} />
+                  <Route path="bikers" element={<FleetBikers />} />
                 </>
               )}
             </Route>
-
             
             <Route path='/contact' element={<Contact />} />
             <Route path='/faq' element={<FAQ />} />
@@ -103,12 +107,13 @@ const App = () => {
             <Route path='/returnRefund' element={<ReturnRefund />} />
             <Route path='/best-sellers' element={<BestSeller />} />
             <Route path='/tractOrder' element={<TrackOrder />} />
+            <Route path='/track-order' element={<TrackOrder />} />
             <Route path='/offer' element={<OffersDeals />} />
           </Routes>
         </main>
       </div>
 
-      {!isSellerPath && <Footer />}
+      {!isSellerPath && !isBikerPath && <Footer />}
     </div>
   );
 };

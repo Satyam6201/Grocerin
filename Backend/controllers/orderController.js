@@ -2,6 +2,58 @@ import Order from "../models/Order.js";
 import Product from "../models/Product.js";
 import stripe from "stripe";
 import User from "../models/User.js";
+import Biker from "../models/Biker.js";
+
+const DEFAULT_FLEET = [
+    {
+        bikerId: "BIKER-101",
+        name: "Vikram Rathore",
+        phone: "+91 98351 22890",
+        vehicleType: "Electric Scooter (Zero Emission)",
+        vehicleNumber: "BR-01-EA-9021",
+        status: "On Delivery",
+        batteryLevel: 92,
+        rating: 4.9,
+        completedDeliveries: 18,
+        hubId: "PATNA-HUB-102"
+    },
+    {
+        bikerId: "BIKER-102",
+        name: "Amit Kumar",
+        phone: "+91 94310 88219",
+        vehicleType: "Ather 450X EV",
+        vehicleNumber: "BR-01-ET-4432",
+        status: "Available",
+        batteryLevel: 85,
+        rating: 4.8,
+        completedDeliveries: 14,
+        hubId: "PATNA-HUB-102"
+    },
+    {
+        bikerId: "BIKER-103",
+        name: "Priya Singh",
+        phone: "+91 91223 55041",
+        vehicleType: "Ola S1 Pro",
+        vehicleNumber: "BR-01-EV-6710",
+        status: "Available",
+        batteryLevel: 78,
+        rating: 5.0,
+        completedDeliveries: 22,
+        hubId: "PATNA-HUB-102"
+    },
+    {
+        bikerId: "BIKER-104",
+        name: "Aryan Verma",
+        phone: "+91 88771 99342",
+        vehicleType: "TVS iQube Electric",
+        vehicleNumber: "BR-01-EQ-1980",
+        status: "Available",
+        batteryLevel: 96,
+        rating: 4.7,
+        completedDeliveries: 11,
+        hubId: "PATNA-HUB-102"
+    }
+];
 
 export const placeOrderCOD = async (req, res) => {
     try {
@@ -23,6 +75,8 @@ export const placeOrderCOD = async (req, res) => {
 
         const taxCharge = Math.floor(calculatedSubtotal * 0.02);
         const finalAmount = calculatedSubtotal + taxCharge;
+        const assignedBiker = DEFAULT_FLEET[Math.floor(Math.random() * DEFAULT_FLEET.length)];
+        const generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
 
         const newOrder = await Order.create({
             userId,
@@ -31,7 +85,13 @@ export const placeOrderCOD = async (req, res) => {
             address,
             paymentType: "COD",
             status: "Order Placed",
-            isPaid: false
+            isPaid: false,
+            bikerId: assignedBiker.bikerId,
+            bikerName: assignedBiker.name,
+            bikerPhone: assignedBiker.phone,
+            bikerVehicle: `${assignedBiker.vehicleType} #${assignedBiker.vehicleNumber}`,
+            deliveryOtp: generatedOtp,
+            bikerStatus: "Assigned"
         });
 
         await User.findByIdAndUpdate(userId, { cartItems: {} });
@@ -79,6 +139,8 @@ export const placeOrderStripe = async (req, res) => {
 
         const taxCharge = Math.floor(calculatedSubtotal * 0.02);
         const finalAmount = calculatedSubtotal + taxCharge;
+        const assignedBiker = DEFAULT_FLEET[Math.floor(Math.random() * DEFAULT_FLEET.length)];
+        const generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
 
         const order = await Order.create({
             userId,
@@ -87,7 +149,13 @@ export const placeOrderStripe = async (req, res) => {
             address,
             paymentType: "Online",
             status: "Pending Payment",
-            isPaid: false
+            isPaid: false,
+            bikerId: assignedBiker.bikerId,
+            bikerName: assignedBiker.name,
+            bikerPhone: assignedBiker.phone,
+            bikerVehicle: `${assignedBiker.vehicleType} #${assignedBiker.vehicleNumber}`,
+            deliveryOtp: generatedOtp,
+            bikerStatus: "Assigned"
         });
 
         const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
@@ -366,7 +434,7 @@ export const getOrderTelemetry = async (req, res) => {
 
         const createdAt = new Date(order.createdAt).getTime();
         const elapsedSeconds = Math.max(0, Math.floor((Date.now() - createdAt) / 1000));
-        const totalDuration = 600; // 10 minutes SLA
+        const totalDuration = 600;
         const remainingSeconds = Math.max(0, totalDuration - elapsedSeconds);
         const progressPercent = Math.min(100, Math.round((elapsedSeconds / totalDuration) * 100));
 
@@ -376,16 +444,17 @@ export const getOrderTelemetry = async (req, res) => {
             telemetry: {
                 hubId: "PATNA-HUB-102",
                 hubName: "Boring Road Cold-Chain Dark Store #102",
-                riderName: "Vikram Rathore",
-                riderPhone: "+91 98351 22890",
-                vehicleType: "Electric Scooter (Zero Emission)",
+                riderName: order.bikerName || "Vikram Rathore",
+                riderPhone: order.bikerPhone || "+91 98351 22890",
+                vehicleType: order.bikerVehicle || "Electric Scooter (Zero Emission)",
                 coldChainTemp: "3.6°C (Optimal Freshness)",
                 speedKmh: order.status === "Delivered" ? 0 : 28,
                 distanceKm: order.status === "Delivered" ? "0.0 km" : (Math.max(0.1, 1.8 * (1 - progressPercent / 100)).toFixed(1) + " km"),
                 etaMinutes: Math.ceil(remainingSeconds / 60),
                 remainingSeconds,
                 progressPercent,
-                batteryLevel: "88%"
+                batteryLevel: "88%",
+                deliveryOtp: order.deliveryOtp || "4819"
             }
         });
     } catch (error) {
@@ -393,3 +462,175 @@ export const getOrderTelemetry = async (req, res) => {
     }
 };
 
+export const getBikerOrders = async (req, res) => {
+    try {
+        const { bikerId } = req.query;
+        const query = bikerId ? { bikerId } : {};
+        const orders = await Order.find({
+            ...query,
+            status: { $in: ["Order Placed", "Confirmed", "Packing", "Out for Delivery", "Delivered"] }
+        })
+        .populate("items.product")
+        .populate("address")
+        .sort({ createdAt: -1 })
+        .limit(20)
+        .lean();
+
+        res.json({ success: true, orders });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+export const updateBikerOrderStatus = async (req, res) => {
+    try {
+        const { orderId, status, bikerId } = req.body;
+        if (!orderId || !status) {
+            return res.status(400).json({ success: false, message: "Order ID and status required" });
+        }
+
+        const validStatuses = ["Confirmed", "Packing", "Out for Delivery", "Delivered"];
+        if (!validStatuses.includes(status)) {
+            return res.status(400).json({ success: false, message: "Invalid rider status" });
+        }
+
+        const updateData = { status, updatedAt: Date.now() };
+        if (bikerId) {
+            updateData.bikerId = bikerId;
+        }
+
+        const updatedOrder = await Order.findByIdAndUpdate(
+            orderId,
+            updateData,
+            { new: true }
+        ).populate("items.product").populate("address");
+
+        res.json({ success: true, message: `Order updated to ${status}`, order: updatedOrder });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+export const verifyBikerDeliveryOtp = async (req, res) => {
+    try {
+        const { orderId, otp } = req.body;
+        if (!orderId || !otp) {
+            return res.status(400).json({ success: false, message: "Order ID and 4-digit OTP are required" });
+        }
+
+        const order = await Order.findById(orderId);
+        if (!order) {
+            return res.status(404).json({ success: false, message: "Order not found" });
+        }
+
+        if (order.deliveryOtp && order.deliveryOtp !== otp.trim()) {
+            return res.status(400).json({ success: false, message: "Invalid delivery OTP. Please verify with customer." });
+        }
+
+        order.status = "Delivered";
+        order.isPaid = true;
+        order.bikerStatus = "Delivered";
+        order.updatedAt = Date.now();
+        await order.save();
+
+        res.json({ success: true, message: "Delivery verified successfully and marked Delivered!", order });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+export const getFleetBikers = async (req, res) => {
+    try {
+        let bikers = await Biker.find({}).lean();
+        if (!bikers || bikers.length === 0) {
+            await Biker.insertMany(DEFAULT_FLEET);
+            bikers = await Biker.find({}).lean();
+        }
+        res.json({ success: true, bikers: bikers.length > 0 ? bikers : DEFAULT_FLEET });
+    } catch (error) {
+        res.json({ success: true, bikers: DEFAULT_FLEET });
+    }
+};
+
+export const assignBikerToOrder = async (req, res) => {
+    try {
+        const { orderId, bikerId } = req.body;
+        if (!orderId || !bikerId) {
+            return res.status(400).json({ success: false, message: "Order ID and Biker ID required" });
+        }
+
+        const selectedBiker = DEFAULT_FLEET.find(b => b.bikerId === bikerId) || {
+            bikerId,
+            name: "Fleet Delivery Partner",
+            phone: "+91 98351 22890",
+            vehicleType: "EV Delivery Bike",
+            vehicleNumber: "BR-01-EA-9021"
+        };
+
+        const updatedOrder = await Order.findByIdAndUpdate(
+            orderId,
+            {
+                bikerId: selectedBiker.bikerId,
+                bikerName: selectedBiker.name,
+                bikerPhone: selectedBiker.phone,
+                bikerVehicle: `${selectedBiker.vehicleType} #${selectedBiker.vehicleNumber}`,
+                bikerStatus: "Assigned",
+                updatedAt: Date.now()
+            },
+            { new: true }
+        ).populate("items.product").populate("address");
+
+        res.json({ success: true, message: `Assigned to ${selectedBiker.name}`, order: updatedOrder });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+export const trackOrderById = async (req, res) => {
+    try {
+        const { orderId } = req.params;
+        if (!orderId) {
+            return res.status(400).json({ success: false, message: "Order ID is required" });
+        }
+
+        let order = null;
+        if (orderId.match(/^[0-9a-fA-F]{24}$/)) {
+            order = await Order.findById(orderId).populate("items.product").populate("address").lean();
+        }
+
+        if (!order) {
+            const all = await Order.find({}).populate("items.product").populate("address").sort({ createdAt: -1 }).lean();
+            order = all.find(o => o._id.toString().toLowerCase().endsWith(orderId.toLowerCase())) || all[0];
+        }
+
+        if (!order) {
+            return res.status(404).json({ success: false, message: "No active order found." });
+        }
+
+        const createdAt = new Date(order.createdAt).getTime();
+        const elapsedSeconds = Math.max(0, Math.floor((Date.now() - createdAt) / 1000));
+        const totalDuration = 600;
+        const remainingSeconds = Math.max(0, totalDuration - elapsedSeconds);
+        const progressPercent = Math.min(100, Math.round((elapsedSeconds / totalDuration) * 100));
+
+        res.json({
+            success: true,
+            order,
+            telemetry: {
+                hubId: "PATNA-HUB-102",
+                hubName: "Boring Road Dark Store Hub #102",
+                riderName: order.bikerName || "Vikram Rathore",
+                riderPhone: order.bikerPhone || "+91 98351 22890",
+                vehicleType: order.bikerVehicle || "Electric Scooter (Zero Emission)",
+                speedKmh: order.status === "Delivered" ? 0 : 28,
+                distanceKm: order.status === "Delivered" ? "0.0 km" : (Math.max(0.1, 1.8 * (1 - progressPercent / 100)).toFixed(1) + " km"),
+                etaMinutes: Math.ceil(remainingSeconds / 60),
+                remainingSeconds,
+                progressPercent,
+                deliveryOtp: order.deliveryOtp || "4819"
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};

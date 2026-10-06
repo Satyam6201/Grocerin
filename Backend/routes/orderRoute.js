@@ -10,7 +10,13 @@ import {
     updateOrderStatus,
     validateCoupon,
     cancelOrder,
-    getOrderTelemetry
+    getOrderTelemetry,
+    getBikerOrders,
+    updateBikerOrderStatus,
+    verifyBikerDeliveryOtp,
+    getFleetBikers,
+    assignBikerToOrder,
+    trackOrderById
 } from "../controllers/orderController.js";
 import { orderLimiter } from "../middlewares/rateLimiter.js";
 
@@ -25,5 +31,11 @@ orderRouter.get('/stats', authSeller, getOrderStats);
 orderRouter.post('/coupon', validateCoupon);
 orderRouter.post('/cancel', authUser, cancelOrder);
 orderRouter.get('/telemetry/:orderId', authUser, getOrderTelemetry);
+orderRouter.get('/biker/active', getBikerOrders);
+orderRouter.post('/biker/status', updateBikerOrderStatus);
+orderRouter.post('/biker/verify-otp', verifyBikerDeliveryOtp);
+orderRouter.get('/fleet', getFleetBikers);
+orderRouter.post('/assign-biker', authSeller, assignBikerToOrder);
+orderRouter.get('/track/:orderId', trackOrderById);
 
 export default orderRouter;

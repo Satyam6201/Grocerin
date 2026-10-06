@@ -1,5 +1,6 @@
-# Grocerin - High-Performance Quick-Commerce Grocery Platform (Production & Delivery Fleet Edition)
+# Grocerin - Hyperlocal 10-Minute Quick-Commerce Grocery Platform
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-grocerinx.vercel.app-00DC82?style=for-the-badge&logo=vercel&logoColor=white)](https://grocerinx.vercel.app/)
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge&logo=github-actions)](https://github.com/Satyam6201/Grocerin)
 [![Docker Support](https://img.shields.io/badge/Docker-Multi--Stage-blue?style=for-the-badge&logo=docker)](https://github.com/Satyam6201/Grocerin)
 [![Redis](https://img.shields.io/badge/Redis-Sub--15ms%20Cache%20%26%20TTL-DC382D?style=for-the-badge&logo=redis)](https://github.com/Satyam6201/Grocerin)
@@ -9,39 +10,88 @@
 [![Database](https://img.shields.io/badge/Database-MongoDB%20Atlas%20(100%20Pool)-47A248?style=for-the-badge&logo=mongodb)](https://github.com/Satyam6201/Grocerin)
 [![Payments](https://img.shields.io/badge/Payments-Stripe%20API%20%26%20COD-635BFF?style=for-the-badge&logo=stripe)](https://github.com/Satyam6201/Grocerin)
 
-> **Production-ready, ultra-fast 10-minute grocery delivery platform engineered to handle 1–2 million high-concurrency requests.** Features multi-tier Redis caching, connection-pooled database clustering, Google Gemini RAG grounding, Live Delivery Biker Mode app, Admin Fleet Dispatch management, Customer Live Radar tracking with OTP verification, and quick seller operations.
+> **Live Application URL**: [https://grocerinx.vercel.app/](https://grocerinx.vercel.app/)
+
+**Grocerin** is a production-grade, ultra-fast 10-minute grocery delivery platform engineered to deliver farm-fresh vegetables, fruits, dairy, instant foods, and daily essentials with micro-warehouse fulfillment speeds. Built with high concurrency handling, multi-tier Redis caching, connection-pooled database clustering, Google Gemini RAG grounding, real-time rider telemetry, and responsive mobile-first interfaces.
 
 ---
 
-## 📑 Table of Contents
-1. [Architecture & System Design](#-architecture--system-design)
-2. [Standout Modules & Capabilities](#-standout-modules--capabilities)
-3. [Full Engineering Stack](#-full-engineering-stack)
-4. [Repository Structure](#-repository-structure)
-5. [Complete API Reference](#-complete-api-reference)
-6. [Getting Started & Local Development](#-getting-started--local-development)
-7. [Docker Multi-Stage Deployment](#-docker-multi-stage-deployment)
-8. [Production Scalability & Reliability Measures](#-production-scalability--reliability-measures)
+## Table of Contents
+1. [Live Production Deployment](#-live-production-deployment)
+2. [Key Highlights & Core Modules](#-key-highlights--core-modules)
+3. [Engineering Architecture](#-engineering-architecture)
+4. [Technology Stack](#-technology-stack)
+5. [Repository Structure](#-repository-structure)
+6. [Complete REST API Reference](#-complete-rest-api-reference)
+7. [Getting Started & Local Setup](#-getting-started--local-setup)
+8. [Docker Multi-Stage Deployment](#-docker-multi-stage-deployment)
+9. [License](#-license)
 
 ---
 
-## 🏗 System Architecture
+## Live Production Deployment
+
+Access the live cloud deployment directly:
+
+- **Customer Web Store**: [https://grocerinx.vercel.app/](https://grocerinx.vercel.app/)
+- **10-Minute Offers & Flash Deals**: [https://grocerinx.vercel.app/offer](https://grocerinx.vercel.app/offer)
+- **Live Delivery Radar & Tracking**: [https://grocerinx.vercel.app/tractOrder](https://grocerinx.vercel.app/tractOrder)
+- **Delivery Biker App Mode**: [https://grocerinx.vercel.app/biker](https://grocerinx.vercel.app/biker)
+- **Dark Store Seller Command Center**: [https://grocerinx.vercel.app/seller](https://grocerinx.vercel.app/seller)
+- **Help Center & FAQs**: [https://grocerinx.vercel.app/faq](https://grocerinx.vercel.app/faq)
+- **Delivery SLA Information**: [https://grocerinx.vercel.app/DeliveryInfo](https://grocerinx.vercel.app/DeliveryInfo)
+- **Return & Refund Policy**: [https://grocerinx.vercel.app/returnRefund](https://grocerinx.vercel.app/returnRefund)
+
+---
+
+## Key Highlights & Core Modules
+
+### 1. 10-Minute Micro-Warehouse Fulfillment SLA
+- **Hyperlocal Dark Store Hub Network**: Micro-fulfillment centers positioned within 3 km of customer neighborhoods (e.g. Boring Road Hub #102, Bailey Road Hub #108).
+- **Sub-2-Minute Order Picking**: Streamlined SKU racking allows pickers to bag groceries in under 120 seconds.
+- **Strict Cold Chain Preservation**: Dedicated multi-temperature packing (Frozen at -18°C, Dairy at 3-4°C, Fresh Produce at 22°C).
+
+### 2. Live Rider GPS Telemetry & Simulation Engine
+- **Real-Time Synchronized Movement**: Delivery bike moves dynamically across the transit route aligned with the countdown timer.
+- **Deceleration Physics**: Simulates real-world traffic deceleration (32 km/h cruise -> 16 km/h street -> 6 km/h gate -> 0 km/h doorstep arrival).
+- **Automated Delivery Hand-off**: Automatic transition to "Delivered" state upon reaching 00:00 with OTP verification.
+- **Simulation Controls**: Instant Fast-Forward and Replay dispatch triggers for real-time testing.
+
+### 3. Grocerin AI Shopping Assistant
+- **Google Gemini Generative AI**: Powered by `gemini-1.5-flash` with multi-model fallback (`gemini-2.0-flash`, `gemini-1.5-flash-8b`, `gemini-1.5-pro`).
+- **Dynamic Catalog Grounding**: Reads real-time in-stock inventory and prices for instant recommendation of recipes, ingredient kits, and budget combos.
+- **100% Uptime Rule Engine**: High-speed offline grocery heuristic engine ensures zero downtime even during upstream provider limits.
+
+### 4. Biker Mode App & Fleet Dispatch Management
+- **Delivery Partner App (`/biker`)**: Shift toggle (On Duty / Break), Google Maps turn-by-turn navigation, customer direct calling, and 4-digit OTP handover confirmation.
+- **Admin Fleet Dispatch (`/seller/bikers`)**: Live roster telemetry, EV battery indicators, active trip counts, and 1-click order assignment.
+
+### 5. Seamless Navigation & Responsive Design
+- **Global Instant Scroll-to-Top**: Seamless page transitions with forced viewport reset to (0, 0) across all route changes.
+- **100% Mobile Optimized**: Touch-friendly buttons, bottom navigation drawers, floating cart bars, and mobile-first touch targets.
+- **Dual-Engine Location Detection**: 1-Click GPS reverse geocoding pinpoints locality and 6-digit postal PIN code.
+
+### 6. Interactive Flash Deals & Scratch Card Engine
+- **Active Promo Codes**: 1-Click clipboard copy for `GROCER100`, `GROCER250`, `FRESH50`, and `QUICKFREE`.
+- **HTML5 Canvas Scratch Card**: Gamified scratch-to-reveal discount vouchers with particle confetti animations.
+- **Smart Recipe Bundles**: 1-Click addition of complete meal kits (Paneer Butter Masala, Healthy Breakfast, Veg Biryani).
+
+---
+
+## Engineering Architecture
 
 ```
 +----------------------------------------------------------------------------------------------------+
 |                                         CLIENT LAYER                                               |
-|  React 19 + Vite 7 + Tailwind CSS 4 + Context API + React Icons + Canvas Confetti                 |
-|  - Delivery Biker Mode App (/biker, /rider): Shift toggle, Google Maps navigation & OTP verify     |
-|  - Admin Delivery Fleet Dispatch (/seller/bikers): Roster telemetry & 1-click trip assignment      |
-|  - Live Customer Radar (/track-order, /tractOrder): Live ETA, Biker profile, OTP code & map        |
-|  - Dark Store Seller Command Center (/seller): Flash sales, stock management, instant selling      |
-|  - SDE Architecture & Live Performance Telemetry Console (/health ping & metrics)                  |
-|  - Web Speech API Voice Search with live audio waveform animation                                 |
-|  - Gamified HTML5 Canvas Scratch & Win Promo Card with confetti particle engine                    |
-|  - 1-Click Smart Meal Kits / Recipe Bundles (Instant Batch Cart Addition)                          |
-|  - Verified Buyer Reviews with 5-Star distribution histograms & helpful upvoting                   |
+|  React 19 + Vite 7 + Tailwind CSS 4 + React Router v7 + Context API + React Hot Toast              |
+|  - Delivery Biker Terminal (/biker, /rider): Shift toggle, Google Maps GPS & OTP verify            |
+|  - Admin Fleet Dispatcher (/seller/bikers): Real-time roster telemetry & 1-click trip dispatch     |
+|  - Customer Live Tracking (/tractOrder): Live ETA, Biker telemetry, OTP code & doorstep arrival   |
+|  - Dark Store Seller Portal (/seller): Margin calculator, stock toggles & order queue              |
+|  - Grocerin AI Chatbot: Catalog RAG grounding & 100% uptime fallback intelligence                 |
+|  - Gamified Canvas Scratch & Win Promo Cards with particle confetti engine                         |
+|  - 1-Click Smart Meal Kits & Recipe Bundles (Instant Batch Cart Addition)                          |
 |  - GPS Geolocation Engine (Auto-detects Locality & 6-digit PIN code)                               |
-|  - Google Gemini AI Shopping Assistant (Dynamic Catalog Grounding & Budget Bundles)                |
 +----------------------------------------------------------------------------------------------------+
                                                   |
                                                   | HTTPS / REST JSON
@@ -59,16 +109,16 @@
 |  - Sensitive Auth Limiter (15 req / 15m)                                                           |
 |  - Order Checkout Limiter (20 req / 30m)                                                           |
 |  - Biker Fleet Dispatch & OTP Verification Engine (/api/order/biker/*)                             |
-|  - Dynamic Coupon Engine (GROCER100, GROCER250, FREEDEL, SUPERDEV, FIRSTBITE, NIGHTOWL)            |
-|  - Order Cancellation & Refund Evaluation Pipeline                                                 |
-|  - ChatBot LLM Grounding & Keyword Extractor Pipeline                                             |
+|  - Dynamic Coupon Engine (GROCER100, GROCER250, FRESH50, QUICKFREE)                                 |
+|  - Order Cancellation & Automated Refund Pipeline                                                  |
+|  - ChatBot LLM Grounding & Heuristic Extractor Pipeline                                            |
 +----------------------------------------------------------------------------------------------------+
          |                                |                                   |
          v                                v                                   v
 +------------------+             +------------------+                +------------------+
 |   CACHE LAYER    |             |   PERSISTENCE    |                |    AI ENGINE     |
 |  Redis (ioredis) |             |  MongoDB Atlas   |                |  Google Gemini   |
-|  - Catalog Cache |             |  - 100 Conn Pool |                |  - Flash-Lite    |
+|  - Catalog Cache |             |  - 100 Conn Pool |                |  - Flash 1.5/2.0 |
 |  - Fallback Dict |             |  - Index Shards  |                |  - Grounded RAG  |
 |  - TTL Invalidate|             |  - ACID Webhooks |                |  - Zero-Emoji    |
 +------------------+             +------------------+                +------------------+
@@ -76,50 +126,22 @@
 
 ---
 
-## 🚀 Standout Modules & Capabilities
-
-### 1. 🛵 Delivery Biker Mode (Rider App Terminal)
-- **Live Shift Control**: Toggle between On Duty (Online) and Off Duty (Break) with real-time battery status and shift earnings tracking.
-- **Rider Switching**: Switch between active dark store delivery partners (Vikram Rathore, Amit Kumar, Priya Singh, Aryan Verma).
-- **Turn-by-Turn Navigation**: 1-click Google Maps GPS navigation directly to the customer's delivery coordinates.
-- **Customer Direct Call**: Direct `tel:` calling integration for frictionless customer coordination.
-- **Secure OTP Handover**: Rider enters customer's 4-digit verification code to confirm package delivery and mark order delivered.
-
-### 2. 🛡️ Admin Delivery Fleet Management (`/seller/bikers`)
-- **Fleet Roster**: Admin dashboard showing all active riders, live status (`Available`, `On Delivery`, `Offline`), EV battery percentage, and driver ratings.
-- **1-Click Order Assignment**: Admin can assign unassigned orders to any active delivery biker in real-time.
-- **Hub Dispatch Metrics**: Displays average SLA completion time (7.8 mins), active in-flight trips, and today's total delivered volume.
-
-### 3. 📡 Customer Live Order Tracking Radar (`/track-order`, `/tractOrder`)
-- **Real-Time Stage Pipeline**: `Order Placed` -> `Dark Store Packing` -> `Out for Delivery` -> `Delivered`.
-- **4-Digit Delivery Verification OTP**: Prominently presented on customer's screen for handover verification.
-- **Assigned Rider Card**: Displays rider name, EV vehicle registration number, driver rating, and direct phone call button.
-- **Interactive Live Map Radar**: Opens real-time animated SVG delivery route simulation with countdown timer.
-
-### 4. 🏪 High-Performance Dark Store Seller Portal (`/seller`)
-- **Quick Selling**: 1-click flash sale activation, instant stock toggling, and fast SKU creation with margin calculation.
-- **Live Inventory Health**: Instant warnings for out-of-stock items and low-inventory SKUs.
-- **Real-Time Revenue Analytics**: Tracks gross sales, completed orders, and active dark store packing queues.
-
-### 5. ⚡ SDE Architecture & Live Performance Telemetry Console
-- Real-time client-to-server latency ping measurement (ms).
-- Live Redis sub-15ms cache hit/miss ratio, MongoDB Atlas 100-connection pool telemetry, and Gemini RAG token breakdown.
-
----
-
-## 🛠 Full Engineering Stack
+## Technology Stack
 
 | Layer | Technologies |
 |---|---|
-| **Frontend** | React 19, Vite 7, Tailwind CSS 4 (`@tailwindcss/vite`), React Router v7, React Icons (`react-icons/hi2`, `react-icons/fa6`), Canvas Confetti, Web Speech API, HTML5 Canvas |
-| **Backend** | Node.js (v20+), Express.js, ioredis, Mongoose, Multer, Cloudinary SDK, Stripe SDK, Helmet, Compression, Express Rate Limit |
-| **Databases** | MongoDB Atlas (Pooled 100-connection cluster), Redis (Sub-15ms cache with in-memory TTL dictionary fallback) |
-| **Generative AI** | Google Gemini Generative AI (Catalog RAG Grounding) |
-| **DevOps & Containers** | Docker (Multi-stage Alpine), Docker Compose, NGINX Reverse Proxy, GitHub Actions CI |
+| **Frontend Framework** | React 19, Vite 7, Tailwind CSS 4 (`@tailwindcss/vite`), React Router v7 |
+| **Icons & UI Utilities** | React Icons (`react-icons/hi2`, `react-icons/fa6`), Lucide React, Canvas Confetti, React Hot Toast |
+| **Backend API** | Node.js (v20+), Express.js, ioredis, Mongoose, Multer, Cloudinary SDK |
+| **Security & Middleware** | Helmet, Compression, Express Rate Limit, JWT Authentication, CORS |
+| **Databases & Caching** | MongoDB Atlas (Pooled 100-connection cluster), Redis (Sub-15ms cache with in-memory TTL dictionary fallback) |
+| **Generative AI** | Google Gemini API (`gemini-1.5-flash`, `gemini-2.0-flash`, `gemini-1.5-pro`) |
+| **Payment Gateways** | Stripe API (Credit/Debit/RuPay/Cards) & Cash on Delivery (COD) |
+| **DevOps & Containers** | Docker (Multi-stage Alpine), Docker Compose, NGINX Reverse Proxy, Vercel |
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```
 Grocerin/
@@ -164,22 +186,34 @@ Grocerin/
 │   │   ├── components/
 │   │   │   ├── TrackOrder.jsx          # Live customer delivery radar & OTP verification
 │   │   │   ├── LiveTelemetryModal.jsx  # 10-Min Dark Store Rider Telemetry & SLA tracking
-│   │   │   ├── SdeArchitectureModal.jsx# Live System Performance & Telemetry Console
-│   │   │   ├── VoiceSearch.jsx         # Web Speech API voice search with audio waves
+│   │   │   ├── ChatBot.jsx             # Grocerin AI Shopping Assistant floating widget
+│   │   │   ├── ProductCard.jsx         # Responsive product item card with touch steppers
+│   │   │   ├── OffersDeals.jsx         # Offers & discount coupons showcase
+│   │   │   ├── DeliveryInformation.jsx # 10-Minute SLA & Dark store logistics details
+│   │   │   ├── ReturnRefund.jsx        # 100% Freshness Guarantee & 3-step return policy
+│   │   │   ├── FAQ.jsx                 # Searchable help center & categorized accordion
+│   │   │   ├── PaymentMethods.jsx      # PCI-DSS security & accepted payment methods
+│   │   │   ├── Contact.jsx             # 24/7 Customer support contact directory
 │   │   │   ├── ScratchCardModal.jsx    # HTML5 Canvas scratch & win card with confetti
 │   │   │   ├── RecipeBundles.jsx       # 1-Click Smart Meal Kits & recipe combo packs
-│   │   │   └── Navbar.jsx              # Navigation header with Biker Mode & SDE console
+│   │   │   └── Navbar.jsx              # Responsive navigation header with 1-click GPS
 │   │   ├── pages/
 │   │   │   ├── BikerMode.jsx           # Delivery Biker App: Shift toggle, GPS nav & OTP confirm
 │   │   │   ├── seller/
+│   │   │   │   ├── SellerLayout.jsx    # Admin layout with mobile bottom navigation bar
 │   │   │   │   ├── FleetBikers.jsx     # Admin fleet dispatch & rider assignment table
 │   │   │   │   ├── Dashboard.jsx       # Dark store executive command center
 │   │   │   │   ├── Orders.jsx          # Live dispatch & status fulfillment board
-│   │   │   │   └── ProductList.jsx     # Stock toggle & inventory management
-│   │   │   ├── Home.jsx                # Landing page
-│   │   │   ├── MyOrders.jsx            # Order history with Live Telemetry
-│   │   │   └── Cart.jsx                # Full shopping cart summary
-│   │   ├── App.jsx                     # Root router mounting /biker and /seller/bikers
+│   │   │   │   ├── AddProduct.jsx      # SKU creation with live margin calculator
+│   │   │   │   └── ProductList.jsx     # Dual-view responsive stock & inventory manager
+│   │   │   ├── Home.jsx                # Landing page with trust cards & recipe bundles
+│   │   │   ├── AllProducts.jsx         # Full grocery catalog with live search & filters
+│   │   │   ├── ProductCategory.jsx     # Department-specific product catalog
+│   │   │   ├── ProductDetails.jsx      # Product showcase with related recommendations
+│   │   │   ├── MyOrders.jsx            # Order history with cancellation & live tracking
+│   │   │   ├── AddAddress.jsx          # Saved addresses manager with GPS detector
+│   │   │   └── Cart.jsx                # Checkout summary with promo codes & address selector
+│   │   ├── App.jsx                     # Root application router with ScrollToTop listener
 │   │   └── main.jsx                    # React 19 root bootstrap
 │   ├── Dockerfile                      # Multi-stage build with NGINX Alpine
 │   ├── package.json
@@ -191,7 +225,7 @@ Grocerin/
 
 ---
 
-## 📡 Complete API Reference
+## Complete REST API Reference
 
 ### Delivery Biker & Fleet Operations (`/api/order`)
 | Method | Endpoint | Description | Auth |
@@ -206,7 +240,7 @@ Grocerin/
 ### Orders & Dark Store Management (`/api/order`)
 | Method | Endpoint | Description | Auth |
 |---|---|---|---|
-| `POST` | `/api/order/coupon` | Validate discount coupon against min order value | Public |
+| `POST` | `/api/order/coupon` | Validate discount coupon against minimum order value | Public |
 | `POST` | `/api/order/cod` | Place Cash on Delivery order | JWT |
 | `POST` | `/api/order/stripe` | Create Stripe checkout payment session | JWT |
 | `GET` | `/api/order/user` | Fetch customer order history | JWT |
@@ -216,20 +250,30 @@ Grocerin/
 | `POST` | `/api/order/status` | Advance order status in fulfillment pipeline | Seller JWT |
 | `GET` | `/api/order/stats` | Dark store analytics (Revenue, Pending, SKUs) | Seller JWT |
 
+### Catalog & AI Assistant (`/api/product`, `/api/chat`)
+| Method | Endpoint | Description | Auth |
+|---|---|---|---|
+| `GET` | `/api/product/list` | Retrieve all active grocery products (Redis cached) | Public |
+| `POST` | `/api/product/add` | Add new SKU with multi-image upload | Seller JWT |
+| `POST` | `/api/product/stock` | Toggle in-stock / out-of-stock SKU availability | Seller JWT |
+| `POST` | `/api/product/delete` | Remove SKU from catalog | Seller JWT |
+| `POST` | `/api/chat` | Grocerin AI assistant with dynamic catalog grounding | Public |
+
 ---
 
-## 💻 Getting Started & Local Development
+## Getting Started & Local Setup
 
 ### Prerequisites
 - **Node.js**: v18.x or v20.x+
 - **npm** or **yarn**
-- **MongoDB Atlas** account (or local MongoDB daemon)
-- **Google Gemini API key** (free tier supported)
-- **Redis Server** *(optional: automatic fallback to internal in-memory dictionary cache)*
+- **MongoDB Atlas** connection string (or local MongoDB)
+- **Google Gemini API Key**
+- **Cloudinary Account** (for product image uploads)
+- **Stripe Secret Key** (for online card checkout)
 
 ---
 
-### Local Run Commands
+### Step-by-Step Installation
 
 #### 1. Clone the repository
 ```bash
@@ -237,45 +281,64 @@ git clone https://github.com/Satyam6201/Grocerin.git
 cd Grocerin
 ```
 
-#### 2. Start the Backend API
+#### 2. Configure Backend Environment
+Create a `.env` file in the `Backend/` directory:
+```env
+PORT=5000
+MONGODB_URI=your_mongodb_atlas_connection_string
+JWT_SECRET=your_jwt_secret_key
+CLOUDINARY_NAME=your_cloudinary_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_SECRET_KEY=your_cloudinary_secret_key
+STRIPE_SECRET_KEY=your_stripe_secret_key
+GEMINI_API_KEY=your_google_gemini_api_key
+REDIS_URL=redis://localhost:6379
+```
+
+#### 3. Start Backend Server
 ```bash
 cd Backend
 npm install
 npm run server
 ```
-*API Server listens on `http://localhost:5000` with `/health` probe.*
+*Backend API will run at `http://localhost:5000`.*
 
-#### 3. Start the Frontend Client
+#### 4. Configure Frontend Environment & Start
+Create a `.env` file in the `Frontend/` directory:
+```env
+VITE_BACKEND_URL=http://localhost:5000
+```
+
 ```bash
 cd ../Frontend
 npm install
 npm run dev
 ```
-*Client application runs on `http://localhost:5173`.*
+*Frontend application will run at `http://localhost:5173`.*
 
 ---
 
-## 🐳 Docker Multi-Stage Deployment
+## Docker Multi-Stage Deployment
 
-Run the complete production ecosystem (Frontend with NGINX, Backend Node.js API, and Redis) with a single command:
+Run the complete full-stack environment (Frontend with NGINX, Backend Node.js API, and Redis) with a single Docker command:
 
 ```bash
 docker-compose up --build -d
 ```
 
-- **Frontend Client**: `http://localhost:80`
-- **Delivery Biker App**: `http://localhost:80/biker`
-- **Admin Fleet Manager**: `http://localhost:80/seller/bikers`
+- **Web Application**: `http://localhost:80`
+- **Delivery Biker Terminal**: `http://localhost:80/biker`
+- **Admin Fleet Dispatcher**: `http://localhost:80/seller/bikers`
 - **Backend API**: `http://localhost:5000`
 - **Redis Cache**: `localhost:6379`
 
-To gracefully shut down containers:
+To stop and remove containers:
 ```bash
 docker-compose down
 ```
 
 ---
 
-## 📄 License
+## License
 
 Distributed under the MIT License. See `LICENSE` for more information.

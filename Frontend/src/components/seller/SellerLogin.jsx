@@ -48,43 +48,40 @@ const SellerLogin = () => {
     }, [isSeller]);
 
     return !isSeller && (
-        <div className="min-h-[85vh] flex items-center justify-center p-4">
+        <div className="min-h-[85vh] flex items-center justify-center p-3 sm:p-6 md:p-8">
             <div className="w-full max-w-md bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                
-                <div className="bg-linear-to-b from-emerald-50 via-emerald-50/40 to-white pt-10 pb-4 px-6 text-center flex flex-col items-center">
-                    
-                    
+                <div className="bg-linear-to-b from-emerald-50 via-emerald-50/40 to-white pt-8 sm:pt-10 pb-4 px-6 text-center flex flex-col items-center">
                     <div 
                         onClick={() => setShowPassword(!showPassword)}
                         title="Click to toggle security lock"
-                        className="relative w-16 h-16 flex items-center justify-center cursor-pointer select-none group mb-3"
+                        className="relative w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center cursor-pointer select-none group mb-2"
                     >
                         <div 
-                            className={`absolute top-0 w-8 h-9 border-4 border-amber-500 rounded-t-full transition-all duration-500 origin-bottom-left ${
+                            className={`absolute top-0 w-7 sm:w-8 h-8 sm:h-9 border-4 border-amber-500 rounded-t-full transition-all duration-500 origin-bottom-left ${
                                 isUnlocked 
                                     ? "-rotate-40 -translate-y-2 -translate-x-1 border-emerald-600 shadow-xs" 
                                     : "rotate-0 translate-y-0.5 border-amber-600"
                             }`}
                         />
-                        <div className={`relative z-10 w-11 h-9.5 rounded-xl shadow-md flex items-center justify-center transition-all duration-300 border ${
+                        <div className={`relative z-10 w-10 sm:w-11 h-8.5 sm:h-9.5 rounded-xl shadow-md flex items-center justify-center transition-all duration-300 border ${
                             isUnlocked
                                 ? "bg-linear-to-b from-emerald-500 to-emerald-600 border-emerald-700 shadow-emerald-200"
                                 : "bg-linear-to-b from-amber-400 to-amber-500 border-amber-600 shadow-amber-200"
                         }`}>
                             <div className="flex flex-col items-center">
                                 <div className="w-2.5 h-2.5 bg-gray-900 rounded-full" />
-                                <div className="w-1.5 h-2.5 bg-gray-900 -mt-0.5 rounded-b-xs" />
+                                <div className="w-1.5 h-2 bg-gray-900 -mt-0.5 rounded-b-xs" />
                             </div>
                         </div>
 
-                        <div className={`absolute -bottom-1 text-[9px] font-extrabold uppercase tracking-widest px-1.5 py-0.2 rounded-full transition-all duration-300 ${
+                        <div className={`absolute -bottom-1 text-[8px] sm:text-[9px] font-extrabold uppercase tracking-widest px-1.5 py-0.2 rounded-full transition-all duration-300 ${
                             isUnlocked ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"
                         }`}>
                             {isUnlocked ? "AUTHORIZED" : "SECURED"}
                         </div>
                     </div>
 
-                    <h2 className="text-2xl font-black text-gray-900 tracking-tight">
+                    <h2 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">
                         Grocerin Seller Portal
                     </h2>
                     <p className="text-xs text-gray-500 mt-1 font-medium flex items-center gap-1.5">
@@ -93,8 +90,7 @@ const SellerLogin = () => {
                     </p>
                 </div>
 
-                
-                <form onSubmit={onSubmitHandler} className="p-6 md:p-8 pt-2 space-y-4">
+                <form onSubmit={onSubmitHandler} className="p-4 sm:p-6 md:p-8 pt-2 space-y-4">
                     <div className="space-y-1">
                         <label className="block text-xs font-bold text-gray-700">
                             Seller Email Address
@@ -104,10 +100,11 @@ const SellerLogin = () => {
                             <input
                                 type="email"
                                 required
+                                inputMode="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="seller@grocerin.com"
-                                className="w-full text-xs md:text-sm pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 outline-none transition"
+                                className="w-full text-xs sm:text-sm pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 outline-none transition"
                             />
                         </div>
                     </div>
@@ -124,7 +121,7 @@ const SellerLogin = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Enter seller password"
-                                className="w-full text-xs md:text-sm pl-10 pr-16 py-2.5 rounded-xl border border-gray-200 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 outline-none transition"
+                                className="w-full text-xs sm:text-sm pl-10 pr-16 py-2.5 rounded-xl border border-gray-200 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 outline-none transition"
                             />
                             <button
                                 type="button"
@@ -149,7 +146,7 @@ const SellerLogin = () => {
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full py-3.5 bg-emerald-700 hover:bg-emerald-800 active:scale-[0.99] text-white font-extrabold text-sm rounded-2xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-2 mt-2"
+                        className="w-full py-3.5 bg-emerald-700 hover:bg-emerald-800 active:scale-[0.99] text-white font-extrabold text-xs sm:text-sm rounded-2xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-2 mt-2 min-h-[44px]"
                     >
                         {isSubmitting ? (
                             <span className="flex items-center gap-2">
@@ -171,8 +168,7 @@ const SellerLogin = () => {
                     </div>
                 </form>
 
-                
-                <div className="bg-gray-50 border-t border-gray-100 p-3.5 text-center text-[11px] text-gray-500 flex items-center justify-center gap-1.5">
+                <div className="bg-gray-50 border-t border-gray-100 p-3.5 text-center text-[10px] sm:text-[11px] text-gray-500 flex items-center justify-center gap-1.5">
                     <HiShieldCheck className="text-emerald-700 text-sm" />
                     <span>Protected by Enterprise 256-Bit SSL Dark Store Authentication</span>
                 </div>

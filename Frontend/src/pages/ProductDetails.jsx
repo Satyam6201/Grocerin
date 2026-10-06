@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import { Link, useParams } from "react-router-dom";
+import { assets } from "../assets/assets";
 import ProductCard from "../components/ProductCard";
 import ProductReviews from "../components/ProductReviews";
-import { HiBolt, HiSparkles, HiShoppingBag, HiArrowRight, HiShieldCheck } from "react-icons/hi2";
+import { HiBolt, HiSparkles, HiShoppingBag, HiArrowRight, HiShieldCheck, HiStar } from "react-icons/hi2";
 
 const ProductDetails = () => {
     const { products, navigate, currency, addToCart, removeFromCart, cartItems, setIsCartDrawerOpen } = useAppContext();
@@ -46,7 +47,6 @@ const ProductDetails = () => {
 
     return (
         <div className="py-6 max-w-6xl mx-auto">
-            
             <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-6 flex-wrap">
                 <Link to="/" className="hover:text-emerald-700">Home</Link>
                 <span>/</span>
@@ -59,12 +59,8 @@ const ProductDetails = () => {
                 <span className="font-semibold text-gray-700 truncate max-w-xs">{product.name}</span>
             </div>
 
-            
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 bg-white rounded-3xl border border-gray-100 p-6 md:p-8 shadow-xs">
-                
-                
                 <div className="md:col-span-5 flex flex-col-reverse sm:flex-row gap-4 items-center sm:items-start">
-                    
                     {product.image?.length > 1 && (
                         <div className="flex sm:flex-col gap-2 overflow-x-auto sm:overflow-y-auto no-scrollbar shrink-0">
                             {product.image.map((img, index) => (
@@ -81,7 +77,6 @@ const ProductDetails = () => {
                         </div>
                     )}
 
-                    
                     <div className="relative w-full aspect-square bg-gray-50/70 rounded-2xl border border-gray-100 flex items-center justify-center p-6 overflow-hidden">
                         <img
                             src={thumbnail || product.image?.[0] || assets.logo}
@@ -96,7 +91,6 @@ const ProductDetails = () => {
                     </div>
                 </div>
 
-                
                 <div className="md:col-span-7 flex flex-col justify-between space-y-6">
                     <div>
                         <div className="flex items-center gap-2 mb-2">
@@ -113,16 +107,14 @@ const ProductDetails = () => {
                             {product.name}
                         </h1>
 
-                        
                         <div className="flex items-center gap-2 mt-2">
                             <div className="flex items-center bg-emerald-50 text-emerald-800 text-xs font-bold px-2 py-0.5 rounded-md gap-1">
-                                <span>4.5</span>
-                                <img src={assets.star_icon} alt="" className="w-3 h-3" />
+                                <span>{product.rating || "4.8"}</span>
+                                <HiStar className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
                             </div>
-                            <span className="text-xs text-gray-400">(128 Customer Reviews)</span>
+                            <span className="text-xs text-gray-400">({product.numReviews || 128} Customer Reviews)</span>
                         </div>
 
-                        
                         <div className="mt-5 p-4 rounded-2xl bg-gray-50 border border-gray-100 flex items-baseline gap-3">
                             <span className="text-3xl font-black text-gray-900">
                                 {currency}{product.offerPrice || product.price}
@@ -137,7 +129,6 @@ const ProductDetails = () => {
                             </span>
                         </div>
 
-                        
                         <div className="grid grid-cols-2 gap-3 mt-4 text-xs font-semibold text-gray-700">
                             <div className="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-50/50 border border-emerald-100">
                                 <HiSparkles className="text-emerald-700 text-sm" />
@@ -149,7 +140,6 @@ const ProductDetails = () => {
                             </div>
                         </div>
 
-                        
                         <div className="mt-6">
                             <h3 className="text-sm font-bold text-gray-900 mb-2">Product Information</h3>
                             <ul className="space-y-1.5 text-xs text-gray-600 list-disc list-inside">
@@ -160,7 +150,6 @@ const ProductDetails = () => {
                         </div>
                     </div>
 
-                    
                     <div className="pt-6 border-t border-gray-100 flex items-center gap-4">
                         {currentQty === 0 ? (
                             <button
@@ -202,11 +191,8 @@ const ProductDetails = () => {
                 </div>
             </div>
 
-            
-            {/* Verified Customer Reviews & Rating Engine */}
             <ProductReviews product={product} />
 
-            {/* Related Category Recommendations */}
             {relatedProducts.length > 0 && (
                 <div className="mt-16">
                     <div className="flex items-center justify-between mb-5">

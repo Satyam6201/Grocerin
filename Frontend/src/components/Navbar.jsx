@@ -13,9 +13,7 @@ import {
     HiArrowRightOnRectangle,
     HiXMark,
     HiArrowRight,
-    HiCpuChip,
     HiGift,
-    HiSparkles,
     HiHome,
     HiPhone
 } from 'react-icons/hi2';
@@ -27,6 +25,7 @@ const Navbar = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [searchFocused, setSearchFocused] = useState(false);
     const searchRef = useRef(null);
+    const mobileSearchRef = useRef(null);
 
     const {
         user,
@@ -39,7 +38,6 @@ const Navbar = () => {
         getCartAmount,
         currency,
         axios,
-        isSeller,
         products,
         addToCart,
         setIsCartDrawerOpen,
@@ -47,8 +45,6 @@ const Navbar = () => {
         deliveryLocation,
         detectCurrentLocation,
         isDetectingLocation,
-        setShowSdeModal,
-        setShowLiveTrackingModal,
         setShowScratchCardModal
     } = useAppContext();
 
@@ -80,7 +76,10 @@ const Navbar = () => {
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (searchRef.current && !searchRef.current.contains(event.target)) {
+            if (
+                searchRef.current && !searchRef.current.contains(event.target) &&
+                mobileSearchRef.current && !mobileSearchRef.current.contains(event.target)
+            ) {
                 setSearchFocused(false);
             }
         };
@@ -92,15 +91,15 @@ const Navbar = () => {
     const cartAmount = getCartAmount();
 
     return (
-        <header className="sticky top-0 z-40 bg-white border-b border-gray-100 shadow-xs">
-            <div className="flex items-center justify-between px-3 sm:px-6 md:px-12 lg:px-20 xl:px-28 py-2.5 sm:py-3 gap-2 sm:gap-4 md:gap-8">
+        <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-xs">
+            <div className="flex items-center justify-between px-3 sm:px-6 md:px-10 lg:px-16 xl:px-24 py-2.5 sm:py-3 gap-2 sm:gap-4 md:gap-6">
                 
-                <div className="flex items-center gap-2 sm:gap-4 lg:gap-5 shrink-0">
+                <div className="flex items-center gap-2 sm:gap-4 lg:gap-6 shrink-0">
                     <NavLink to="/" className="flex items-center gap-2 group">
-                        <img className="h-8 sm:h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-102" src={assets.nav_logo} alt="Grocerin" />
+                        <img className="h-8 sm:h-9 md:h-11 w-auto object-contain transition-transform group-hover:scale-102" src={assets.nav_logo} alt="Grocerin" />
                     </NavLink>
 
-                    <div className="hidden sm:flex items-center bg-gray-50/80 hover:bg-gray-100/80 border border-gray-200/70 rounded-2xl p-1 pr-2 transition">
+                    <div className="hidden sm:flex items-center bg-gray-50 hover:bg-gray-100/90 border border-gray-200/80 rounded-2xl p-1 pr-2 transition">
                         <button
                             onClick={() => setShowLocationModal(true)}
                             className="flex flex-col text-left px-2.5 py-1 cursor-pointer"
@@ -109,7 +108,7 @@ const Navbar = () => {
                                 <HiBolt className="text-amber-500 text-sm animate-pulse" />
                                 <span>Delivery in {deliveryLocation.eta || "9 MINS"}</span>
                             </div>
-                            <div className="flex items-center gap-1 text-[11px] text-gray-600 font-medium truncate max-w-[140px] lg:max-w-[180px]">
+                            <div className="flex items-center gap-1 text-[11px] text-gray-600 font-medium truncate max-w-[130px] lg:max-w-[170px]">
                                 <span className="truncate">{deliveryLocation.city}</span>
                                 {deliveryLocation.pincode && (
                                     <span className="text-[10px] text-gray-400">({deliveryLocation.pincode})</span>
@@ -125,7 +124,7 @@ const Navbar = () => {
                             }}
                             title="Auto-detect current GPS location & PIN code"
                             disabled={isDetectingLocation}
-                            className="flex items-center gap-1 bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-200/80 hover:border-emerald-600 text-[11px] font-bold py-1.5 px-2.5 rounded-xl shadow-2xs transition active:scale-95 cursor-pointer ml-1"
+                            className="flex items-center gap-1 bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-200 hover:border-emerald-600 text-[11px] font-bold py-1.5 px-2.5 rounded-xl shadow-2xs transition active:scale-95 cursor-pointer ml-1"
                         >
                             {isDetectingLocation ? (
                                 <TbLoader2 className="animate-spin text-sm text-emerald-700" />
@@ -137,9 +136,9 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                <div ref={searchRef} className="relative flex-1 max-w-2xl min-w-0">
-                    <div className="relative flex items-center bg-gray-100 focus-within:bg-white border border-transparent focus-within:border-emerald-600 rounded-xl px-2.5 sm:px-3 py-1.5 transition-all shadow-inner focus-within:shadow-xs gap-1.5">
-                        <img src={assets.search_icon} alt="search" className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 opacity-60 mr-0.5 shrink-0" />
+                <div ref={searchRef} className="hidden md:block relative flex-1 max-w-xl lg:max-w-2xl min-w-0 mx-2 lg:mx-4">
+                    <div className="relative flex items-center bg-gray-50 hover:bg-gray-100/80 focus-within:bg-white border border-gray-200/90 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-500/10 rounded-2xl px-3.5 py-2 transition-all shadow-2xs gap-2">
+                        <img src={assets.search_icon} alt="search" className="w-4 h-4 text-gray-400 opacity-60 shrink-0" />
                         <input
                             type="text"
                             value={searchQuery}
@@ -151,7 +150,7 @@ const Navbar = () => {
                                     navigate('/product');
                                 }
                             }}
-                            placeholder='Search groceries...'
+                            placeholder="Search for 'milk', 'bread', 'chips'..."
                             className="w-full bg-transparent text-xs sm:text-sm text-gray-900 placeholder-gray-400 outline-none truncate"
                         />
                         {searchQuery && (
@@ -159,7 +158,7 @@ const Navbar = () => {
                                 onClick={() => setSearchQuery("")}
                                 className="text-xs text-gray-400 hover:text-gray-600 p-0.5 cursor-pointer"
                             >
-                                <HiXMark className="text-sm" />
+                                <HiXMark className="text-base" />
                             </button>
                         )}
                         <VoiceSearch onVoiceResult={(txt) => {
@@ -224,16 +223,7 @@ const Navbar = () => {
                     )}
                 </div>
 
-                <div className="flex items-center gap-1.5 sm:gap-3 md:gap-4 shrink-0">
-                    <button
-                        onClick={() => setShowSdeModal(true)}
-                        title="View Full SDE Architecture, Redis Telemetry & System Metrics"
-                        className="hidden md:flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-mono font-bold px-3 py-1.5 rounded-full border border-slate-700 shadow-xs cursor-pointer transition hover:scale-102"
-                    >
-                        <HiCpuChip className="text-emerald-400 w-3.5 h-3.5 animate-pulse" />
-                        <span>SDE Telemetry</span>
-                    </button>
-
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-4 shrink-0">
                     <button
                         onClick={() => setShowScratchCardModal(true)}
                         title="Scratch & Win Discount Coupons"
@@ -244,16 +234,8 @@ const Navbar = () => {
                     </button>
 
                     <NavLink
-                        to="/biker"
-                        className="hidden xl:flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-full text-xs font-bold transition shadow-2xs"
-                    >
-                        <FaMotorcycle className="text-emerald-400 text-xs" />
-                        <span>Biker Mode</span>
-                    </NavLink>
-
-                    <NavLink
                         to="/seller"
-                        className="hidden xl:flex items-center gap-1.5 border border-gray-200 hover:border-emerald-600 px-3 py-1.5 rounded-full text-xs font-semibold text-gray-700 hover:text-emerald-700 transition"
+                        className="hidden md:flex items-center gap-1.5 bg-white hover:bg-emerald-50 border border-gray-200 hover:border-emerald-600 px-3 py-1.5 rounded-full text-xs font-bold text-gray-700 hover:text-emerald-800 transition shadow-2xs"
                     >
                         <HiBuildingStorefront className="text-emerald-700 text-sm" />
                         <span>Seller Portal</span>
@@ -320,16 +302,16 @@ const Navbar = () => {
 
                     <button
                         onClick={() => setIsCartDrawerOpen(true)}
-                        className={`flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold transition-all shadow-xs cursor-pointer ${
+                        className={`flex items-center gap-1.5 sm:gap-2.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl font-bold transition-all shadow-xs cursor-pointer ${
                             cartCount > 0
                                 ? "bg-emerald-700 hover:bg-emerald-800 text-white animate-in zoom-in-95"
                                 : "bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200"
                         }`}
                     >
-                        <HiShoppingBag className="text-sm sm:text-base" />
+                        <HiShoppingBag className="text-base sm:text-lg" />
                         <div className="flex flex-col text-left leading-none">
                             <span className="text-[9px] sm:text-[10px] uppercase font-bold opacity-80">
-                                {cartCount > 0 ? `${cartCount}` : "Cart"}
+                                {cartCount > 0 ? `${cartCount} ITEMS` : "Cart"}
                             </span>
                             {cartCount > 0 && (
                                 <span className="text-[11px] sm:text-xs font-black tracking-tight">{currency}{cartAmount}</span>
@@ -339,7 +321,7 @@ const Navbar = () => {
 
                     <button
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="sm:hidden p-1 text-gray-600 hover:text-gray-900 rounded-lg cursor-pointer"
+                        className="md:hidden p-1.5 text-gray-600 hover:text-gray-900 rounded-xl hover:bg-gray-100 cursor-pointer transition"
                         aria-label="Toggle navigation menu"
                     >
                         <img src={assets.menu_icon} alt="menu" className="w-5 h-5" />
@@ -373,8 +355,95 @@ const Navbar = () => {
                 </button>
             </div>
 
+            <div ref={mobileSearchRef} className="md:hidden px-3 pb-2.5 pt-1 relative">
+                <div className="relative flex items-center bg-gray-50 focus-within:bg-white border border-gray-200 focus-within:border-emerald-600 rounded-xl px-3 py-2 transition-all shadow-2xs gap-2">
+                    <img src={assets.search_icon} alt="search" className="w-4 h-4 text-gray-400 opacity-60 shrink-0" />
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onFocus={() => setSearchFocused(true)}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                setSearchFocused(false);
+                                navigate('/product');
+                            }
+                        }}
+                        placeholder="Search for 'milk', 'bread', 'chips'..."
+                        className="w-full bg-transparent text-xs text-gray-900 placeholder-gray-400 outline-none truncate"
+                    />
+                    {searchQuery && (
+                        <button
+                            onClick={() => setSearchQuery("")}
+                            className="text-xs text-gray-400 hover:text-gray-600 p-0.5 cursor-pointer"
+                        >
+                            <HiXMark className="text-base" />
+                        </button>
+                    )}
+                    <VoiceSearch onVoiceResult={(txt) => {
+                        setSearchQuery(txt);
+                        navigate('/product');
+                    }} />
+                </div>
+
+                {searchFocused && searchQuery.trim().length > 0 && (
+                    <div className="absolute top-full left-3 right-3 mt-1 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 divide-y divide-gray-100 animate-in fade-in-50 duration-150">
+                        {searchResults.length === 0 ? (
+                            <div className="p-4 text-center text-xs text-gray-500">
+                                No groceries found matching "<span className="font-semibold text-gray-700">{searchQuery}</span>"
+                            </div>
+                        ) : (
+                            searchResults.map((product) => (
+                                <div
+                                    key={product._id}
+                                    onClick={() => {
+                                        setSearchFocused(false);
+                                        navigate(`/products/${product.category.toLowerCase()}/${product._id}`);
+                                    }}
+                                    className="p-3 hover:bg-emerald-50/40 flex items-center justify-between gap-3 cursor-pointer transition"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-9 h-9 rounded-lg bg-gray-50 p-1 border border-gray-100 shrink-0">
+                                            <img src={product.image?.[0]} alt={product.name} className="w-full h-full object-contain" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs font-semibold text-gray-900 line-clamp-1">{product.name}</p>
+                                            <p className="text-[10px] text-gray-500">{product.category}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-xs font-bold text-gray-900">
+                                            {currency}{product.offerPrice || product.price}
+                                        </span>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                addToCart(product._id);
+                                            }}
+                                            className="bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-2.5 py-1 rounded-lg transition cursor-pointer"
+                                        >
+                                            + ADD
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                        <div
+                            onClick={() => {
+                                setSearchFocused(false);
+                                navigate('/product');
+                            }}
+                            className="p-2.5 bg-gray-50 text-center text-xs font-bold text-emerald-800 hover:bg-emerald-50 cursor-pointer flex items-center justify-center gap-1.5"
+                        >
+                            <span>See all matching products</span>
+                            <HiArrowRight className="text-xs" />
+                        </div>
+                    </div>
+                )}
+            </div>
+
             {mobileMenuOpen && (
-                <div className="sm:hidden bg-white border-b border-gray-200 p-4 space-y-2.5 text-xs font-bold text-gray-700 animate-in slide-in-from-top-2 shadow-xl">
+                <div className="md:hidden bg-white border-b border-gray-200 p-4 space-y-2.5 text-xs font-bold text-gray-700 animate-in slide-in-from-top-2 shadow-xl">
                     <NavLink to="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 hover:text-emerald-700">
                         <HiHome className="w-4 h-4 text-emerald-700" />
                         <span>Home Store</span>
@@ -393,24 +462,10 @@ const Navbar = () => {
                         <FaMotorcycle className="w-4 h-4 text-emerald-600" />
                         <span>Track Live Delivery</span>
                     </NavLink>
-                    <NavLink to="/biker" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 text-blue-700">
-                        <FaMotorcycle className="w-4 h-4 text-blue-600" />
-                        <span>Biker Mode (Rider App)</span>
-                    </NavLink>
                     <NavLink to="/seller" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 text-emerald-700">
                         <HiBuildingStorefront className="w-4 h-4 text-emerald-600" />
                         <span>Dark Store Seller Portal</span>
                     </NavLink>
-                    <button
-                        onClick={() => {
-                            setMobileMenuOpen(false);
-                            setShowSdeModal(true);
-                        }}
-                        className="w-full flex items-center gap-2 py-1.5 text-left text-slate-800 font-mono"
-                    >
-                        <HiCpuChip className="w-4 h-4 text-emerald-600" />
-                        <span>SDE Live Architecture Console</span>
-                    </button>
                     <button
                         onClick={() => {
                             setMobileMenuOpen(false);

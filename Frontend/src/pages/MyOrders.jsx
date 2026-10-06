@@ -9,8 +9,12 @@ import {
     HiSparkles, 
     HiArrowPath, 
     HiShoppingBag, 
-    HiMapPin 
+    HiMapPin,
+    HiBolt,
+    HiArrowPathRoundedSquare,
+    HiXCircle
 } from 'react-icons/hi2';
+import toast from 'react-hot-toast';
 
 const ORDER_STAGES = [
     { key: "Order Placed", label: "Placed", icon: HiDocumentText },
@@ -23,7 +27,14 @@ const ORDER_STAGES = [
 const MyOrders = () => {
     const [myOrders, setMyOrders] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { currency, axios, user } = useAppContext();
+    const { 
+        currency, 
+        axios, 
+        user, 
+        reorderBasket,
+        setShowLiveTrackingModal,
+        setActiveTrackingOrder
+    } = useAppContext();
 
     const fetchMyOrders = async () => {
         try {
@@ -37,6 +48,26 @@ const MyOrders = () => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleCancelOrder = async (orderId) => {
+        if (!window.confirm("Are you sure you want to cancel this order?")) return;
+        try {
+            const { data } = await axios.post('/api/order/cancel', { orderId });
+            if (data.success) {
+                toast.success("Order cancelled successfully");
+                fetchMyOrders();
+            } else {
+                toast.error(data.message || "Failed to cancel order");
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message || err.message || "Error cancelling order");
+        }
+    };
+
+    const openLiveTelemetry = (order) => {
+        setActiveTrackingOrder(order);
+        setShowLiveTrackingModal(true);
     };
 
     useEffect(() => {
@@ -225,6 +256,39 @@ const MyOrders = () => {
                                         </div>
                                     </div>
                                 )}
+
+                                {/* Interactive Action Bar */}
+                                <div className="mt-4 pt-3 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3">
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        {!isDelivered && order.status !== "Cancelled" && (
+                                            <button
+                                                onClick={() => openLiveTelemetry(order)}
+                                                className="bg-emerald-700 hover:bg-emerald-800 active:scale-95 text-white font-extrabold text-xs px-3.5 py-2 rounded-xl shadow-xs transition flex items-center gap-1.5 cursor-pointer"
+                                            >
+                                                <HiBolt className="text-amber-300 text-sm animate-pulse" />
+                                                <span>Live Rider GPS Telemetry</span>
+                                            </button>
+                                        )}
+
+                                        <button
+                                            onClick={() => reorderBasket(order.items)}
+                                            className="bg-gray-100 hover:bg-emerald-50 hover:text-emerald-800 text-gray-700 font-bold text-xs px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 cursor-pointer border border-gray-200"
+                                        >
+                                            <HiArrowPathRoundedSquare className="w-4 h-4 text-emerald-700" />
+                                            <span>Reorder All Items</span>
+                                        </button>
+                                    </div>
+
+                                    {["Order Placed", "Confirmed"].includes(order.status) && (
+                                        <button
+                                            onClick={() => handleCancelOrder(order._id)}
+                                            className="text-rose-600 hover:text-rose-800 text-xs font-bold hover:underline cursor-pointer flex items-center gap-1"
+                                        >
+                                            <HiXCircle className="w-4 h-4" />
+                                            <span>Cancel Order</span>
+                                        </button>
+                                    )}
+                                </div>
                             </div>
                         );
                     })}

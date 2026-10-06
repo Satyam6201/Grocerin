@@ -12,9 +12,13 @@ import {
     HiCube, 
     HiArrowRightOnRectangle,
     HiXMark,
-    HiArrowRight
+    HiArrowRight,
+    HiCpuChip,
+    HiGift,
+    HiSparkles
 } from 'react-icons/hi2';
 import { TbLoader2 } from 'react-icons/tb';
+import VoiceSearch from './VoiceSearch';
 
 const Navbar = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -39,7 +43,10 @@ const Navbar = () => {
         setShowLocationModal,
         deliveryLocation,
         detectCurrentLocation,
-        isDetectingLocation
+        isDetectingLocation,
+        setShowSdeModal,
+        setShowLiveTrackingModal,
+        setShowScratchCardModal
     } = useAppContext();
 
     const logout = async () => {
@@ -132,8 +139,8 @@ const Navbar = () => {
 
                 
                 <div ref={searchRef} className="relative flex-1 max-w-2xl">
-                    <div className="relative flex items-center bg-gray-100 focus-within:bg-white border border-transparent focus-within:border-emerald-600 rounded-xl px-3.5 py-2 transition-all shadow-inner focus-within:shadow-xs">
-                        <img src={assets.search_icon} alt="search" className="w-4 h-4 text-gray-400 opacity-60 mr-2.5 shrink-0" />
+                    <div className="relative flex items-center bg-gray-100 focus-within:bg-white border border-transparent focus-within:border-emerald-600 rounded-xl px-3 py-1.5 transition-all shadow-inner focus-within:shadow-xs gap-1.5">
+                        <img src={assets.search_icon} alt="search" className="w-4 h-4 text-gray-400 opacity-60 mr-1 shrink-0" />
                         <input
                             type="text"
                             value={searchQuery}
@@ -146,7 +153,7 @@ const Navbar = () => {
                                 }
                             }}
                             placeholder='Search "milk", "fresh potato", "bread", "maggi"...'
-                            className="w-full bg-transparent text-sm text-gray-900 placeholder-gray-400 outline-none"
+                            className="w-full bg-transparent text-xs sm:text-sm text-gray-900 placeholder-gray-400 outline-none"
                         />
                         {searchQuery && (
                             <button
@@ -156,6 +163,10 @@ const Navbar = () => {
                                 <HiXMark className="text-sm" />
                             </button>
                         )}
+                        <VoiceSearch onVoiceResult={(txt) => {
+                            setSearchQuery(txt);
+                            navigate('/product');
+                        }} />
                     </div>
 
                     
@@ -216,10 +227,30 @@ const Navbar = () => {
                 </div>
 
                 
-                <div className="flex items-center gap-3 md:gap-5 shrink-0">
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-4 shrink-0">
+                    {/* SDE Architecture Modal Trigger */}
+                    <button
+                        onClick={() => setShowSdeModal(true)}
+                        title="View Full SDE Architecture, Redis Telemetry & System Metrics"
+                        className="hidden md:flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-mono font-bold px-3 py-1.5 rounded-full border border-slate-700 shadow-xs cursor-pointer transition hover:scale-102"
+                    >
+                        <HiCpuChip className="text-emerald-400 w-3.5 h-3.5 animate-pulse" />
+                        <span>SDE Telemetry</span>
+                    </button>
+
+                    {/* Lucky Scratch Card Button */}
+                    <button
+                        onClick={() => setShowScratchCardModal(true)}
+                        title="Scratch & Win Discount Coupons"
+                        className="hidden lg:flex items-center gap-1.5 bg-amber-50 hover:bg-amber-100 text-amber-900 text-[11px] font-bold px-3 py-1.5 rounded-full border border-amber-200 transition cursor-pointer"
+                    >
+                        <HiGift className="text-amber-600 text-sm animate-bounce" />
+                        <span>Scratch & Win</span>
+                    </button>
+
                     <NavLink
                         to="/seller"
-                        className="hidden lg:flex items-center gap-1.5 border border-gray-200 hover:border-emerald-600 px-3 py-1.5 rounded-full text-xs font-semibold text-gray-700 hover:text-emerald-700 transition"
+                        className="hidden xl:flex items-center gap-1.5 border border-gray-200 hover:border-emerald-600 px-3 py-1.5 rounded-full text-xs font-semibold text-gray-700 hover:text-emerald-700 transition"
                     >
                         <HiBuildingStorefront className="text-emerald-700 text-sm" />
                         <span>Seller Portal</span>

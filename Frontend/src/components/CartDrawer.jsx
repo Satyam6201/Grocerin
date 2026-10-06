@@ -21,8 +21,15 @@ const CartDrawer = () => {
         removeFromCart,
         getCartAmount,
         getCartCount,
-        navigate
+        navigate,
+        appliedCoupon,
+        applyCoupon,
+        removeCoupon,
+        setShowScratchCardModal
     } = useAppContext();
+
+    const [couponInput, setCouponInput] = useState("");
+    const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
 
     if (!isCartDrawerOpen) return null;
 
@@ -41,11 +48,21 @@ const CartDrawer = () => {
 
     const itemTotal = getCartAmount();
     const freeDeliveryThreshold = 199;
-    const isFreeDelivery = itemTotal >= freeDeliveryThreshold;
+    const isFreeDelivery = itemTotal >= freeDeliveryThreshold || appliedCoupon?.freeDelivery;
     const amountNeededForFreeDelivery = Math.max(0, freeDeliveryThreshold - itemTotal);
     const deliveryFee = isFreeDelivery || itemTotal === 0 ? 0 : 25;
     const handlingTax = Math.round(itemTotal * 0.02);
-    const grandTotal = itemTotal + deliveryFee + handlingTax;
+    const couponDiscount = appliedCoupon ? Math.min(appliedCoupon.discount, itemTotal) : 0;
+    const grandTotal = Math.max(0, itemTotal + deliveryFee + handlingTax - couponDiscount);
+
+    const handleApplyCouponCode = async (code) => {
+        const targetCode = code || couponInput;
+        if (!targetCode.trim()) return;
+        setIsApplyingCoupon(true);
+        await applyCoupon(targetCode.trim());
+        setIsApplyingCoupon(false);
+        setCouponInput("");
+    };
 
     return (
         <div className="fixed inset-0 z-50 overflow-hidden">
@@ -176,6 +193,72 @@ const CartDrawer = () => {
                                     ))}
                                 </div>
 
+                                {/* Promo Code & Coupon Engine */}
+                                <div className="bg-white rounded-xl p-3.5 border border-gray-100 space-y-2.5">
+                                    <div className="flex justify-between items-center text-xs font-bold text-gray-900">
+                                        <span className="flex items-center gap-1">
+                                            <HiSparkles className="text-amber-500" />
+                                            <span>Coupons & Offers</span>
+                                        </span>
+                                        <button
+                                            onClick={() => setShowScratchCardModal(true)}
+                                            className="text-[11px] text-amber-700 hover:underline font-extrabold cursor-pointer"
+                                        >
+                                            Scratch & Win
+                                        </button>
+                                    </div>
+
+                                    {appliedCoupon ? (
+                                        <div className="flex items-center justify-between p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900">
+                                            <div>
+                                                <p className="font-extrabold flex items-center gap-1">
+                                                    <span>Code: {appliedCoupon.code}</span>
+                                                    <span className="bg-emerald-600 text-white text-[9px] px-1.5 py-0.2 rounded font-mono">APPLIED</span>
+                                                </p>
+                                                <p className="text-[11px] text-emerald-700">{appliedCoupon.message}</p>
+                                            </div>
+                                            <button
+                                                onClick={removeCoupon}
+                                                className="text-rose-600 hover:text-rose-800 text-[11px] font-bold cursor-pointer"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-2">
+                                            <div className="flex gap-1.5">
+                                                <input
+                                                    type="text"
+                                                    value={couponInput}
+                                                    onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                                                    placeholder="Enter promo code (e.g. SUPERDEV)"
+                                                    className="flex-1 text-xs px-3 py-1.5 border border-gray-200 rounded-lg outline-emerald-600 uppercase font-mono font-bold"
+                                                />
+                                                <button
+                                                    onClick={() => handleApplyCouponCode()}
+                                                    disabled={!couponInput.trim() || isApplyingCoupon}
+                                                    className="bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition cursor-pointer"
+                                                >
+                                                    {isApplyingCoupon ? "..." : "Apply"}
+                                                </button>
+                                            </div>
+
+                                            {/* Quick 1-Click Promo Pills */}
+                                            <div className="flex flex-wrap gap-1.5">
+                                                {['SUPERDEV', 'GROCER100', 'GROCER250', 'FREEDEL'].map(c => (
+                                                    <button
+                                                        key={c}
+                                                        onClick={() => handleApplyCouponCode(c)}
+                                                        className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 transition cursor-pointer"
+                                                    >
+                                                        %{c}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
                                 
                                 <div className="bg-white rounded-xl p-4 border border-gray-100 space-y-2 text-xs">
                                     <h4 className="font-bold text-gray-900 text-sm mb-2">Bill Details</h4>
@@ -183,6 +266,12 @@ const CartDrawer = () => {
                                         <span>Items Total</span>
                                         <span className="font-semibold text-gray-900">{currency}{itemTotal}</span>
                                     </div>
+                                    {couponDiscount > 0 && (
+                                        <div className="flex justify-between text-emerald-700 font-bold">
+                                            <span>Coupon Discount ({appliedCoupon?.code})</span>
+                                            <span>-{currency}{couponDiscount}</span>
+                                        </div>
+                                    )}
                                     <div className="flex justify-between text-gray-600">
                                         <span>Delivery Fee</span>
                                         <span className={deliveryFee === 0 ? "text-emerald-700 font-semibold" : "font-semibold text-gray-900"}>
@@ -195,7 +284,7 @@ const CartDrawer = () => {
                                     </div>
                                     <div className="border-t border-dashed border-gray-200 pt-2 flex justify-between text-sm font-bold text-gray-900">
                                         <span>To Pay</span>
-                                        <span className="text-emerald-700 text-base">{currency}{grandTotal}</span>
+                                        <span className="text-emerald-700 text-base font-black">{currency}{grandTotal}</span>
                                     </div>
                                 </div>
 

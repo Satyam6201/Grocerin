@@ -7,7 +7,10 @@ import {
     getUserOrders, 
     placeOrderCOD, 
     placeOrderStripe, 
-    updateOrderStatus 
+    updateOrderStatus,
+    validateCoupon,
+    cancelOrder,
+    getOrderTelemetry
 } from "../controllers/orderController.js";
 import { orderLimiter } from "../middlewares/rateLimiter.js";
 
@@ -19,5 +22,8 @@ orderRouter.get('/user', authUser, getUserOrders);
 orderRouter.get('/seller', authSeller, getAllOrders);
 orderRouter.post('/status', authSeller, updateOrderStatus);
 orderRouter.get('/stats', authSeller, getOrderStats);
+orderRouter.post('/coupon', validateCoupon);
+orderRouter.post('/cancel', authUser, cancelOrder);
+orderRouter.get('/telemetry/:orderId', authUser, getOrderTelemetry);
 
 export default orderRouter;

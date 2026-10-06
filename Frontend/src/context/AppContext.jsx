@@ -237,6 +237,93 @@ export const AppContextProvider = ({ children }) => {
         }
     }, [cartItems, user]);
 
+    const [appliedCoupon, setAppliedCoupon] = useState(null);
+    const [showSdeModal, setShowSdeModal] = useState(false);
+    const [showLiveTrackingModal, setShowLiveTrackingModal] = useState(false);
+    const [activeTrackingOrder, setActiveTrackingOrder] = useState(null);
+    const [showScratchCardModal, setShowScratchCardModal] = useState(false);
+
+    const applyCoupon = async (code) => {
+        try {
+            const rawAmount = getCartAmount();
+            const { data } = await axios.post('/api/order/coupon', {
+                code,
+                cartTotal: rawAmount
+            });
+
+            if (data.success) {
+                setAppliedCoupon({
+                    code: data.code,
+                    discount: data.discount || 0,
+                    freeDelivery: !!data.freeDelivery,
+                    message: data.message
+                });
+                
+                try {
+                    const confetti = (await import('canvas-confetti')).default;
+                    confetti({
+                        particleCount: 80,
+                        spread: 70,
+                        origin: { y: 0.7 }
+                    });
+                } catch (e) {}
+
+                toast.success(data.message, { icon: '🎉' });
+                return { success: true, message: data.message };
+            } else {
+                toast.error(data.message || "Invalid coupon code");
+                return { success: false, message: data.message };
+            }
+        } catch (error) {
+            toast.error(error.message || "Failed to apply coupon");
+            return { success: false, message: error.message };
+        }
+    };
+
+    const removeCoupon = () => {
+        setAppliedCoupon(null);
+        toast("Coupon removed", { icon: 'ℹ️' });
+    };
+
+    const addMultipleToCart = (itemIds = []) => {
+        setCartItems(prev => {
+            const updated = { ...prev };
+            itemIds.forEach(id => {
+                updated[id] = (updated[id] || 0) + 1;
+            });
+            return updated;
+        });
+        
+        try {
+            import('canvas-confetti').then(module => {
+                module.default({
+                    particleCount: 50,
+                    spread: 60,
+                    origin: { y: 0.8 }
+                });
+            });
+        } catch (e) {}
+
+        toast.success(`Added ${itemIds.length} items to cart!`, { icon: '🍲' });
+        setIsCartDrawerOpen(true);
+    };
+
+    const reorderBasket = (items = []) => {
+        if (!items || items.length === 0) return;
+        setCartItems(prev => {
+            const updated = { ...prev };
+            items.forEach(item => {
+                const pId = item.product?._id || item.product;
+                if (pId) {
+                    updated[pId] = (updated[pId] || 0) + (item.quantity || 1);
+                }
+            });
+            return updated;
+        });
+        toast.success("All items added back to your cart!", { icon: '🛒' });
+        setIsCartDrawerOpen(true);
+    };
+
     const value = {
         navigate, 
         user, 
@@ -267,7 +354,20 @@ export const AppContextProvider = ({ children }) => {
         deliveryLocation,
         setDeliveryLocation: updateLocation,
         detectCurrentLocation,
-        isDetectingLocation
+        isDetectingLocation,
+        appliedCoupon,
+        applyCoupon,
+        removeCoupon,
+        showSdeModal,
+        setShowSdeModal,
+        showLiveTrackingModal,
+        setShowLiveTrackingModal,
+        activeTrackingOrder,
+        setActiveTrackingOrder,
+        showScratchCardModal,
+        setShowScratchCardModal,
+        addMultipleToCart,
+        reorderBasket
     };
 
     return (

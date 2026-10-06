@@ -11,7 +11,8 @@ import {
     HiCreditCard, 
     HiPhone, 
     HiArrowRight,
-    HiMapPin 
+    HiMapPin,
+    HiSparkles 
 } from "react-icons/hi2";
 import { TbLoader2 } from "react-icons/tb";
 
@@ -29,7 +30,11 @@ const Cart = () => {
         axios,
         user,
         setCartItems,
-        setShowUserLogin
+        setShowUserLogin,
+        appliedCoupon,
+        applyCoupon,
+        removeCoupon,
+        setShowScratchCardModal
     } = useAppContext();
 
     const [cartArray, setCartArray] = useState([]);
@@ -38,6 +43,8 @@ const Cart = () => {
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [paymentOption, setPaymentOption] = useState("COD");
     const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+    const [couponInput, setCouponInput] = useState("");
+    const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
 
     const getCart = () => {
         let tempArray = [];
@@ -69,9 +76,19 @@ const Cart = () => {
     };
 
     const itemTotal = getCartAmount();
-    const deliveryFee = itemTotal >= 199 || itemTotal === 0 ? 0 : 25;
+    const deliveryFee = (itemTotal >= 199 || itemTotal === 0 || appliedCoupon?.freeDelivery) ? 0 : 25;
     const taxCharge = Math.round(itemTotal * 0.02);
-    const grandTotal = itemTotal + deliveryFee + taxCharge;
+    const couponDiscount = appliedCoupon ? Math.min(appliedCoupon.discount, itemTotal) : 0;
+    const grandTotal = Math.max(0, itemTotal + deliveryFee + taxCharge - couponDiscount);
+
+    const handleApplyPromo = async (code) => {
+        const target = code || couponInput;
+        if (!target.trim()) return;
+        setIsApplyingCoupon(true);
+        await applyCoupon(target.trim());
+        setIsApplyingCoupon(false);
+        setCouponInput("");
+    };
 
     const placeOrder = async () => {
         if (!user) {
@@ -354,6 +371,71 @@ const Cart = () => {
                         </div>
                     </div>
 
+                    {/* Promo Coupons Card */}
+                    <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-xs space-y-3">
+                        <div className="flex justify-between items-center text-xs font-bold text-gray-900">
+                            <span className="flex items-center gap-1.5">
+                                <HiSparkles className="text-amber-500 text-sm" />
+                                <span>Coupons & Bank Offers</span>
+                            </span>
+                            <button
+                                onClick={() => setShowScratchCardModal(true)}
+                                className="text-[11px] text-amber-700 hover:underline font-extrabold cursor-pointer"
+                            >
+                                Scratch & Win
+                            </button>
+                        </div>
+
+                        {appliedCoupon ? (
+                            <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900">
+                                <div>
+                                    <p className="font-extrabold flex items-center gap-1.5">
+                                        <span>Code: {appliedCoupon.code}</span>
+                                        <span className="bg-emerald-600 text-white text-[9px] px-1.5 py-0.2 rounded font-mono">APPLIED</span>
+                                    </p>
+                                    <p className="text-[11px] text-emerald-700 mt-0.5">{appliedCoupon.message}</p>
+                                </div>
+                                <button
+                                    onClick={removeCoupon}
+                                    className="text-rose-600 hover:text-rose-800 text-xs font-bold cursor-pointer"
+                                >
+                                    Remove
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="space-y-2">
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text"
+                                        value={couponInput}
+                                        onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                                        placeholder="Enter promo code (e.g. SUPERDEV)"
+                                        className="flex-1 text-xs px-3.5 py-2 border border-gray-200 rounded-xl outline-emerald-600 uppercase font-mono font-bold"
+                                    />
+                                    <button
+                                        onClick={() => handleApplyPromo()}
+                                        disabled={!couponInput.trim() || isApplyingCoupon}
+                                        className="bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white text-xs font-bold px-4 py-2 rounded-xl transition cursor-pointer"
+                                    >
+                                        {isApplyingCoupon ? "..." : "Apply"}
+                                    </button>
+                                </div>
+
+                                <div className="flex flex-wrap gap-1.5">
+                                    {['SUPERDEV', 'GROCER100', 'GROCER250', 'FREEDEL'].map(c => (
+                                        <button
+                                            key={c}
+                                            onClick={() => handleApplyPromo(c)}
+                                            className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 transition cursor-pointer"
+                                        >
+                                            %{c}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
                     
                     <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-xs space-y-2.5 text-xs text-gray-600">
                         <h3 className="text-sm font-bold text-gray-900 pb-2 border-b border-gray-100">
@@ -363,6 +445,12 @@ const Cart = () => {
                             <span>Item Total</span>
                             <span className="font-semibold text-gray-900">{currency}{itemTotal}</span>
                         </div>
+                        {couponDiscount > 0 && (
+                            <div className="flex justify-between text-emerald-700 font-bold">
+                                <span>Coupon Discount ({appliedCoupon?.code})</span>
+                                <span>-{currency}{couponDiscount}</span>
+                            </div>
+                        )}
                         <div className="flex justify-between">
                             <span>Delivery Fee (Orders over ₹199 free)</span>
                             <span className={deliveryFee === 0 ? "text-emerald-700 font-bold" : "font-semibold text-gray-900"}>

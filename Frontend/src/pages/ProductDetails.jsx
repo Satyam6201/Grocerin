@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import { Link, useParams } from "react-router-dom";
-import { assets } from "../assets/assets";
 import ProductCard from "../components/ProductCard";
+import ProductReviews from "../components/ProductReviews";
 import { HiBolt, HiSparkles, HiShoppingBag, HiArrowRight, HiShieldCheck } from "react-icons/hi2";
 
 const ProductDetails = () => {
@@ -203,6 +203,10 @@ const ProductDetails = () => {
             </div>
 
             
+            {/* Verified Customer Reviews & Rating Engine */}
+            <ProductReviews product={product} />
+
+            {/* Related Category Recommendations */}
             {relatedProducts.length > 0 && (
                 <div className="mt-16">
                     <div className="flex items-center justify-between mb-5">

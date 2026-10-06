@@ -33,6 +33,10 @@ import BestSeller from './components/BestSeller';
 import OffersDeals from './components/OffersDeals';
 import TrackOrder from './components/TrackOrder';
 
+import SdeArchitectureModal from './components/SdeArchitectureModal';
+import LiveTelemetryModal from './components/LiveTelemetryModal';
+import ScratchCardModal from './components/ScratchCardModal';
+
 const App = () => {
   const isSellerPath = useLocation().pathname.includes("seller");
   const { showUserLogin, isSeller } = useAppContext();
@@ -44,6 +48,9 @@ const App = () => {
         <CartDrawer />
         <LocationModal />
         <MobileCartBar />
+        <SdeArchitectureModal />
+        <LiveTelemetryModal />
+        <ScratchCardModal />
 
         {!isSellerPath && <Navbar />}
         {!isSellerPath && <CategoryNav />}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MainBanner from '../components/MainBanner';
 import Categories from '../components/Categories';
 import BestSeller from '../components/BestSeller';
@@ -10,6 +10,10 @@ import { HiBolt, HiGift, HiShieldCheck, HiArrowRight } from 'react-icons/hi2';
 
 const Home = () => {
   const { setShowScratchCardModal } = useAppContext();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, []);
 
   return (
     <div className='mt-4 sm:mt-8 space-y-8 sm:space-y-12'>

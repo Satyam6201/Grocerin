@@ -46,6 +46,7 @@ const AddAddress = () => {
     });
 
     useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
         if (user) {
             const nameParts = (user.name || '').trim().split(' ');
             setAddress(prev => ({

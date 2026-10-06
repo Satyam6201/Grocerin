@@ -15,6 +15,10 @@ const ProductDetails = () => {
     const product = products.find((item) => item._id === id);
 
     useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }, [id]);
+
+    useEffect(() => {
         if (product && products.length > 0) {
             const related = products.filter(
                 (item) => item.category === product.category && item._id !== product._id

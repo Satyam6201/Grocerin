@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { useParams, Link } from 'react-router-dom';
 import { categories } from '../assets/assets';
@@ -10,6 +10,10 @@ const ProductCategory = () => {
     const { products, loadingProducts } = useAppContext();
     const { category } = useParams();
     const [sortBy, setSortBy] = useState("default");
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }, [category]);
 
     const matchedCategory = categories.find(
         (item) => item.path.toLowerCase() === category?.toLowerCase()

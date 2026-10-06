@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProductCard from './ProductCard';
 import ProductSkeleton from './ProductSkeleton';
 import { useAppContext } from '../context/AppContext';
@@ -7,6 +7,10 @@ import { HiBolt, HiArrowRight } from 'react-icons/hi2';
 
 const BestSeller = () => {
     const { products, loadingProducts } = useAppContext();
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }, []);
 
     const bestSellers = products.filter((product) => product.inStock).slice(0, 10);
 

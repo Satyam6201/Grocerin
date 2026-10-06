@@ -7,14 +7,13 @@
 }
 
 @theme {
-    --color-primary: #0c831f; /* Blinkit / Zepto style signature quick-commerce green */
+    --color-primary: #0c831f;
     --color-primary-light: #f0fdf4;
     --color-primary-hover: #096818;
     --color-primary-dull: #15803d;
     --color-accent-yellow: #ffc200;
 }
 
-/* Hide scrollbar for clean horizontal carousels */
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
@@ -23,7 +22,6 @@
     scrollbar-width: none;
 }
 
-/* Shimmer Loading Animation */
 @keyframes shimmer {
     100% {
         transform: translateX(100%);
@@ -54,7 +52,6 @@
     content: '';
 }
 
-/* Quick-commerce custom pulse */
 @keyframes pulseFast {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.85; transform: scale(1.05); }
@@ -64,7 +61,6 @@
     animation: pulseFast 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Glassmorphism */
 .glass-nav {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);

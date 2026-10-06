@@ -182,33 +182,30 @@ const Cart = () => {
     }
 
     return (
-        <div className="py-8 max-w-6xl mx-auto">
-            
-            <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 mb-6 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold">
-                        <HiBolt className="text-xl text-amber-300" />
+        <div className="py-4 sm:py-8 max-w-6xl mx-auto pb-24 lg:pb-8">
+            <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-3.5 sm:p-4 mb-4 sm:mb-6 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5 sm:gap-3">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold shrink-0 shadow-xs">
+                        <HiBolt className="text-lg sm:text-xl text-amber-300 animate-pulse" />
                     </div>
                     <div>
-                        <h3 className="font-extrabold text-sm md:text-base text-emerald-950">
+                        <h3 className="font-extrabold text-xs sm:text-sm md:text-base text-emerald-950 leading-tight">
                             Superfast Delivery in 9-11 Mins
                         </h3>
-                        <p className="text-xs text-emerald-800">
+                        <p className="text-[11px] sm:text-xs text-emerald-800 mt-0.5">
                             Shipment from nearest Grocerin Dark Store
                         </p>
                     </div>
                 </div>
-                <span className="bg-emerald-700 text-white text-xs font-bold px-3 py-1 rounded-full">
+                <span className="bg-emerald-700 text-white text-[11px] sm:text-xs font-black px-2.5 sm:px-3 py-1 rounded-full shrink-0 shadow-2xs">
                     {getCartCount()} items
                 </span>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                
-                
-                <div className="lg:col-span-7 bg-white rounded-2xl border border-gray-100 p-5 md:p-6 shadow-xs">
-                    <div className="flex items-center justify-between pb-4 border-b border-gray-100">
-                        <h2 className="text-lg font-bold text-gray-900">Items in Cart</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-start">
+                <div className="lg:col-span-7 bg-white rounded-2xl sm:rounded-3xl border border-gray-100 p-4 sm:p-6 shadow-xs">
+                    <div className="flex items-center justify-between pb-3.5 sm:pb-4 border-b border-gray-100">
+                        <h2 className="text-base sm:text-lg font-black text-gray-900 tracking-tight">Items in Cart</h2>
                         <Link to="/product" className="text-xs font-bold text-emerald-700 hover:underline">
                             + Add more items
                         </Link>
@@ -216,47 +213,48 @@ const Cart = () => {
 
                     <div className="divide-y divide-gray-100">
                         {cartArray.map((product) => (
-                            <div key={product._id} className="py-4 flex items-center justify-between gap-4">
-                                <div className="flex items-center gap-3.5 flex-1 min-w-0">
-                                    <div className="w-14 h-14 rounded-xl bg-gray-50 border border-gray-100 p-1 shrink-0">
+                            <div key={product._id} className="py-3 sm:py-4 flex items-center justify-between gap-2.5 sm:gap-4">
+                                <div className="flex items-center gap-2.5 sm:gap-3.5 flex-1 min-w-0">
+                                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gray-50 border border-gray-100 p-1 shrink-0 flex items-center justify-center">
                                         <img 
                                             src={product.image?.[0] || assets.logo} 
                                             alt={product.name} 
                                             className="w-full h-full object-contain"
                                         />
                                     </div>
-                                    <div className="min-w-0">
-                                        <h4 className="text-xs md:text-sm font-bold text-gray-900 truncate">
+                                    <div className="min-w-0 flex-1">
+                                        <h4 className="text-xs sm:text-sm font-bold text-gray-900 truncate">
                                             {product.name}
                                         </h4>
-                                        <p className="text-[11px] text-gray-400 mt-0.5">
+                                        <p className="text-[10px] sm:text-[11px] text-gray-400 mt-0.5 truncate">
                                             {product.category}
                                         </p>
-                                        <span className="text-xs font-extrabold text-gray-900 block mt-1">
+                                        <span className="text-xs sm:text-sm font-black text-gray-900 block mt-0.5">
                                             {currency}{product.offerPrice || product.price}
                                         </span>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-3 shrink-0">
-                                    
-                                    <div className="flex items-center bg-emerald-700 text-white rounded-lg px-1.5 py-0.5 font-bold text-xs">
+                                <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                                    <div className="flex items-center bg-emerald-700 text-white rounded-xl px-1 py-0.5 font-bold text-xs shadow-xs min-h-[32px]">
                                         <button
                                             onClick={() => removeFromCart(product._id)}
-                                            className="w-5 h-5 flex items-center justify-center hover:bg-emerald-800 rounded transition cursor-pointer"
+                                            aria-label="Decrease quantity"
+                                            className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center hover:bg-emerald-800 rounded-lg transition cursor-pointer active:scale-90"
                                         >
                                             -
                                         </button>
-                                        <span className="w-5 text-center text-xs">{product.quantity}</span>
+                                        <span className="w-5 text-center text-xs sm:text-sm font-black">{product.quantity}</span>
                                         <button
                                             onClick={() => addToCart(product._id)}
-                                            className="w-5 h-5 flex items-center justify-center hover:bg-emerald-800 rounded transition cursor-pointer"
+                                            aria-label="Increase quantity"
+                                            className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center hover:bg-emerald-800 rounded-lg transition cursor-pointer active:scale-90"
                                         >
                                             +
                                         </button>
                                     </div>
 
-                                    <span className="text-xs md:text-sm font-bold text-gray-900 w-16 text-right">
+                                    <span className="text-xs sm:text-sm font-black text-gray-900 w-14 sm:w-16 text-right">
                                         {currency}{(product.offerPrice || product.price) * product.quantity}
                                     </span>
                                 </div>
@@ -265,13 +263,10 @@ const Cart = () => {
                     </div>
                 </div>
 
-                
                 <div className="lg:col-span-5 space-y-4">
-                    
-                    
-                    <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-xs">
+                    <div className="bg-white rounded-2xl sm:rounded-3xl border border-gray-100 p-4 sm:p-5 shadow-xs">
                         <div className="flex items-center justify-between pb-3 border-b border-gray-100">
-                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                            <span className="text-xs font-extrabold text-gray-400 uppercase tracking-wider">
                                 Delivery Address
                             </span>
                             <button
@@ -285,12 +280,12 @@ const Cart = () => {
                         <div className="mt-3 relative">
                             {selectedAddress ? (
                                 <div className="text-xs text-gray-700 space-y-1">
-                                    <p className="font-bold text-gray-900">
+                                    <p className="font-extrabold text-gray-900">
                                         {selectedAddress.firstName} {selectedAddress.lastName}
                                     </p>
-                                    <p>{selectedAddress.street}, {selectedAddress.city}</p>
-                                    <p>{selectedAddress.state} - {selectedAddress.zipcode}</p>
-                                    <p className="text-emerald-800 font-semibold flex items-center gap-1">
+                                    <p className="text-gray-600">{selectedAddress.street}, {selectedAddress.city}</p>
+                                    <p className="text-gray-500">{selectedAddress.state} - {selectedAddress.zipcode}</p>
+                                    <p className="text-emerald-800 font-semibold flex items-center gap-1 pt-0.5">
                                         <HiPhone className="text-emerald-700" />
                                         <span>{selectedAddress.phone}</span>
                                     </p>
@@ -301,9 +296,8 @@ const Cart = () => {
                                 </div>
                             )}
 
-                            
                             {showAddress && (
-                                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-xl p-3 z-30 space-y-2">
+                                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-2xl p-3.5 z-30 space-y-2">
                                     <p className="text-xs font-bold text-gray-700">Select an address:</p>
                                     {addresses.map((addr, idx) => (
                                         <div
@@ -312,32 +306,31 @@ const Cart = () => {
                                                 setSelectedAddress(addr);
                                                 setShowAddress(false);
                                             }}
-                                            className="p-2 border border-gray-100 hover:border-emerald-600 hover:bg-emerald-50/50 rounded-lg text-xs cursor-pointer"
+                                            className="p-2.5 border border-gray-100 hover:border-emerald-600 hover:bg-emerald-50/50 rounded-xl text-xs cursor-pointer transition"
                                         >
-                                            <p className="font-bold">{addr.street}, {addr.city}</p>
+                                            <p className="font-bold text-gray-900">{addr.street}, {addr.city}</p>
                                             <p className="text-gray-500">{addr.phone}</p>
                                         </div>
                                     ))}
                                     <button
                                         onClick={() => navigate('/add-address')}
-                                        className="w-full py-1.5 text-center text-xs font-bold text-emerald-700 border border-dashed border-emerald-300 rounded-lg hover:bg-emerald-50 cursor-pointer"
+                                        className="w-full py-2 text-center text-xs font-bold text-emerald-700 border border-dashed border-emerald-300 rounded-xl hover:bg-emerald-50 cursor-pointer transition"
                                     >
-                                        + Add New Address
+                                        + Add New Address with GPS
                                     </button>
                                 </div>
                             )}
                         </div>
                     </div>
 
-                    
-                    <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-xs space-y-3">
-                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">
+                    <div className="bg-white rounded-2xl sm:rounded-3xl border border-gray-100 p-4 sm:p-5 shadow-xs space-y-3">
+                        <span className="text-xs font-extrabold text-gray-400 uppercase tracking-wider block">
                             Payment Method
                         </span>
-                        <div className="grid grid-cols-2 gap-3">
-                            <label className={`flex items-center gap-2 p-3 rounded-xl border text-xs font-bold cursor-pointer transition ${
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <label className={`flex items-center gap-2.5 p-3 rounded-xl border text-xs font-bold cursor-pointer transition ${
                                 paymentOption === "COD" 
-                                    ? "border-emerald-600 bg-emerald-50/60 text-emerald-950" 
+                                    ? "border-emerald-600 bg-emerald-50/70 text-emerald-950 ring-1 ring-emerald-600" 
                                     : "border-gray-200 text-gray-700 hover:bg-gray-50"
                             }`}>
                                 <input
@@ -348,13 +341,13 @@ const Cart = () => {
                                     onChange={(e) => setPaymentOption(e.target.value)}
                                     className="text-emerald-700"
                                 />
-                                <HiBanknotes className="text-base text-emerald-700" />
+                                <HiBanknotes className="text-lg text-emerald-700 shrink-0" />
                                 <span>Cash on Delivery</span>
                             </label>
 
-                            <label className={`flex items-center gap-2 p-3 rounded-xl border text-xs font-bold cursor-pointer transition ${
+                            <label className={`flex items-center gap-2.5 p-3 rounded-xl border text-xs font-bold cursor-pointer transition ${
                                 paymentOption === "Online" 
-                                    ? "border-emerald-600 bg-emerald-50/60 text-emerald-950" 
+                                    ? "border-emerald-600 bg-emerald-50/70 text-emerald-950 ring-1 ring-emerald-600" 
                                     : "border-gray-200 text-gray-700 hover:bg-gray-50"
                             }`}>
                                 <input
@@ -365,13 +358,13 @@ const Cart = () => {
                                     onChange={(e) => setPaymentOption(e.target.value)}
                                     className="text-emerald-700"
                                 />
-                                <HiCreditCard className="text-base text-emerald-700" />
-                                <span>Pay Online (Card/UPI)</span>
+                                <HiCreditCard className="text-lg text-emerald-700 shrink-0" />
+                                <span>Online (Card/UPI)</span>
                             </label>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-xs space-y-3">
+                    <div className="bg-white rounded-2xl sm:rounded-3xl border border-gray-100 p-4 sm:p-5 shadow-xs space-y-3">
                         <div className="flex justify-between items-center text-xs font-bold text-gray-900">
                             <span className="flex items-center gap-1.5">
                                 <HiSparkles className="text-amber-500 text-sm" />
@@ -379,7 +372,7 @@ const Cart = () => {
                             </span>
                             <button
                                 onClick={() => setShowScratchCardModal(true)}
-                                className="text-[11px] text-amber-700 hover:underline font-extrabold cursor-pointer"
+                                className="text-[11px] text-amber-700 hover:underline font-black cursor-pointer"
                             >
                                 Scratch & Win
                             </button>
@@ -409,12 +402,12 @@ const Cart = () => {
                                         value={couponInput}
                                         onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
                                         placeholder="Enter promo code (e.g. SUPERDEV)"
-                                        className="flex-1 text-xs px-3.5 py-2 border border-gray-200 rounded-xl outline-emerald-600 uppercase font-mono font-bold"
+                                        className="flex-1 text-xs px-3.5 py-2.5 border border-gray-200 rounded-xl outline-emerald-600 uppercase font-mono font-bold"
                                     />
                                     <button
                                         onClick={() => handleApplyPromo()}
                                         disabled={!couponInput.trim() || isApplyingCoupon}
-                                        className="bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white text-xs font-bold px-4 py-2 rounded-xl transition cursor-pointer"
+                                        className="bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition cursor-pointer shrink-0"
                                     >
                                         {isApplyingCoupon ? "..." : "Apply"}
                                     </button>
@@ -435,9 +428,8 @@ const Cart = () => {
                         )}
                     </div>
 
-                    
-                    <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-xs space-y-2.5 text-xs text-gray-600">
-                        <h3 className="text-sm font-bold text-gray-900 pb-2 border-b border-gray-100">
+                    <div className="bg-white rounded-2xl sm:rounded-3xl border border-gray-100 p-4 sm:p-5 shadow-xs space-y-2.5 text-xs text-gray-600">
+                        <h3 className="text-sm font-black text-gray-900 pb-2 border-b border-gray-100">
                             Bill Details
                         </h3>
                         <div className="flex justify-between">
@@ -466,11 +458,10 @@ const Cart = () => {
                         </div>
                     </div>
 
-                    
                     <button
                         onClick={placeOrder}
                         disabled={isPlacingOrder}
-                        className="w-full py-4 bg-emerald-700 hover:bg-emerald-800 active:scale-[0.99] text-white font-extrabold text-sm rounded-2xl shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2"
+                        className="hidden lg:flex w-full py-4 bg-emerald-700 hover:bg-emerald-800 active:scale-[0.99] text-white font-extrabold text-sm rounded-2xl shadow-lg transition-all cursor-pointer items-center justify-center gap-2"
                     >
                         {isPlacingOrder ? (
                             <span className="flex items-center gap-2">
@@ -485,6 +476,38 @@ const Cart = () => {
                         ) : (
                             <span className="flex items-center gap-1.5">
                                 <span>Proceed to Pay {currency}{grandTotal}</span>
+                                <HiArrowRight className="text-sm" />
+                            </span>
+                        )}
+                    </button>
+                </div>
+            </div>
+
+            <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 sm:p-4 shadow-2xl z-40">
+                <div className="max-w-md mx-auto flex items-center justify-between gap-3">
+                    <div className="flex flex-col text-left">
+                        <span className="text-[10px] uppercase font-bold text-gray-400">Total Bill</span>
+                        <span className="text-lg font-black text-emerald-800 leading-none">{currency}{grandTotal}</span>
+                    </div>
+
+                    <button
+                        onClick={placeOrder}
+                        disabled={isPlacingOrder}
+                        className="flex-1 py-3.5 bg-emerald-700 active:bg-emerald-800 text-white font-black text-xs sm:text-sm rounded-xl shadow-md transition flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-75"
+                    >
+                        {isPlacingOrder ? (
+                            <span className="flex items-center gap-2">
+                                <TbLoader2 className="animate-spin text-base" />
+                                <span>Placing...</span>
+                            </span>
+                        ) : paymentOption === "COD" ? (
+                            <span className="flex items-center gap-1">
+                                <span>Place COD Order</span>
+                                <HiArrowRight className="text-sm" />
+                            </span>
+                        ) : (
+                            <span className="flex items-center gap-1">
+                                <span>Pay Online</span>
                                 <HiArrowRight className="text-sm" />
                             </span>
                         )}

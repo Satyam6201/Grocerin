@@ -1,18 +1,18 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useSearchParams, useNavigate, Link } from 'react-router-dom';
+import {
+    useSearchParams,
+    useNavigate,
+    Link
+} from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
 import { categories } from '../assets/assets';
 import ProductCard from '../components/ProductCard';
 import ProductSkeleton from '../components/ProductSkeleton';
-import { 
-    HiBolt, 
-    HiMagnifyingGlass, 
-    HiAdjustmentsHorizontal, 
-    HiSparkles, 
-    HiShoppingBag, 
-    HiArrowRight,
-    HiXMark,
-    HiCheck
+import {
+    HiBolt,
+    HiMagnifyingGlass,
+    HiShoppingBag,
+    HiXMark
 } from 'react-icons/hi2';
 
 const SUBCATEGORIES = {

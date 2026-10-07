@@ -1,23 +1,21 @@
 import React, { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import toast from 'react-hot-toast';
-import { 
-    HiXMark, 
-    HiUser, 
-    HiEnvelope, 
-    HiLockClosed, 
-    HiEye, 
-    HiEyeSlash, 
-    HiBolt, 
-    HiGift, 
-    HiShieldCheck, 
+import {
+    HiXMark,
+    HiUser,
+    HiEnvelope,
+    HiLockClosed,
+    HiEye,
+    HiEyeSlash,
+    HiBolt,
+    HiGift,
+    HiShieldCheck,
     HiArrowRight,
     HiSparkles,
     HiKey,
     HiCheck,
-    HiArrowPath,
-    HiHeart,
-    HiTruck
+    HiArrowPath
 } from 'react-icons/hi2';
 import { TbLoader2 } from 'react-icons/tb';
 

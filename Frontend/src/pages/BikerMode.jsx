@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from '../context/AppContext';
 import toast from "react-hot-toast";
-import { 
-    HiBolt, 
-    HiCheckCircle, 
-    HiMapPin, 
-    HiPhone, 
-    HiTruck, 
+import {
+    HiBolt,
+    HiCheckCircle,
+    HiMapPin,
+    HiPhone,
+    HiTruck,
     HiSparkles,
     HiShieldCheck,
     HiArrowPath,
@@ -16,14 +16,15 @@ import {
     HiClock,
     HiCheck,
     HiBanknotes,
-    HiWrenchScrewdriver,
     HiExclamationTriangle,
-    HiArrowTopRightOnSquare,
-    HiUserCircle,
     HiCurrencyRupee
-} from "react-icons/hi2";
-import { FaMotorcycle, FaRoute, FaTemperatureHalf } from "react-icons/fa6";
-import { TbBatteryCharging } from "react-icons/tb";
+} from 'react-icons/hi2';
+import {
+    FaMotorcycle,
+    FaRoute,
+    FaTemperatureHalf
+} from 'react-icons/fa6';
+import { TbBatteryCharging } from 'react-icons/tb';
 
 const BIKER_FLEET = [
     {

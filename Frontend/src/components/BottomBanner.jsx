@@ -1,4 +1,7 @@
-import { assets, features } from '../assets/assets';
+import {
+    assets,
+    features
+} from '../assets/assets';
 import { HiSparkles } from 'react-icons/hi2';
 
 const BottomBanner = () => {

@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import {
-  HiCreditCard,
-  HiShieldCheck,
-  HiCurrencyRupee,
-  HiBuildingLibrary,
-  HiDevicePhoneMobile,
-  HiWallet,
-  HiLockClosed,
-  HiArrowRight
-} from "react-icons/hi2";
+    HiCreditCard,
+    HiShieldCheck,
+    HiCurrencyRupee,
+    HiBuildingLibrary,
+    HiDevicePhoneMobile,
+    HiLockClosed,
+    HiArrowRight
+} from 'react-icons/hi2';
 
 const PAYMENT_OPTIONS = [
   {

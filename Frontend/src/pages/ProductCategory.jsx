@@ -1,6 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
-import { useParams, Link } from 'react-router-dom';
+import {
+    useParams,
+    Link
+} from 'react-router-dom';
 import { categories } from '../assets/assets';
 import ProductCard from '../components/ProductCard';
 import ProductSkeleton from '../components/ProductSkeleton';

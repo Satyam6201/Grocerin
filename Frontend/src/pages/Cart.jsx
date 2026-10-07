@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
-import { useAppContext } from "../context/AppContext";
-import { assets } from "../assets/assets";
+import {
+    useEffect,
+    useState
+} from 'react';
+import { useAppContext } from '../context/AppContext';
+import { assets } from '../assets/assets';
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
-import { 
-    HiShoppingBag, 
-    HiBolt, 
-    HiTruck, 
-    HiBanknotes, 
-    HiCreditCard, 
-    HiPhone, 
+import { Link } from 'react-router-dom';
+import {
+    HiShoppingBag,
+    HiBolt,
+    HiBanknotes,
+    HiCreditCard,
+    HiPhone,
     HiArrowRight,
-    HiMapPin,
     HiSparkles,
-    HiClock,
-    HiCheckCircle
-} from "react-icons/hi2";
-import { TbLoader2 } from "react-icons/tb";
+    HiClock
+} from 'react-icons/hi2';
+import { TbLoader2 } from 'react-icons/tb';
 
 const DELIVERY_SLOTS = [
     {

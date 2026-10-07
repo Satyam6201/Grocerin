@@ -1,29 +1,31 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {
+    Link,
+    useNavigate
+} from 'react-router-dom';
 import { assets } from '../assets/assets';
 import toast from 'react-hot-toast';
-import { 
-    HiBolt, 
-    HiShieldCheck, 
-    HiCreditCard, 
-    HiChatBubbleLeftRight, 
-    HiArrowUp, 
-    HiArrowRight, 
-    HiEnvelope, 
-    HiCheck, 
-    HiClipboardDocumentCheck, 
-    HiMapPin, 
+import {
+    HiBolt,
+    HiShieldCheck,
+    HiCreditCard,
+    HiChatBubbleLeftRight,
+    HiArrowUp,
+    HiArrowRight,
+    HiEnvelope,
+    HiCheck,
+    HiClipboardDocumentCheck,
     HiSparkles
 } from 'react-icons/hi2';
-import { 
-    FaGooglePlay, 
-    FaApple, 
-    FaInstagram, 
-    FaXTwitter, 
-    FaFacebookF, 
-    FaYoutube, 
-    FaGithub, 
-    FaLinkedinIn 
+import {
+    FaGooglePlay,
+    FaApple,
+    FaInstagram,
+    FaXTwitter,
+    FaFacebookF,
+    FaYoutube,
+    FaGithub,
+    FaLinkedinIn
 } from 'react-icons/fa6';
 
 const QUICK_CATEGORIES = [

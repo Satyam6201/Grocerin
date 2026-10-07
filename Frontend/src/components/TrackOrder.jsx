@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { useAppContext } from "../context/AppContext";
+import {
+    Link,
+    useSearchParams
+} from 'react-router-dom';
+import { useAppContext } from '../context/AppContext';
 import toast from "react-hot-toast";
-import { 
-    HiMagnifyingGlass, 
-    HiCube, 
-    HiTruck, 
-    HiCheckCircle, 
-    HiClock, 
-    HiArrowRight, 
-    HiPhone, 
-    HiMapPin, 
-    HiKey, 
-    HiShieldCheck, 
-    HiSparkles,
-    HiBolt,
+import {
+    HiMagnifyingGlass,
+    HiCube,
+    HiCheckCircle,
+    HiClock,
+    HiArrowRight,
+    HiPhone,
+    HiMapPin,
+    HiKey,
+    HiShieldCheck,
     HiSignal
-} from "react-icons/hi2";
-import { FaMotorcycle } from "react-icons/fa6";
+} from 'react-icons/hi2';
+import { FaMotorcycle } from 'react-icons/fa6';
 
 export default function TrackOrder() {
     const [searchParams] = useSearchParams();

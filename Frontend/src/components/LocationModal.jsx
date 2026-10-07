@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
-import { HiBolt, HiMapPin, HiBuildingStorefront, HiArrowRight, HiXMark } from 'react-icons/hi2';
+import {
+    HiBolt,
+    HiMapPin,
+    HiBuildingStorefront,
+    HiArrowRight,
+    HiXMark
+} from 'react-icons/hi2';
 import { TbLoader2 } from 'react-icons/tb';
 
 const popularLocations = [

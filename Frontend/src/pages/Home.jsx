@@ -6,7 +6,12 @@ import RecipeBundles from '../components/RecipeBundles';
 import BottomBanner from '../components/BottomBanner';
 import NewsLetter from '../components/NewsLetter';
 import { useAppContext } from '../context/AppContext';
-import { HiBolt, HiGift, HiShieldCheck, HiArrowRight } from 'react-icons/hi2';
+import {
+    HiBolt,
+    HiGift,
+    HiShieldCheck,
+    HiArrowRight
+} from 'react-icons/hi2';
 
 const Home = () => {
   const { setShowScratchCardModal } = useAppContext();

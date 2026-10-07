@@ -3,7 +3,12 @@ import { categories } from '../../assets/assets';
 import { useAppContext } from '../../context/AppContext';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { HiCamera, HiXMark, HiSparkles, HiArrowRight } from 'react-icons/hi2';
+import {
+    HiCamera,
+    HiXMark,
+    HiSparkles,
+    HiArrowRight
+} from 'react-icons/hi2';
 
 const AddProduct = () => {
     const [files, setFiles] = useState([null, null, null, null]);

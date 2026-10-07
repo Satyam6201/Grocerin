@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { assets } from '../assets/assets';
 import { useAppContext } from '../context/AppContext';
 import toast from 'react-hot-toast';
-import { 
-    HiBolt, 
-    HiMapPin, 
-    HiChevronDown, 
-    HiBuildingStorefront, 
-    HiShoppingBag, 
-    HiCube, 
+import {
+    HiBolt,
+    HiMapPin,
+    HiChevronDown,
+    HiBuildingStorefront,
+    HiShoppingBag,
+    HiCube,
     HiArrowRightOnRectangle,
     HiXMark,
     HiArrowRight,

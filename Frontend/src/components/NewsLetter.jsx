@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { HiBolt, HiShieldCheck, HiArrowRight, HiSparkles } from 'react-icons/hi2';
+import {
+    HiArrowRight,
+    HiSparkles
+} from 'react-icons/hi2';
 
 const NewsLetter = () => {
     return (

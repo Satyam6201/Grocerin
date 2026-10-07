@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { assets } from '../assets/assets';
-import { 
-    HiXMark, 
-    HiBolt, 
-    HiSparkles, 
-    HiShoppingBag, 
-    HiInformationCircle, 
-    HiArrowRight 
+import {
+    HiXMark,
+    HiBolt,
+    HiSparkles,
+    HiShoppingBag,
+    HiInformationCircle,
+    HiArrowRight
 } from 'react-icons/hi2';
 
 const CartDrawer = () => {

@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { 
-  HiShieldCheck, 
-  HiArrowPath, 
-  HiCreditCard, 
-  HiClock, 
-  HiCheckCircle, 
-  HiXCircle, 
-  HiChatBubbleLeftRight, 
-  HiPhone,
-  HiArrowRight,
-  HiSparkles
-} from "react-icons/hi2";
+import {
+    Link,
+    useNavigate
+} from 'react-router-dom';
+import {
+    HiShieldCheck,
+    HiArrowPath,
+    HiCreditCard,
+    HiClock,
+    HiCheckCircle,
+    HiXCircle,
+    HiChatBubbleLeftRight,
+    HiArrowRight
+} from 'react-icons/hi2';
 
 const PROCESS_STEPS = [
   {

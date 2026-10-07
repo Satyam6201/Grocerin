@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState, useMemo } from "react";
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+    useMemo
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -239,7 +245,6 @@ export const AppContextProvider = ({ children }) => {
 
     const [selectedDeliverySlot, setSelectedDeliverySlot] = useState("Instant 10-Min Rush");
     const [appliedCoupon, setAppliedCoupon] = useState(null);
-    const [showSdeModal, setShowSdeModal] = useState(false);
     const [showLiveTrackingModal, setShowLiveTrackingModal] = useState(false);
     const [activeTrackingOrder, setActiveTrackingOrder] = useState(null);
     const [showScratchCardModal, setShowScratchCardModal] = useState(false);
@@ -361,8 +366,6 @@ export const AppContextProvider = ({ children }) => {
         appliedCoupon,
         applyCoupon,
         removeCoupon,
-        showSdeModal,
-        setShowSdeModal,
         showLiveTrackingModal,
         setShowLiveTrackingModal,
         activeTrackingOrder,

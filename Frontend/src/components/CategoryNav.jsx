@@ -1,7 +1,13 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import {
+    NavLink,
+    useLocation
+} from 'react-router-dom';
 import { categories } from '../assets/assets';
-import { HiBolt, HiSquares2X2 } from 'react-icons/hi2';
+import {
+    HiBolt,
+    HiSquares2X2
+} from 'react-icons/hi2';
 
 const CategoryNav = () => {
     const location = useLocation();

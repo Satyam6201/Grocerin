@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HiMicrophone, HiStop } from 'react-icons/hi2';
+import { HiMicrophone } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 
 const VoiceSearch = ({ onVoiceResult }) => {

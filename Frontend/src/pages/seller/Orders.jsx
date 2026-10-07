@@ -1,18 +1,16 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import toast from 'react-hot-toast';
-import { 
-    HiCube, 
-    HiPhone, 
-    HiArrowPath, 
-    HiMagnifyingGlass, 
+import {
+    HiCube,
+    HiPhone,
+    HiArrowPath,
+    HiMagnifyingGlass,
     HiClock,
-    HiCheckCircle,
     HiMapPin,
-    HiKey,
     HiXMark
 } from 'react-icons/hi2';
-import { FaMotorcycle } from "react-icons/fa6";
+import { FaMotorcycle } from 'react-icons/fa6';
 
 const STATUS_OPTIONS = [
     "Order Placed",

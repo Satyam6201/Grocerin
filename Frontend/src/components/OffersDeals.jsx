@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { 
-  HiTag, 
-  HiSparkles, 
-  HiGift, 
-  HiBolt, 
-  HiClipboardDocumentCheck, 
-  HiCheck, 
-  HiArrowRight, 
-  HiClock,
-  HiShieldCheck,
-  HiFire
-} from "react-icons/hi2";
+import { useNavigate } from 'react-router-dom';
+import {
+    HiTag,
+    HiSparkles,
+    HiGift,
+    HiBolt,
+    HiClipboardDocumentCheck,
+    HiCheck,
+    HiArrowRight,
+    HiShieldCheck,
+    HiFire
+} from 'react-icons/hi2';
 import toast from "react-hot-toast";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from '../context/AppContext';
 
 const COUPONS = [
   {

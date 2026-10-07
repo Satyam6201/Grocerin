@@ -4,9 +4,13 @@ import CategoryNav from './components/CategoryNav';
 import CartDrawer from './components/CartDrawer';
 import LocationModal from './components/LocationModal';
 import MobileCartBar from './components/MobileCartBar';
-import { Route, Routes, useLocation } from "react-router-dom";
+import {
+    Route,
+    Routes,
+    useLocation
+} from 'react-router-dom';
 import Home from './pages/Home';
-import { Toaster } from "react-hot-toast";
+import { Toaster } from 'react-hot-toast';
 import Footer from './components/Footer';
 import ChatBot from './components/ChatBot';
 import { useAppContext } from './context/AppContext';
@@ -35,8 +39,6 @@ import ReturnRefund from './components/ReturnRefund';
 import BestSeller from './components/BestSeller';
 import OffersDeals from './components/OffersDeals';
 import TrackOrder from './components/TrackOrder';
-
-import SdeArchitectureModal from './components/SdeArchitectureModal';
 import LiveTelemetryModal from './components/LiveTelemetryModal';
 import ScratchCardModal from './components/ScratchCardModal';
 
@@ -80,7 +82,6 @@ const App = () => {
         <CartDrawer />
         <LocationModal />
         <MobileCartBar />
-        <SdeArchitectureModal />
         <LiveTelemetryModal />
         <ScratchCardModal />
 

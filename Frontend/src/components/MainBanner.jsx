@@ -1,7 +1,10 @@
 import React from 'react';
 import { assets } from '../assets/assets';
-import { Link } from "react-router-dom";
-import { HiBolt, HiArrowRight } from 'react-icons/hi2';
+import { Link } from 'react-router-dom';
+import {
+    HiBolt,
+    HiArrowRight
+} from 'react-icons/hi2';
 
 const MainBanner = () => {
   return (

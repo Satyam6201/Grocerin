@@ -1,7 +1,11 @@
 import React from "react";
-import { assets } from "../assets/assets";
-import { useAppContext } from "../context/AppContext";
-import { HiBolt, HiPlus, HiMinus } from "react-icons/hi2";
+import { assets } from '../assets/assets';
+import { useAppContext } from '../context/AppContext';
+import {
+    HiBolt,
+    HiPlus,
+    HiMinus
+} from 'react-icons/hi2';
 
 const ProductCard = ({ product }) => {
     const { currency, addToCart, removeFromCart, cartItems, navigate } = useAppContext();

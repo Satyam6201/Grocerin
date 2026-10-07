@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
-import { 
-    HiXMark, 
-    HiBolt, 
-    HiPhone, 
-    HiChatBubbleLeftRight, 
-    HiShieldCheck, 
-    HiCheckCircle, 
-    HiMapPin, 
+import {
+    HiXMark,
+    HiBolt,
+    HiPhone,
+    HiChatBubbleLeftRight,
+    HiShieldCheck,
+    HiCheckCircle,
+    HiMapPin,
     HiBuildingStorefront,
     HiSparkles,
     HiArrowPath,
     HiArrowRight
 } from 'react-icons/hi2';
-import { FaMotorcycle } from "react-icons/fa6";
+import { FaMotorcycle } from 'react-icons/fa6';
 import toast from 'react-hot-toast';
 
 const TOTAL_DELIVERY_SECONDS = 540;

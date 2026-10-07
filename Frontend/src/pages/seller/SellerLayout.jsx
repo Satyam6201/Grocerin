@@ -1,18 +1,22 @@
-import { useState } from "react";
-import { Link, Outlet, NavLink } from "react-router-dom";
-import { assets } from "../../assets/assets";
-import { useAppContext } from "../../context/AppContext";
+import { useState } from 'react';
+import {
+    Link,
+    Outlet,
+    NavLink
+} from 'react-router-dom';
+import { assets } from '../../assets/assets';
+import { useAppContext } from '../../context/AppContext';
 import toast from "react-hot-toast";
-import { 
-    HiSquares2X2, 
-    HiCube, 
-    HiPlus, 
-    HiTruck, 
+import {
+    HiSquares2X2,
+    HiCube,
+    HiPlus,
+    HiTruck,
     HiArrowTopRightOnSquare,
     HiBars3,
     HiXMark
-} from "react-icons/hi2";
-import { FaMotorcycle } from "react-icons/fa6";
+} from 'react-icons/hi2';
+import { FaMotorcycle } from 'react-icons/fa6';
 
 const SellerLayout = () => {
     const { axios, navigate, setIsSeller } = useAppContext();

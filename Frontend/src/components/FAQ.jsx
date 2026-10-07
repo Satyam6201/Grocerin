@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import {
-  HiMagnifyingGlass,
-  HiQuestionMarkCircle,
-  HiChevronDown,
-  HiChevronUp,
-  HiBolt,
-  HiShieldCheck,
-  HiCreditCard,
-  HiShoppingBag,
-  HiUserCircle,
-  HiChatBubbleLeftRight,
-  HiPhone,
-  HiSparkles
-} from "react-icons/hi2";
+    HiMagnifyingGlass,
+    HiQuestionMarkCircle,
+    HiChevronDown,
+    HiChevronUp,
+    HiBolt,
+    HiShieldCheck,
+    HiCreditCard,
+    HiShoppingBag,
+    HiUserCircle,
+    HiChatBubbleLeftRight
+} from 'react-icons/hi2';
 
 const FAQ_CATEGORIES = [
   { id: "All", label: "All Questions", icon: HiQuestionMarkCircle },

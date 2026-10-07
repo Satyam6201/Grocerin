@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
+import {
+    Phone,
+    Mail,
+    MapPin,
+    Clock,
+    Send
+} from 'lucide-react';
 import FAQ from "./FAQ";
 import toast from "react-hot-toast";
 

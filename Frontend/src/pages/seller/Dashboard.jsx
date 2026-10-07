@@ -2,25 +2,26 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { 
-    HiPlus, 
-    HiArrowPath, 
-    HiBanknotes, 
-    HiCube, 
-    HiTruck, 
-    HiTag, 
-    HiExclamationTriangle, 
-    HiCheckCircle, 
-    HiBolt, 
+import {
+    HiPlus,
+    HiArrowPath,
+    HiBanknotes,
+    HiCube,
+    HiTruck,
+    HiTag,
+    HiExclamationTriangle,
+    HiCheckCircle,
+    HiBolt,
     HiArrowRight,
     HiFire,
     HiMagnifyingGlass,
-    HiClock,
     HiArrowDownTray,
-    HiSparkles,
     HiArrowTrendingUp
 } from 'react-icons/hi2';
-import { FaMotorcycle, FaTemperatureHalf } from "react-icons/fa6";
+import {
+    FaMotorcycle,
+    FaTemperatureHalf
+} from 'react-icons/fa6';
 
 export default function Dashboard() {
     const { currency, axios, products } = useAppContext();

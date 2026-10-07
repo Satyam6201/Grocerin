@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
-import { 
-    HiBuildingStorefront, 
-    HiEnvelope, 
-    HiLockClosed, 
-    HiEye, 
-    HiEyeSlash, 
+import {
+    HiBuildingStorefront,
+    HiEnvelope,
+    HiLockClosed,
+    HiEye,
+    HiEyeSlash,
     HiArrowRight,
-    HiShieldCheck 
+    HiShieldCheck
 } from 'react-icons/hi2';
 import { TbLoader2 } from 'react-icons/tb';
 

@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useAppContext } from "../../context/AppContext";
+import { useAppContext } from '../../context/AppContext';
 import toast from "react-hot-toast";
-import { 
-    HiBolt, 
-    HiPhone, 
+import {
+    HiBolt,
+    HiPhone,
     HiArrowPath,
-    HiPlus,
     HiXMark,
-    HiCheckCircle,
-    HiShieldCheck,
     HiUserPlus
-} from "react-icons/hi2";
-import { FaMotorcycle } from "react-icons/fa6";
-import { TbBatteryCharging } from "react-icons/tb";
+} from 'react-icons/hi2';
+import { FaMotorcycle } from 'react-icons/fa6';
 
 export default function FleetBikers() {
     const { axios, currency } = useAppContext();

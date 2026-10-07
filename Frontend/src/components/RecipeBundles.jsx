@@ -1,12 +1,8 @@
 import React from 'react';
 import { useAppContext } from '../context/AppContext';
-import { 
-    HiBolt, 
-    HiSparkles, 
-    HiShoppingBag, 
-    HiCheck, 
-    HiArrowRight, 
-    HiClock 
+import {
+    HiShoppingBag,
+    HiClock
 } from 'react-icons/hi2';
 
 const MEAL_KITS = [

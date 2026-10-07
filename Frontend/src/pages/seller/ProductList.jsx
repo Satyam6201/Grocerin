@@ -2,7 +2,11 @@ import React, { useState, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
-import { HiPlus, HiMagnifyingGlass, HiTrash } from 'react-icons/hi2';
+import {
+    HiPlus,
+    HiMagnifyingGlass,
+    HiTrash
+} from 'react-icons/hi2';
 
 const ProductList = () => {
     const { products, currency, axios, fetchProducts } = useAppContext();

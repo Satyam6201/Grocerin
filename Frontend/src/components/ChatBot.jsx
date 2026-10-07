@@ -1,12 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { 
-    HiSparkles, 
-    HiChatBubbleBottomCenterText, 
-    HiXMark, 
-    HiPaperAirplane, 
-    HiTrash, 
-    HiArrowPath, 
-    HiShoppingBag 
+import {
+    HiSparkles,
+    HiXMark,
+    HiPaperAirplane,
+    HiTrash
 } from 'react-icons/hi2';
 import { useAppContext } from '../context/AppContext';
 

@@ -1,6 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
-import { HiXMark, HiSparkles, HiGift, HiCheck, HiClipboardDocument } from 'react-icons/hi2';
+import {
+    HiXMark,
+    HiSparkles,
+    HiGift,
+    HiClipboardDocument
+} from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 
 const ScratchCardModal = () => {

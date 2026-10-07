@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { Link } from 'react-router-dom';
-import { 
-    HiDocumentText, 
-    HiCheck, 
-    HiCube, 
-    HiTruck, 
-    HiSparkles, 
-    HiArrowPath, 
-    HiShoppingBag, 
+import {
+    HiDocumentText,
+    HiCheck,
+    HiCube,
+    HiTruck,
+    HiSparkles,
+    HiArrowPath,
+    HiShoppingBag,
     HiMapPin,
     HiBolt,
     HiClock,

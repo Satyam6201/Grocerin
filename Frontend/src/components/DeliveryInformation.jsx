@@ -1,18 +1,20 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { 
-  HiBolt, 
-  HiClock, 
-  HiMapPin, 
-  HiShieldCheck, 
-  HiBuildingStorefront, 
-  HiTruck, 
-  HiCheckCircle, 
-  HiArrowRight,
-  HiSignal,
-  HiCurrencyRupee
-} from "react-icons/hi2";
-import { FaMotorcycle } from "react-icons/fa6";
+import {
+    Link,
+    useNavigate
+} from 'react-router-dom';
+import {
+    HiBolt,
+    HiClock,
+    HiMapPin,
+    HiShieldCheck,
+    HiBuildingStorefront,
+    HiCheckCircle,
+    HiArrowRight,
+    HiSignal,
+    HiCurrencyRupee
+} from 'react-icons/hi2';
+import { FaMotorcycle } from 'react-icons/fa6';
 
 const SLA_STEPS = [
   {

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
-import { 
-    HiStar, 
-    HiCheckBadge, 
-    HiHandThumbUp, 
-    HiPencilSquare, 
-    HiSparkles,
+import {
+    HiStar,
+    HiCheckBadge,
+    HiHandThumbUp,
+    HiPencilSquare,
     HiXMark
 } from 'react-icons/hi2';
 import toast from 'react-hot-toast';

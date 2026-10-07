@@ -1,10 +1,22 @@
-import { useEffect, useState } from "react";
-import { useAppContext } from "../context/AppContext";
-import { Link, useParams } from "react-router-dom";
-import { assets } from "../assets/assets";
+import {
+    useEffect,
+    useState
+} from 'react';
+import { useAppContext } from '../context/AppContext';
+import {
+    Link,
+    useParams
+} from 'react-router-dom';
+import { assets } from '../assets/assets';
 import ProductCard from "../components/ProductCard";
 import ProductReviews from "../components/ProductReviews";
-import { HiBolt, HiSparkles, HiShoppingBag, HiArrowRight, HiShieldCheck, HiStar } from "react-icons/hi2";
+import {
+    HiBolt,
+    HiSparkles,
+    HiShoppingBag,
+    HiArrowRight,
+    HiStar
+} from 'react-icons/hi2';
 
 const ProductDetails = () => {
     const { products, navigate, currency, addToCart, removeFromCart, cartItems, setIsCartDrawerOpen } = useAppContext();

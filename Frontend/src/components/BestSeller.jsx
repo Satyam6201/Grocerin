@@ -3,7 +3,10 @@ import ProductCard from './ProductCard';
 import ProductSkeleton from './ProductSkeleton';
 import { useAppContext } from '../context/AppContext';
 import { Link } from 'react-router-dom';
-import { HiBolt, HiArrowRight } from 'react-icons/hi2';
+import {
+    HiBolt,
+    HiArrowRight
+} from 'react-icons/hi2';
 
 const BestSeller = () => {
     const { products, loadingProducts } = useAppContext();

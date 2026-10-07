@@ -11,6 +11,7 @@ import {
     HiShoppingBag, 
     HiMapPin,
     HiBolt,
+    HiClock,
     HiArrowPathRoundedSquare,
     HiXCircle
 } from 'react-icons/hi2';
@@ -146,7 +147,7 @@ const MyOrders = () => {
                                 
                                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
                                     <div className="space-y-0.5">
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex flex-wrap items-center gap-2">
                                             <span className="text-xs font-bold text-gray-900">
                                                 Order #{order._id?.slice(-8).toUpperCase()}
                                             </span>
@@ -156,6 +157,10 @@ const MyOrders = () => {
                                                     : "bg-amber-100 text-amber-800 animate-pulse"
                                             }`}>
                                                 {order.status || "Order Placed"}
+                                            </span>
+                                            <span className="text-[10px] font-bold text-emerald-900 bg-emerald-50 border border-emerald-200/70 px-2 py-0.5 rounded-full flex items-center gap-1">
+                                                <HiClock className="text-xs text-emerald-700" />
+                                                <span>{order.deliverySlot || "Instant 10-Min Rush"}</span>
                                             </span>
                                         </div>
                                         <p className="text-xs text-gray-400">

@@ -146,7 +146,7 @@ export default function TrackOrder() {
                         <div className="bg-white rounded-3xl border border-gray-100 shadow-xl p-6 sm:p-8 space-y-6">
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-100">
                                 <div>
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-2 flex-wrap">
                                         <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
                                             Order ID: #{order._id?.slice(-8).toUpperCase()}
                                         </span>
@@ -157,6 +157,12 @@ export default function TrackOrder() {
                                         }`}>
                                             {order.status}
                                         </span>
+                                        {order.deliverySlot && (
+                                            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1">
+                                                <HiClock className="w-3 h-3" />
+                                                <span>{order.deliverySlot}</span>
+                                            </span>
+                                        )}
                                     </div>
                                     <h2 className="text-xl sm:text-2xl font-black text-gray-900 mt-2">
                                         {order.status === "Delivered" 

@@ -17,6 +17,7 @@ const orderSchema = new mongoose.Schema({
     bikerVehicle: { type: String, default: "EV Hero Splendor #BR-01-EA-9021" },
     deliveryOtp: { type: String, default: () => Math.floor(1000 + Math.random() * 9000).toString() },
     bikerStatus: { type: String, default: "Assigned" },
+    deliverySlot: { type: String, default: "Instant 10-Min Rush" },
     cancelledReason: { type: String, default: "" }
 }, { timestamps: true });
 

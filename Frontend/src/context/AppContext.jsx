@@ -237,6 +237,7 @@ export const AppContextProvider = ({ children }) => {
         }
     }, [cartItems, user]);
 
+    const [selectedDeliverySlot, setSelectedDeliverySlot] = useState("Instant 10-Min Rush");
     const [appliedCoupon, setAppliedCoupon] = useState(null);
     const [showSdeModal, setShowSdeModal] = useState(false);
     const [showLiveTrackingModal, setShowLiveTrackingModal] = useState(false);
@@ -268,7 +269,7 @@ export const AppContextProvider = ({ children }) => {
                     });
                 } catch (e) {}
 
-                toast.success(data.message, { icon: '🎉' });
+                toast.success(data.message);
                 return { success: true, message: data.message };
             } else {
                 toast.error(data.message || "Invalid coupon code");
@@ -282,7 +283,7 @@ export const AppContextProvider = ({ children }) => {
 
     const removeCoupon = () => {
         setAppliedCoupon(null);
-        toast("Coupon removed", { icon: 'ℹ️' });
+        toast("Coupon removed");
     };
 
     const addMultipleToCart = (itemIds = []) => {
@@ -304,7 +305,7 @@ export const AppContextProvider = ({ children }) => {
             });
         } catch (e) {}
 
-        toast.success(`Added ${itemIds.length} items to cart!`, { icon: '🍲' });
+        toast.success(`Added ${itemIds.length} items to cart!`);
         setIsCartDrawerOpen(true);
     };
 
@@ -320,7 +321,7 @@ export const AppContextProvider = ({ children }) => {
             });
             return updated;
         });
-        toast.success("All items added back to your cart!", { icon: '🛒' });
+        toast.success("All items added back to your cart!");
         setIsCartDrawerOpen(true);
     };
 
@@ -355,6 +356,8 @@ export const AppContextProvider = ({ children }) => {
         setDeliveryLocation: updateLocation,
         detectCurrentLocation,
         isDetectingLocation,
+        selectedDeliverySlot,
+        setSelectedDeliverySlot,
         appliedCoupon,
         applyCoupon,
         removeCoupon,

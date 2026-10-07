@@ -57,7 +57,7 @@ const DEFAULT_FLEET = [
 
 export const placeOrderCOD = async (req, res) => {
     try {
-        const { items, address } = req.body;
+        const { items, address, deliverySlot } = req.body;
         const userId = req.userId;
 
         if (!address || !items || items.length === 0) {
@@ -86,6 +86,7 @@ export const placeOrderCOD = async (req, res) => {
             paymentType: "COD",
             status: "Order Placed",
             isPaid: false,
+            deliverySlot: deliverySlot || "Instant 10-Min Rush",
             bikerId: assignedBiker.bikerId,
             bikerName: assignedBiker.name,
             bikerPhone: assignedBiker.phone,
@@ -113,7 +114,7 @@ export const placeOrderCOD = async (req, res) => {
 
 export const placeOrderStripe = async (req, res) => {
     try {
-        const { items, address } = req.body;
+        const { items, address, deliverySlot } = req.body;
         const userId = req.userId;
         const origin = req.headers.origin || 'http://localhost:5173';
 
@@ -150,6 +151,7 @@ export const placeOrderStripe = async (req, res) => {
             paymentType: "Online",
             status: "Pending Payment",
             isPaid: false,
+            deliverySlot: deliverySlot || "Instant 10-Min Rush",
             bikerId: assignedBiker.bikerId,
             bikerName: assignedBiker.name,
             bikerPhone: assignedBiker.phone,

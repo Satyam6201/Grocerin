@@ -12,6 +12,7 @@ import ChatBot from './components/ChatBot';
 import { useAppContext } from './context/AppContext';
 import Login from './components/Login';
 import AllProducts from './pages/AllProducts';
+import Categories from './pages/Categories';
 import ProductCategory from './pages/ProductCategory';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
@@ -107,6 +108,7 @@ const App = () => {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/product' element={<AllProducts />} />
+            <Route path='/categories' element={<Categories />} />
             <Route path='/products/:category' element={<ProductCategory />} />
             <Route path='/products/:category/:id' element={<ProductDetails />} />
             <Route path='/cart' element={<Cart />} />

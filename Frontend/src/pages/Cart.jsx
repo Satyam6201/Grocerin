@@ -12,9 +12,49 @@ import {
     HiPhone, 
     HiArrowRight,
     HiMapPin,
-    HiSparkles 
+    HiSparkles,
+    HiClock,
+    HiCheckCircle
 } from "react-icons/hi2";
 import { TbLoader2 } from "react-icons/tb";
+
+const DELIVERY_SLOTS = [
+    {
+        id: "Instant 10-Min Rush",
+        title: "Instant 10-Min Rush",
+        subtitle: "Arriving in 9-11 Mins from Hub #102",
+        badge: "FASTEST",
+        icon: HiBolt
+    },
+    {
+        id: "Morning Slot (06:00 AM - 08:00 AM)",
+        title: "Morning Slot (06:00 AM - 08:00 AM)",
+        subtitle: "Fresh farm harvest, milk & daily bread",
+        badge: "POPULAR",
+        icon: HiClock
+    },
+    {
+        id: "Afternoon Slot (12:00 PM - 02:00 PM)",
+        title: "Afternoon Slot (12:00 PM - 02:00 PM)",
+        subtitle: "Midday cooking essentials & lunch items",
+        badge: "LUNCH",
+        icon: HiClock
+    },
+    {
+        id: "Evening Slot (06:00 PM - 08:00 PM)",
+        title: "Evening Slot (06:00 PM - 08:00 PM)",
+        subtitle: "Evening snacks, chai & dinner ingredients",
+        badge: "DINNER",
+        icon: HiSparkles
+    },
+    {
+        id: "Late Night Rush (09:00 PM - 11:00 PM)",
+        title: "Late Night Rush (09:00 PM - 11:00 PM)",
+        subtitle: "Late night cravings, drinks & munchies",
+        badge: "NIGHT OWL",
+        icon: HiBolt
+    }
+];
 
 const Cart = () => {
     const {
@@ -34,7 +74,9 @@ const Cart = () => {
         appliedCoupon,
         applyCoupon,
         removeCoupon,
-        setShowScratchCardModal
+        setShowScratchCardModal,
+        selectedDeliverySlot,
+        setSelectedDeliverySlot
     } = useAppContext();
 
     const [cartArray, setCartArray] = useState([]);
@@ -114,7 +156,8 @@ const Cart = () => {
                         product: item._id, 
                         quantity: item.quantity
                     })),
-                    address: selectedAddress._id
+                    address: selectedAddress._id,
+                    deliverySlot: selectedDeliverySlot
                 });
 
                 if (data.success) {
@@ -131,7 +174,8 @@ const Cart = () => {
                         product: item._id, 
                         quantity: item.quantity
                     })),
-                    address: selectedAddress._id
+                    address: selectedAddress._id,
+                    deliverySlot: selectedDeliverySlot
                 });
 
                 if (data.success && data.url) {
@@ -268,6 +312,62 @@ const Cart = () => {
                 </div>
 
                 <div className="lg:col-span-5 space-y-4">
+                    <div className="bg-white rounded-2xl sm:rounded-3xl border border-gray-100 p-4 sm:p-5 shadow-xs space-y-3">
+                        <div className="flex items-center justify-between pb-2 border-b border-gray-100">
+                            <span className="text-xs font-extrabold text-gray-400 uppercase tracking-wider">
+                                Choose Delivery Slot
+                            </span>
+                            <span className="text-[10px] font-black text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 truncate max-w-[150px]">
+                                {selectedDeliverySlot}
+                            </span>
+                        </div>
+
+                        <div className="space-y-2">
+                            {DELIVERY_SLOTS.map((slot) => {
+                                const IconComp = slot.icon;
+                                const isSelected = selectedDeliverySlot === slot.id;
+                                return (
+                                    <div
+                                        key={slot.id}
+                                        onClick={() => setSelectedDeliverySlot(slot.id)}
+                                        className={`p-3 rounded-2xl border transition cursor-pointer flex items-center justify-between gap-3 ${
+                                            isSelected
+                                                ? "border-emerald-600 bg-emerald-50/70 text-emerald-950 ring-1 ring-emerald-600 shadow-2xs"
+                                                : "border-gray-100 hover:border-gray-300 hover:bg-gray-50/60 text-gray-700"
+                                        }`}
+                                    >
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border ${
+                                                isSelected ? "bg-emerald-700 text-white border-emerald-800" : "bg-gray-50 text-gray-600 border-gray-100"
+                                            }`}>
+                                                <IconComp className="w-5 h-5" />
+                                            </div>
+                                            <div className="min-w-0">
+                                                <div className="flex items-center gap-2">
+                                                    <h4 className="text-xs font-bold truncate">{slot.title}</h4>
+                                                    <span className={`text-[9px] font-black uppercase px-1.5 py-0.2 rounded shrink-0 ${
+                                                        isSelected ? "bg-emerald-200 text-emerald-950" : "bg-gray-100 text-gray-600"
+                                                    }`}>
+                                                        {slot.badge}
+                                                    </span>
+                                                </div>
+                                                <p className="text-[11px] text-gray-500 truncate mt-0.5">{slot.subtitle}</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="shrink-0">
+                                            <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                                                isSelected ? "border-emerald-700 bg-emerald-700 text-white" : "border-gray-300 bg-white"
+                                            }`}>
+                                                {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+
                     <div className="bg-white rounded-2xl sm:rounded-3xl border border-gray-100 p-4 sm:p-5 shadow-xs">
                         <div className="flex items-center justify-between pb-3 border-b border-gray-100">
                             <span className="text-xs font-extrabold text-gray-400 uppercase tracking-wider">

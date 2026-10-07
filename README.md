@@ -12,20 +12,20 @@
 
 > **Live Application URL**: [https://grocerinx.vercel.app/](https://grocerinx.vercel.app/)
 
-**Grocerin** is a production-grade, ultra-fast 10-minute grocery delivery platform engineered to deliver farm-fresh vegetables, fruits, dairy, instant foods, and daily essentials with micro-warehouse fulfillment speeds. Built with high concurrency handling, multi-tier Redis caching, connection-pooled database clustering, Google Gemini RAG grounding, real-time rider telemetry, and responsive mobile-first interfaces.
+**Grocerin** is an ultra-fast, 10-minute hyperlocal grocery delivery platform built with micro-fulfillment warehouse speed, multi-tier Redis caching, connection-pooled database clustering, Google Gemini RAG grounding, real-time rider telemetry, and responsive mobile-first interfaces.
 
 ---
 
 ## Table of Contents
-1. [Live Production Deployment](#-live-production-deployment)
-2. [Key Highlights & Core Modules](#-key-highlights--core-modules)
-3. [Engineering Architecture](#-engineering-architecture)
-4. [Technology Stack](#-technology-stack)
-5. [Repository Structure](#-repository-structure)
-6. [Complete REST API Reference](#-complete-rest-api-reference)
-7. [Getting Started & Local Setup](#-getting-started--local-setup)
-8. [Docker Multi-Stage Deployment](#-docker-multi-stage-deployment)
-9. [License](#-license)
+1. [Live Production Deployment](#live-production-deployment)
+2. [Key Highlights & Core Modules](#key-highlights--core-modules)
+3. [Engineering Architecture](#engineering-architecture)
+4. [Technology Stack](#technology-stack)
+5. [Repository Structure](#repository-structure)
+6. [Complete REST API Reference](#complete-rest-api-reference)
+7. [Getting Started & Local Setup](#getting-started--local-setup)
+8. [Docker Multi-Stage Deployment](#docker-multi-stage-deployment)
+9. [License](#license)
 
 ---
 
@@ -60,10 +60,12 @@ Access the live cloud deployment directly:
 ### 3. Grocerin AI Shopping Assistant
 - **Google Gemini Generative AI**: Powered by `gemini-1.5-flash` with multi-model fallback (`gemini-2.0-flash`, `gemini-1.5-flash-8b`, `gemini-1.5-pro`).
 - **Dynamic Catalog Grounding**: Reads real-time in-stock inventory and prices for instant recommendation of recipes, ingredient kits, and budget combos.
+- **1-Click Meal Kit Additions**: Add complete ingredient bundles directly to cart from the chat assistant.
 - **100% Uptime Rule Engine**: High-speed offline grocery heuristic engine ensures zero downtime even during upstream provider limits.
 
 ### 4. Biker Mode App & Fleet Dispatch Management
 - **Delivery Partner App (`/biker`)**: Shift toggle (On Duty / Break), Google Maps turn-by-turn navigation, customer direct calling, and 4-digit OTP handover confirmation.
+- **Fleet Wallet & Payouts**: Real-time breakdown of base trip earnings, 10-minute SLA bonuses, customer tips, and instant UPI settlement.
 - **Admin Fleet Dispatch (`/seller/bikers`)**: Live roster telemetry, EV battery indicators, active trip counts, and 1-click order assignment.
 
 ### 5. Seamless Navigation & Responsive Design
@@ -88,7 +90,7 @@ Access the live cloud deployment directly:
 |  - Admin Fleet Dispatcher (/seller/bikers): Real-time roster telemetry & 1-click trip dispatch     |
 |  - Customer Live Tracking (/tractOrder): Live ETA, Biker telemetry, OTP code & doorstep arrival   |
 |  - Dark Store Seller Portal (/seller): Margin calculator, stock toggles & order queue              |
-|  - Grocerin AI Chatbot: Catalog RAG grounding & 100% uptime fallback intelligence                 |
+|  - Grocerin AI Chatbot: Catalog RAG grounding & 1-click meal kit add-to-cart                       |
 |  - Gamified Canvas Scratch & Win Promo Cards with particle confetti engine                         |
 |  - 1-Click Smart Meal Kits & Recipe Bundles (Instant Batch Cart Addition)                          |
 |  - GPS Geolocation Engine (Auto-detects Locality & 6-digit PIN code)                               |
@@ -120,7 +122,7 @@ Access the live cloud deployment directly:
 |  Redis (ioredis) |             |  MongoDB Atlas   |                |  Google Gemini   |
 |  - Catalog Cache |             |  - 100 Conn Pool |                |  - Flash 1.5/2.0 |
 |  - Fallback Dict |             |  - Index Shards  |                |  - Grounded RAG  |
-|  - TTL Invalidate|             |  - ACID Webhooks |                |  - Zero-Emoji    |
+|  - TTL Invalidate|             |  - ACID Webhooks |                |  - Multi-Model   |
 +------------------+             +------------------+                +------------------+
 ```
 
@@ -131,12 +133,12 @@ Access the live cloud deployment directly:
 | Layer | Technologies |
 |---|---|
 | **Frontend Framework** | React 19, Vite 7, Tailwind CSS 4 (`@tailwindcss/vite`), React Router v7 |
-| **Icons & UI Utilities** | React Icons (`react-icons/hi2`, `react-icons/fa6`), Lucide React, Canvas Confetti, React Hot Toast |
+| **Icons & UI Utilities** | React Icons (`react-icons/hi2`, `react-icons/fa6`), Canvas Confetti, React Hot Toast |
 | **Backend API** | Node.js (v20+), Express.js, ioredis, Mongoose, Multer, Cloudinary SDK |
 | **Security & Middleware** | Helmet, Compression, Express Rate Limit, JWT Authentication, CORS |
 | **Databases & Caching** | MongoDB Atlas (Pooled 100-connection cluster), Redis (Sub-15ms cache with in-memory TTL dictionary fallback) |
 | **Generative AI** | Google Gemini API (`gemini-1.5-flash`, `gemini-2.0-flash`, `gemini-1.5-pro`) |
-| **Payment Gateways** | Stripe API (Credit/Debit/RuPay/Cards) & Cash on Delivery (COD) |
+| **Payment Gateways** | Stripe API (Credit/Debit/Cards) & Cash on Delivery (COD) |
 | **DevOps & Containers** | Docker (Multi-stage Alpine), Docker Compose, NGINX Reverse Proxy, Vercel |
 
 ---

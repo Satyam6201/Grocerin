@@ -3,27 +3,33 @@ import {
     HiSparkles,
     HiXMark,
     HiPaperAirplane,
-    HiTrash
+    HiTrash,
+    HiBolt,
+    HiShoppingBag,
+    HiCheck,
+    HiArrowRight,
+    HiTag
 } from 'react-icons/hi2';
 import { useAppContext } from '../context/AppContext';
+import toast from 'react-hot-toast';
 
 const SUGGESTED_PROMPTS = [
-    "What is your 10-minute delivery SLA?",
-    "Paneer Butter Masala recipe & cost",
-    "Show active discount coupons",
-    "Healthy breakfast bundle under ₹300",
-    "Return & refund policy details",
-    "Recommend organic veggies in stock"
+    { label: "10-Min SLA Details", query: "What is your 10-minute delivery SLA and micro-hub network?" },
+    { label: "Paneer Masala Kit", query: "Paneer Butter Masala recipe, cost and ingredients" },
+    { label: "Active Discount Coupons", query: "Show active discount coupons and savings" },
+    { label: "Healthy Breakfast Bundle", query: "Healthy breakfast bundle under ₹300" },
+    { label: "Return & Refund Policy", query: "What is your 100% freshness return and refund policy?" },
+    { label: "Fresh Fruits & Veggies", query: "Recommend top in-stock organic vegetables and fruits" }
 ];
 
 const ChatBot = () => {
-    const { axios } = useAppContext();
+    const { axios, addMultipleToCart, products, navigate } = useAppContext();
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([
         {
             id: 'welcome',
             sender: 'bot',
-            text: "Hello! I am your Grocerin AI Shopping Assistant. How can I help you with fresh groceries, quick recipes, or 10-minute delivery today?"
+            text: "Hello! I am your Grocerin AI Shopping Assistant. Ask me anything about in-stock groceries, quick 10-minute recipe kits, active coupons, or dark store delivery."
         }
     ]);
     const [input, setInput] = useState('');
@@ -73,7 +79,7 @@ const ChatBot = () => {
             setMessages(prev => [...prev, {
                 id: (Date.now() + 1).toString(),
                 sender: 'bot',
-                text: "Our AI assistant is momentarily busy. Please try asking again, or browse our grocery catalog directly."
+                text: "Our AI assistant is momentarily busy. Please browse our grocery catalog directly or try asking again."
             }]);
         } finally {
             setLoading(false);
@@ -90,13 +96,27 @@ const ChatBot = () => {
         ]);
     };
 
+    const handleQuickAddRecipe = (keyword) => {
+        const matchingIds = products
+            .filter(p => p.name.toLowerCase().includes(keyword.toLowerCase()) || p.category.toLowerCase().includes(keyword.toLowerCase()))
+            .slice(0, 3)
+            .map(p => p._id);
+
+        if (matchingIds.length > 0) {
+            addMultipleToCart(matchingIds);
+        } else {
+            navigate('/product');
+            toast.success("Redirecting to product catalog!");
+        }
+    };
+
     return (
         <div className={`fixed z-50 transition-all duration-300 ${isOpen ? 'bottom-4 sm:bottom-6 right-3 sm:right-6' : 'bottom-20 sm:bottom-6 right-4 sm:right-6'}`}>
             {!isOpen && (
                 <button
                     onClick={() => setIsOpen(true)}
                     aria-label="Open AI Assistant"
-                    className="relative group bg-linear-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white p-3.5 sm:p-4 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 flex items-center gap-2.5 cursor-pointer border border-emerald-400/30"
+                    className="relative group bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white p-3.5 sm:p-4 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 flex items-center gap-2.5 cursor-pointer border border-emerald-400/30"
                 >
                     <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-400 border-2 border-white rounded-full animate-ping" />
                     <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-400 border-2 border-white rounded-full" />
@@ -109,9 +129,9 @@ const ChatBot = () => {
             )}
 
             {isOpen && (
-                <div className="w-[calc(100vw-24px)] sm:w-[380px] md:w-[410px] h-[520px] max-h-[82vh] bg-white rounded-3xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-250">
+                <div className="w-[calc(100vw-24px)] sm:w-[390px] md:w-[420px] h-[540px] max-h-[84vh] bg-white rounded-3xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-250">
                     
-                    <div className="bg-linear-to-r from-emerald-800 to-teal-900 text-white p-4 flex items-center justify-between shadow-xs">
+                    <div className="bg-gradient-to-r from-emerald-800 to-teal-900 text-white p-4 flex items-center justify-between shadow-xs">
                         <div className="flex items-center gap-2.5">
                             <div className="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center border border-white/20 backdrop-blur-xs">
                                 <HiSparkles className="w-5 h-5 text-amber-300" />
@@ -144,22 +164,40 @@ const ChatBot = () => {
                     </div>
 
                     <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50/60 text-xs">
-                        {messages.map((m) => (
-                            <div
-                                key={m.id}
-                                className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                            >
+                        {messages.map((m) => {
+                            const isUser = m.sender === 'user';
+                            const hasPaneerRecipe = !isUser && m.text.toLowerCase().includes('paneer');
+                            const hasBreakfastRecipe = !isUser && m.text.toLowerCase().includes('breakfast');
+
+                            return (
                                 <div
-                                    className={`max-w-[85%] p-3.5 rounded-2xl leading-relaxed whitespace-pre-wrap ${
-                                        m.sender === 'user'
-                                            ? 'bg-emerald-700 text-white rounded-br-xs shadow-xs font-medium'
-                                            : 'bg-white text-gray-800 border border-gray-100 rounded-bl-xs shadow-2xs font-normal'
-                                    }`}
+                                    key={m.id}
+                                    className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}
                                 >
-                                    {m.text}
+                                    <div
+                                        className={`max-w-[88%] p-3.5 rounded-2xl leading-relaxed whitespace-pre-wrap ${
+                                            isUser
+                                                ? 'bg-emerald-700 text-white rounded-br-xs shadow-xs font-medium'
+                                                : 'bg-white text-gray-800 border border-gray-100 rounded-bl-xs shadow-2xs font-normal'
+                                        }`}
+                                    >
+                                        {m.text}
+                                    </div>
+
+                                    {(hasPaneerRecipe || hasBreakfastRecipe) && (
+                                        <div className="mt-1.5 ml-1 flex items-center gap-2">
+                                            <button
+                                                onClick={() => handleQuickAddRecipe(hasPaneerRecipe ? 'paneer' : 'bread')}
+                                                className="px-3 py-1 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200 rounded-lg text-[10px] font-bold flex items-center gap-1 transition cursor-pointer"
+                                            >
+                                                <HiShoppingBag className="w-3.5 h-3.5 text-emerald-600" />
+                                                <span>Add Meal Kit to Cart</span>
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
 
                         {loading && (
                             <div className="flex justify-start">
@@ -173,15 +211,16 @@ const ChatBot = () => {
                         <div ref={messagesEndRef} />
                     </div>
 
-                    {messages.length <= 2 && (
-                        <div className="p-2.5 bg-white border-t border-gray-100 flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
+                    {messages.length <= 3 && (
+                        <div className="p-2.5 bg-white border-t border-gray-100 flex flex-wrap gap-1.5 max-h-28 overflow-y-auto">
                             {SUGGESTED_PROMPTS.map((p, idx) => (
                                 <button
                                     key={idx}
-                                    onClick={() => handleSend(p)}
-                                    className="text-[10px] font-semibold px-2.5 py-1 rounded-lg bg-gray-50 hover:bg-emerald-50 text-gray-600 hover:text-emerald-800 border border-gray-200 transition cursor-pointer"
+                                    onClick={() => handleSend(p.query)}
+                                    className="text-[10px] font-semibold px-2.5 py-1 rounded-lg bg-gray-50 hover:bg-emerald-50 text-gray-600 hover:text-emerald-800 border border-gray-200 transition cursor-pointer flex items-center gap-1"
                                 >
-                                    {p}
+                                    <HiBolt className="w-3 h-3 text-amber-500 shrink-0" />
+                                    <span>{p.label}</span>
                                 </button>
                             ))}
                         </div>
@@ -205,6 +244,7 @@ const ChatBot = () => {
                             type="submit"
                             disabled={!input.trim() || loading}
                             className="p-2.5 bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white rounded-xl transition cursor-pointer shrink-0 shadow-xs"
+                            aria-label="Send message"
                         >
                             <HiPaperAirplane className="w-4 h-4" />
                         </button>

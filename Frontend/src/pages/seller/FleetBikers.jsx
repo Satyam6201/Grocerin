@@ -201,7 +201,7 @@ export default function FleetBikers() {
                                         <span>{biker.batteryLevel}% EV Bat</span>
                                     </span>
                                     <span className="font-bold text-gray-900">
-                                        ★ {biker.rating || 4.9}
+                                        Rating: {biker.rating || 4.9}
                                     </span>
                                 </div>
                                 <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">

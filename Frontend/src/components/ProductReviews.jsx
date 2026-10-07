@@ -5,7 +5,8 @@ import {
     HiCheckBadge, 
     HiHandThumbUp, 
     HiPencilSquare, 
-    HiSparkles 
+    HiSparkles,
+    HiXMark
 } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 
@@ -214,9 +215,10 @@ const ProductReviews = ({ product }) => {
                             <h4 className="font-black text-base text-gray-900">Write a Review for {product.name}</h4>
                             <button 
                                 onClick={() => setShowWriteModal(false)}
-                                className="text-gray-400 hover:text-gray-700 text-lg leading-none cursor-pointer"
+                                className="text-gray-400 hover:text-gray-700 cursor-pointer p-1 rounded-lg"
+                                aria-label="Close review modal"
                             >
-                                ✕
+                                <HiXMark className="w-5 h-5" />
                             </button>
                         </div>
 

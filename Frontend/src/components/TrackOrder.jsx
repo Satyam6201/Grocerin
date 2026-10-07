@@ -230,7 +230,7 @@ export default function TrackOrder() {
                                                 {telemetry?.riderName || order.bikerName || "Vikram Rathore"}
                                             </span>
                                             <span className="text-[10px] bg-emerald-500/20 text-emerald-300 font-bold px-2 py-0.5 rounded-md border border-emerald-500/30">
-                                                ★ 4.9 Super Rider
+                                                4.9 Super Rider
                                             </span>
                                         </div>
                                         <p className="text-xs text-gray-400 font-mono mt-0.5">

@@ -34,9 +34,9 @@ const ScratchCardModal = () => {
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             ctx.fillStyle = '#64748b';
-            ctx.font = 'bold 14px sans-serif';
+            ctx.font = 'bold 13px sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText('✨ SCRATCH HERE TO REVEAL ✨', canvas.width / 2, canvas.height / 2);
+            ctx.fillText('SCRATCH HERE TO REVEAL', canvas.width / 2, canvas.height / 2);
         }
     }, [showScratchCardModal]);
 
@@ -74,7 +74,7 @@ const ScratchCardModal = () => {
                     });
                 });
             } catch (e) {}
-            toast.success(`You unlocked ${couponCode}!`, { icon: '🎁' });
+            toast.success(`You unlocked ${couponCode}!`);
         }
     };
 

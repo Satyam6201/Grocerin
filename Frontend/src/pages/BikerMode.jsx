@@ -335,7 +335,7 @@ export default function BikerMode() {
                                 <span>Rider Rating</span>
                                 <HiShieldCheck className="w-4 h-4 text-purple-400" />
                             </div>
-                            <p className="text-xl sm:text-2xl font-black text-white mt-1">★ {selectedBiker.rating}</p>
+                            <p className="text-xl sm:text-2xl font-black text-white mt-1">{selectedBiker.rating}</p>
                             <span className="text-[10px] text-purple-300 font-semibold">Super Rider Tier</span>
                         </div>
                     </div>

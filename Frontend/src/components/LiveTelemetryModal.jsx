@@ -72,10 +72,10 @@ const LiveTelemetryModal = () => {
     const boostSimulator = () => {
         if (secondsLeft <= 12) {
             setSecondsLeft(0);
-            toast.success("Order Delivered at your doorstep! 🎉");
+            toast.success("Order Delivered at your doorstep!");
         } else {
             setSecondsLeft(10);
-            toast.success("Fast-Forwarded: Rider is 10s away from doorstep!", { icon: '⚡' });
+            toast.success("Fast-Forwarded: Rider is 10s away from doorstep!");
         }
     };
 
@@ -248,7 +248,7 @@ const LiveTelemetryModal = () => {
                                 <div className="flex items-center gap-1.5">
                                     <h4 className="font-extrabold text-xs sm:text-sm text-gray-900 truncate">Vikram Rathore</h4>
                                     <span className="text-[9px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded shrink-0">
-                                        ★ 4.9
+                                        Rating: 4.9
                                     </span>
                                 </div>
                                 <p className="text-[11px] text-gray-500 truncate">Grocerin EV Express Rider</p>
@@ -264,7 +264,7 @@ const LiveTelemetryModal = () => {
                                 <HiPhone className="w-4 h-4" />
                             </a>
                             <button
-                                onClick={() => toast.success("Connected to Hub Dispatcher!", { icon: '💬' })}
+                                onClick={() => toast.success("Connected to Hub Dispatcher!")}
                                 className="w-9 h-9 rounded-xl bg-emerald-700 text-white hover:bg-emerald-800 flex items-center justify-center transition shadow-2xs cursor-pointer"
                                 title="Chat with Hub"
                             >

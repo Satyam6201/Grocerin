@@ -10,7 +10,8 @@ import {
     HiMapPin, 
     HiBuildingStorefront,
     HiSparkles,
-    HiArrowPath
+    HiArrowPath,
+    HiArrowRight
 } from 'react-icons/hi2';
 import { FaMotorcycle } from "react-icons/fa6";
 import toast from 'react-hot-toast';
@@ -108,8 +109,10 @@ const LiveTelemetryModal = () => {
                                     {isDelivered ? "ARRIVED" : "LIVE GPS"}
                                 </span>
                             </div>
-                            <p className="text-[11px] text-emerald-100/80 truncate max-w-[200px] sm:max-w-xs">
-                                Dark Store Hub #102 → {deliveryLocation.city || "Patna"}
+                            <p className="text-[11px] text-emerald-100/80 truncate max-w-[200px] sm:max-w-xs flex items-center">
+                                <span>Dark Store Hub #102</span>
+                                <HiArrowRight className="w-3 h-3 mx-1 inline-block shrink-0 opacity-80" />
+                                <span>{deliveryLocation.city || "Patna"}</span>
                             </p>
                         </div>
                     </div>

@@ -547,7 +547,7 @@ const Cart = () => {
                             </div>
                         )}
                         <div className="flex justify-between">
-                            <span>Delivery Fee (Orders over ₹199 free)</span>
+                            <span>Delivery Fee (Orders over {currency}199 free)</span>
                             <span className={deliveryFee === 0 ? "text-emerald-700 font-bold" : "font-semibold text-gray-900"}>
                                 {deliveryFee === 0 ? "FREE" : `${currency}${deliveryFee}`}
                             </span>

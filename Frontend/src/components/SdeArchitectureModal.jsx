@@ -109,7 +109,10 @@ const SdeArchitectureModal = () => {
                         <span className="text-emerald-400 text-lg font-black tracking-wider">
                             {pingLatency !== null ? `${pingLatency}ms` : '18ms'}
                         </span>
-                        <span className="text-[10px] text-emerald-400/80 block mt-0.5">● Ultra-low jitter</span>
+                        <span className="text-[10px] text-emerald-400/80 flex items-center gap-1 mt-0.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span>
+                            <span>Ultra-low jitter</span>
+                        </span>
                     </div>
 
                     <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-3">

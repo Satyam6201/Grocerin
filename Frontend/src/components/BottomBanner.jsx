@@ -1,6 +1,5 @@
-import React from 'react';
 import { assets, features } from '../assets/assets';
-import { HiSparkles, HiCheckCircle } from 'react-icons/hi2';
+import { HiSparkles } from 'react-icons/hi2';
 
 const BottomBanner = () => {
   return (

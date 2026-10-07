@@ -31,11 +31,11 @@ try {
 
     redisClient.connect().catch(() => {
         isRedisAvailable = false;
-        console.log('ℹ️  Redis server not detected. Gracefully falling back to High-Speed In-Memory Cache.');
+        console.log('Redis server not detected. Gracefully falling back to High-Speed In-Memory Cache.');
     });
 } catch (error) {
     isRedisAvailable = false;
-    console.log('ℹ️  Redis initialization skipped, using In-Memory Cache fallback.');
+    console.log('Redis initialization skipped, using In-Memory Cache fallback.');
 }
 
 export const getCache = async (key) => {

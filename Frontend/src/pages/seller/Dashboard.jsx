@@ -17,7 +17,8 @@ import {
     HiMagnifyingGlass,
     HiClock,
     HiArrowDownTray,
-    HiSparkles
+    HiSparkles,
+    HiArrowTrendingUp
 } from 'react-icons/hi2';
 import { FaMotorcycle, FaTemperatureHalf } from "react-icons/fa6";
 
@@ -181,7 +182,10 @@ export default function Dashboard() {
                         </span>
                     </div>
                     <p className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 mt-1 sm:mt-2">{currency}{stats.totalRevenue}</p>
-                    <p className="text-[10px] sm:text-[11px] text-emerald-700 font-semibold mt-0.5">↑ +14.8% growth</p>
+                    <p className="text-[10px] sm:text-[11px] text-emerald-700 font-semibold mt-0.5 flex items-center">
+                        <HiArrowTrendingUp className="w-3.5 h-3.5 mr-0.5 shrink-0" />
+                        <span>+14.8% growth</span>
+                    </p>
                 </div>
 
                 <div className="bg-white p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl border border-gray-100 shadow-2xs relative overflow-hidden">

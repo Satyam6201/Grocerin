@@ -554,6 +554,35 @@ export const getFleetBikers = async (req, res) => {
     }
 };
 
+export const addFleetBiker = async (req, res) => {
+    try {
+        const { name, phone, vehicleType, vehicleNumber, batteryLevel } = req.body;
+        if (!name || !phone || !vehicleNumber) {
+            return res.status(400).json({ success: false, message: "Name, phone, and vehicle number are required" });
+        }
+
+        const count = await Biker.countDocuments();
+        const bikerId = `BIKER-${100 + count + 1}`;
+
+        const newBiker = await Biker.create({
+            bikerId,
+            name,
+            phone,
+            vehicleType: vehicleType || "Electric EV Hero",
+            vehicleNumber,
+            batteryLevel: Number(batteryLevel) || 90,
+            status: "Available",
+            rating: 5.0,
+            completedDeliveries: 0,
+            hubId: "PATNA-HUB-102"
+        });
+
+        res.json({ success: true, message: "Rider registered to fleet", biker: newBiker });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 export const assignBikerToOrder = async (req, res) => {
     try {
         const { orderId, bikerId } = req.body;

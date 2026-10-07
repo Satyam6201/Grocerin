@@ -15,6 +15,7 @@ import {
     updateBikerOrderStatus,
     verifyBikerDeliveryOtp,
     getFleetBikers,
+    addFleetBiker,
     assignBikerToOrder,
     trackOrderById
 } from "../controllers/orderController.js";
@@ -35,6 +36,7 @@ orderRouter.get('/biker/active', getBikerOrders);
 orderRouter.post('/biker/status', updateBikerOrderStatus);
 orderRouter.post('/biker/verify-otp', verifyBikerDeliveryOtp);
 orderRouter.get('/fleet', getFleetBikers);
+orderRouter.post('/fleet/add', authSeller, addFleetBiker);
 orderRouter.post('/assign-biker', authSeller, assignBikerToOrder);
 orderRouter.get('/track/:orderId', trackOrderById);
 

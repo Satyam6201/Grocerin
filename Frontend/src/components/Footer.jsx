@@ -359,8 +359,8 @@ const Footer = () => {
                         
                         <div className="text-xs text-gray-500 text-center md:text-left">
                             <p>© {new Date().getFullYear()} Grocerin Technologies Inc. All rights reserved.</p>
-                            <p className="text-[11px] text-gray-600 mt-0.5">
-                                Built for ultra-fast grocery delivery with Redis caching, Docker, and Stripe.
+                            <p className="text-[11px] text-gray-500 mt-0.5">
+                                India's trusted 10-minute grocery delivery network. Safe, hygienic, and reliable.
                             </p>
                         </div>
 

@@ -14,6 +14,7 @@ const authSeller = async (req, res, next) => {
             const tokenDecode = jwt.verify(sellerToken, process.env.JWT_SECRET);
     
             if (tokenDecode.email === process.env.SELLER_EMAIL) {
+                req.seller = tokenDecode;
                 next();
             }
             else {

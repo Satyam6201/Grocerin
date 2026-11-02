@@ -51,11 +51,11 @@ Access the live cloud deployment directly:
 - **Sub-2-Minute Order Picking**: Streamlined SKU racking allows pickers to bag groceries in under 120 seconds.
 - **Strict Cold Chain Preservation**: Dedicated multi-temperature packing (Frozen at -18°C, Dairy at 3-4°C, Fresh Produce at 22°C).
 
-### 2. Live Rider GPS Telemetry & Simulation Engine
-- **Real-Time Synchronized Movement**: Delivery bike moves dynamically across the transit route aligned with the countdown timer.
-- **Deceleration Physics**: Simulates real-world traffic deceleration (32 km/h cruise -> 16 km/h street -> 6 km/h gate -> 0 km/h doorstep arrival).
-- **Automated Delivery Hand-off**: Automatic transition to "Delivered" state upon reaching 00:00 with OTP verification.
-- **Simulation Controls**: Instant Fast-Forward and Replay dispatch triggers for real-time testing.
+### 2. Live Rider GPS Telemetry & Transit Tracking
+- **Real-Time Synchronized Movement**: Delivery bike moves dynamically across the transit route aligned with the delivery countdown timer.
+- **Dynamic Speed & Route Optimization**: Dynamically adjusts speeds to reflect street transit, neighborhood navigation, and doorstep arrival.
+- **Secure Delivery Hand-off**: Contactless 4-digit OTP handover confirmation directly with the customer.
+- **Real-Time Telemetry Metrics**: Live rider speed, distance remaining, EV battery levels, and insulated cold-chain bag temperature monitoring.
 
 ### 3. Grocerin AI Shopping Assistant
 - **Google Gemini Generative AI**: Powered by `gemini-1.5-flash` with multi-model fallback (`gemini-2.0-flash`, `gemini-1.5-flash-8b`, `gemini-1.5-pro`).

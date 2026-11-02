@@ -59,7 +59,7 @@ const Home = () => {
             </div>
             <div>
               <p className="text-xs font-bold text-amber-950">Scratch & Win Discount</p>
-              <p className="text-[11px] text-amber-800 font-medium">Reveal secret promo codes</p>
+              <p className="text-[11px] text-amber-800 font-medium">Reveal exclusive promo codes</p>
             </div>
           </div>
           <HiArrowRight className="text-amber-700 group-hover:translate-x-1 transition text-sm shrink-0" />

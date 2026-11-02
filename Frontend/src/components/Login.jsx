@@ -34,7 +34,6 @@ const Login = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [otpHint, setOtpHint] = useState(null);
 
     const activePassword = state === "reset" ? newPassword : password;
     const isUnlocked = showPassword || showNewPassword || activePassword.length >= 6;
@@ -96,10 +95,7 @@ const Login = () => {
             const { data } = await axios.post('/api/user/forgot-password', { email });
             if (data.success) {
                 toast.success("Verification code sent to your email!");
-                if (data.otp) {
-                    setOtpHint(data.otp);
-                    setOtp(data.otp);
-                }
+                setOtp("");
                 setState("reset");
             } else {
                 toast.error(data.message || "Failed to find account");
@@ -526,13 +522,8 @@ const Login = () => {
                                         <span>Verification Code Sent</span>
                                     </p>
                                     <p className="text-[11px] text-emerald-800 mt-0.5">
-                                        Code sent to <strong className="text-gray-900">{email}</strong>. Enter code below to customize password.
+                                        Code sent to <strong className="text-gray-900">{email}</strong>. Enter the 6-digit code below to reset password.
                                     </p>
-                                    {otpHint && (
-                                        <div className="mt-1.5 p-1 bg-white rounded-lg border border-emerald-200 text-center font-mono font-bold text-xs text-emerald-900">
-                                            Demo Code: <span className="tracking-widest text-emerald-700">{otpHint}</span>
-                                        </div>
-                                    )}
                                 </div>
 
                                 <div className="space-y-1">

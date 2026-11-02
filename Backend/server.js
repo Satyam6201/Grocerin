@@ -46,10 +46,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     origin: function(origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
             callback(null, true);
         } else {
-            callback(null, true);
+            callback(new Error('Blocked by CORS policy'));
         }
     },
     credentials: true

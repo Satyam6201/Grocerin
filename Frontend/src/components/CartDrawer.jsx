@@ -223,7 +223,7 @@ const CartDrawer = () => {
                                                     type="text"
                                                     value={couponInput}
                                                     onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
-                                                    placeholder="Enter promo code (e.g. SUPERDEV)"
+                                                    placeholder="Enter promo code (e.g. GROCER100)"
                                                     className="flex-1 text-xs px-3 py-1.5 border border-gray-200 rounded-lg outline-emerald-600 uppercase font-mono font-bold"
                                                 />
                                                 <button
@@ -236,7 +236,7 @@ const CartDrawer = () => {
                                             </div>
 
                                             <div className="flex flex-wrap gap-1.5">
-                                                {['SUPERDEV', 'GROCER100', 'GROCER250', 'FREEDEL'].map(c => (
+                                                {['GROCER100', 'GROCER250', 'GROCER300', 'FREEDEL'].map(c => (
                                                     <button
                                                         key={c}
                                                         onClick={() => handleApplyCouponCode(c)}

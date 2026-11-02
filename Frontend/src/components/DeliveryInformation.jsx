@@ -107,7 +107,7 @@ export default function DeliveryInformation() {
           </h1>
 
           <p className="text-xs sm:text-sm text-emerald-100/90 leading-relaxed max-w-2xl">
-            Our secret is not fast driving - it is hyper-proximity. We operate network micro-fulfillment dark stores situated less than 2.5 kilometers from your neighborhood.
+            Our formula is not fast driving - it is hyper-proximity. We operate network micro-fulfillment dark stores situated less than 2.5 kilometers from your neighborhood.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">

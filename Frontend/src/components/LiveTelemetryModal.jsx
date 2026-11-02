@@ -70,21 +70,6 @@ const LiveTelemetryModal = () => {
         ? "DELIVERED" 
         : `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
-    const boostSimulator = () => {
-        if (secondsLeft <= 12) {
-            setSecondsLeft(0);
-            toast.success("Order Delivered at your doorstep!");
-        } else {
-            setSecondsLeft(10);
-            toast.success("Fast-Forwarded: Rider is 10s away from doorstep!");
-        }
-    };
-
-    const resetSimulation = () => {
-        setSecondsLeft(TOTAL_DELIVERY_SECONDS);
-        toast.success("Trip simulation reset to 9 minutes");
-    };
-
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/65 backdrop-blur-sm animate-in fade-in duration-200">
             <div 

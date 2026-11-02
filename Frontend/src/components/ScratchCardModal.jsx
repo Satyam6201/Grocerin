@@ -13,8 +13,8 @@ const ScratchCardModal = () => {
     const canvasRef = useRef(null);
     const [isScratched, setIsScratched] = useState(false);
     const [isDrawing, setIsDrawing] = useState(false);
-    const [couponCode, setCouponCode] = useState('SUPERDEV');
-    const [couponDesc, setCouponDesc] = useState('30% SDE Special Discount (Up to ₹300)');
+    const [couponCode, setCouponCode] = useState('GROCER300');
+    const [couponDesc, setCouponDesc] = useState('30% Super Saver Discount (Up to ₹300)');
 
     useEffect(() => {
         if (!showScratchCardModal) {
@@ -23,7 +23,7 @@ const ScratchCardModal = () => {
         }
 
         const codes = [
-            { code: 'SUPERDEV', desc: '30% SDE Candidate Special Discount (Up to ₹300)' },
+            { code: 'GROCER300', desc: '30% Super Saver Discount (Up to ₹300)' },
             { code: 'GROCER250', desc: 'Flat ₹250 Off on orders above ₹1499' },
             { code: 'FIRSTBITE', desc: 'Flat 20% Instant Savings on First Order' },
             { code: 'FREEDEL', desc: '100% Free 10-Minute Instant Delivery' }

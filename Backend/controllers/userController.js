@@ -63,7 +63,7 @@ export const login = async (req, res) => {
         if (!email || !password) 
             return res.json({
                 success: false,
-                message: 'Email nad Password are required'
+                message: 'Email and password are required'
         });
 
         const user = await User.findOne({email});
@@ -170,8 +170,7 @@ export const forgotPassword = async (req, res) => {
 
         return res.json({
             success: true,
-            message: "6-digit verification code generated",
-            otp: otp
+            message: "6-digit verification code sent to your email"
         });
     } catch (error) {
         console.error("Forgot password error:", error);

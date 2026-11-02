@@ -373,11 +373,11 @@ export const validateCoupon = async (req, res) => {
         } else if (cleanCode === 'NIGHTOWL') {
             discount = Math.min(Math.round(total * 0.15), 150);
             message = `15% Night Express Discount (₹${discount}) Applied!`;
-        } else if (cleanCode === 'SUPERDEV') {
+        } else if (cleanCode === 'GROCER300') {
             discount = Math.min(Math.round(total * 0.30), 300);
-            message = `30% SDE Candidate Special Discount (₹${discount}) Applied!`;
+            message = `30% Super Saver Discount (₹${discount}) Applied!`;
         } else {
-            return res.json({ success: false, message: "Invalid coupon. Try GROCER100, GROCER250 or SUPERDEV" });
+            return res.json({ success: false, message: "Invalid coupon. Try GROCER100, GROCER250 or GROCER300" });
         }
 
         return res.json({
@@ -429,9 +429,13 @@ export const cancelOrder = async (req, res) => {
 export const getOrderTelemetry = async (req, res) => {
     try {
         const { orderId } = req.params;
+        const userId = req.userId;
         const order = await Order.findById(orderId).populate('items.product').populate('address');
         if (!order) {
             return res.status(404).json({ success: false, message: "Order not found" });
+        }
+        if (order.userId && userId && order.userId.toString() !== userId.toString()) {
+            return res.status(403).json({ success: false, message: "Unauthorized access to order telemetry" });
         }
 
         const createdAt = new Date(order.createdAt).getTime();
@@ -629,13 +633,13 @@ export const trackOrderById = async (req, res) => {
             order = await Order.findById(orderId).populate("items.product").populate("address").lean();
         }
 
-        if (!order) {
-            const all = await Order.find({}).populate("items.product").populate("address").sort({ createdAt: -1 }).lean();
-            order = all.find(o => o._id.toString().toLowerCase().endsWith(orderId.toLowerCase())) || all[0];
+        if (!order && orderId.length >= 6) {
+            const all = await Order.find({}).populate("items.product").populate("address").sort({ createdAt: -1 }).limit(50).lean();
+            order = all.find(o => o._id.toString().toLowerCase().endsWith(orderId.toLowerCase()));
         }
 
         if (!order) {
-            return res.status(404).json({ success: false, message: "No active order found." });
+            return res.status(404).json({ success: false, message: "No active order found for the provided ID." });
         }
 
         const createdAt = new Date(order.createdAt).getTime();

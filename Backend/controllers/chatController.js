@@ -63,8 +63,8 @@ GROCERIN CORE FACTS & POLICIES:
 - Service Availability: Operating 365 days a year from 6:00 AM to 11:30 PM.
 - Free Delivery Threshold: Free delivery on all orders of ₹499 and above. Standard flat delivery fee of ₹25 applies for smaller carts. No minimum order restriction.
 - Active Promo Codes:
-  * GROCER100: Flat ₹100 off on first grocery order.
-  * GROCER250: Flat ₹250 off on orders above ₹1499.
+  - GROCER100: Flat ₹100 off on first grocery order.
+  - GROCER250: Flat ₹250 off on orders above ₹1499.
 - Accepted Payments: Stripe card checkout (Visa, Mastercard, RuPay, Maestro), UPI apps (Google Pay, PhonePe, Paytm, BHIM, Cred), Net Banking across all Indian banks, and Cash on Delivery (COD).
 - Returns & 100% Freshness Guarantee: If any item is damaged, defective, or not fresh, customers can report it within 24 hours for instant replacement or refund. Refunds credit in 5-7 business days to original method or to bank/UPI for COD. Opened perishable food items cannot be returned once accepted unless spoiled on arrival.
 - Order Cancellation: Customers can cancel orders from 'My Orders' while status is 'Order Placed' before warehouse packing begins.

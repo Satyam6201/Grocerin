@@ -154,7 +154,6 @@ export const AppContextProvider = ({ children }) => {
                 toast.error(data.message || "Failed to load products");
             }
         } catch (error) {
-            console.error("Fetch products error:", error);
         } finally {
             setLoadingProducts(false);
         }

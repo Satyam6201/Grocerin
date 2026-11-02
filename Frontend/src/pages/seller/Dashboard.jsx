@@ -64,7 +64,6 @@ export default function Dashboard() {
                 setFleetCount(fleetRes.data.bikers?.length || 4);
             }
         } catch (error) {
-            console.error("Dashboard data error:", error);
         } finally {
             setLoading(false);
         }

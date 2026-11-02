@@ -69,7 +69,6 @@ const AddAddress = () => {
                 setSavedAddresses(data.addresses || []);
             }
         } catch (error) {
-            console.error("Fetch addresses error:", error);
         } finally {
             setLoadingSaved(false);
         }

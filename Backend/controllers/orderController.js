@@ -104,7 +104,6 @@ export const placeOrderCOD = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Place Order COD Error:", error.message);
         res.status(500).json({
             success: false,
             message: error.message,
@@ -190,7 +189,6 @@ export const placeOrderStripe = async (req, res) => {
         return res.json({ success: true, url: session.url });
 
     } catch (error) {
-        console.error("Place Order Stripe Error:", error.message);
         res.status(500).json({
             success: false,
             message: error.message,

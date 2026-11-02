@@ -45,7 +45,6 @@ const MyOrders = () => {
                 setMyOrders(data.orders || []);
             }
         } catch (error) {
-            console.error("Fetch orders error:", error);
         } finally {
             setLoading(false);
         }

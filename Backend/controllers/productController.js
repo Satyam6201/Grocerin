@@ -29,7 +29,6 @@ export const addProduct = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Add Product Error:", error.message);
         res.status(500).json({
             success: false,
             message: error.message,
@@ -92,7 +91,6 @@ export const productList = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Product List Error:", error.message);
         res.status(500).json({
             success: false,
             message: error.message,
@@ -123,7 +121,6 @@ export const productById = async (req, res) => {
         res.json({ success: true, product, source: 'database' });
 
     } catch (error) {
-        console.error("Product By ID Error:", error.message);
         res.status(500).json({
             success: false,
             message: error.message,
@@ -142,7 +139,6 @@ export const changeStock = async (req, res) => {
         res.json({ success: true, message: "Inventory Stock Updated" });
 
     } catch (error) {
-        console.error("Change Stock Error:", error.message);
         res.status(500).json({
             success: false,
             message: error.message,
@@ -206,7 +202,6 @@ export const addProductReview = async (req, res) => {
             numReviews: product.numReviews
         });
     } catch (error) {
-        console.error("Add Review Error:", error.message);
         return res.status(500).json({ success: false, message: error.message });
     }
 };

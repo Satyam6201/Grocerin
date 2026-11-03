@@ -10,16 +10,20 @@
 [![Database](https://img.shields.io/badge/Database-MongoDB%20Atlas%20(100%20Pool)-47A248?style=for-the-badge&logo=mongodb)](https://github.com/Satyam6201/Grocerin)
 [![Payments](https://img.shields.io/badge/Payments-Stripe%20API%20%26%20COD-635BFF?style=for-the-badge&logo=stripe)](https://github.com/Satyam6201/Grocerin)
 
-> **Live Application URL**: [https://grocerinx.vercel.app/](https://grocerinx.vercel.app/)
+> **Live Application**: [https://grocerinx.vercel.app/](https://grocerinx.vercel.app/)
 
-**Grocerin** is an ultra-fast, 10-minute hyperlocal grocery delivery platform built with micro-fulfillment warehouse speed, multi-tier Redis caching, connection-pooled database clustering, Google Gemini RAG grounding, real-time rider telemetry, and responsive mobile-first interfaces.
+**Grocerin** is an ultra-fast, 10-minute hyperlocal grocery delivery platform modeled after modern quick-commerce leaders like Blinkit and JioMart. Built with micro-fulfillment warehouse dark stores, multi-tier Redis caching, connection-pooled MongoDB database clustering, Google Gemini RAG grounding, live rider GPS telemetry, and responsive mobile-first interfaces.
 
 ---
 
 ## Table of Contents
 1. [Live Production Deployment](#live-production-deployment)
-2. [Key Highlights & Core Modules](#key-highlights--core-modules)
-3. [Engineering Architecture](#engineering-architecture)
+2. [System Architecture & Workflow Diagrams](#system-architecture--workflow-diagrams)
+   - [High-Level System Architecture](#1-high-level-system-architecture)
+   - [10-Minute Hyperlocal Order Lifecycle](#2-10-minute-hyperlocal-order-lifecycle)
+   - [Grocerin AI Assistant (RAG Grounding Pipeline)](#3-grocerin-ai-assistant-rag-grounding-pipeline)
+   - [Rider Fleet Dispatch State Machine](#4-rider-fleet-dispatch-state-machine)
+3. [Key Highlights & Core Modules](#key-highlights--core-modules)
 4. [Technology Stack](#technology-stack)
 5. [Repository Structure](#repository-structure)
 6. [Complete REST API Reference](#complete-rest-api-reference)
@@ -31,9 +35,9 @@
 
 ## Live Production Deployment
 
-Access the live cloud deployment directly:
+Access all live production environments directly:
 
-- **Customer Web Store**: [https://grocerinx.vercel.app/](https://grocerinx.vercel.app/)
+- **Customer Storefront**: [https://grocerinx.vercel.app/](https://grocerinx.vercel.app/)
 - **10-Minute Offers & Flash Deals**: [https://grocerinx.vercel.app/offer](https://grocerinx.vercel.app/offer)
 - **Live Delivery Radar & Tracking**: [https://grocerinx.vercel.app/tractOrder](https://grocerinx.vercel.app/tractOrder)
 - **Delivery Biker App Mode**: [https://grocerinx.vercel.app/biker](https://grocerinx.vercel.app/biker)
@@ -44,21 +48,179 @@ Access the live cloud deployment directly:
 
 ---
 
+## System Architecture & Workflow Diagrams
+
+### 1. High-Level System Architecture
+
+```mermaid
+flowchart TD
+    subgraph Clients["Frontend Client Layer (React 19 + Vite 7 + Tailwind 4)"]
+        Customer["Customer Storefront (/ /product /cart)"]
+        Tracker["Live Order Radar & Telemetry (/tractOrder)"]
+        BikerApp["Delivery Biker Terminal (/biker)"]
+        SellerPortal["Dark Store Manager Portal (/seller)"]
+        AIAssistant["Grocerin AI Assistant (Floating Widget)"]
+    end
+
+    subgraph EdgeLayer["Edge & Security Layer"]
+        VercelEdge["Vercel CDN / Edge Network"]
+        RateLimiters["Express Rate Limiters (Global / Auth / Order)"]
+        SecurityHeaders["Helmet + Strict CORS + HTTP-Only Cookie Parser"]
+    end
+
+    subgraph BackendAPI["Backend Core Services (Node.js + Express)"]
+        AuthController["Authentication & Profile Service"]
+        CatalogController["Product & Inventory Controller"]
+        OrderController["Order & Checkout Controller"]
+        FleetController["Biker Dispatch & Telemetry Service"]
+        ChatbotService["Gemini AI Grounding Service"]
+    end
+
+    subgraph DataCache["Data & Cache Layer"]
+        RedisCache[("Redis Cache Cluster (ioredis)")]
+        LocalCache[("In-Memory TTL Cache Fallback")]
+        MongoCluster[("MongoDB Atlas (100 Connection Pool)")]
+    end
+
+    subgraph ExternalServices["Third-Party Integrations"]
+        StripeAPI["Stripe Payments Gateway"]
+        CloudinaryCDN["Cloudinary Media Asset Storage"]
+        GeminiLLM["Google Gemini Generative AI"]
+    end
+
+    Clients --> VercelEdge
+    VercelEdge --> RateLimiters
+    RateLimiters --> SecurityHeaders
+    SecurityHeaders --> BackendAPI
+
+    CatalogController --> RedisCache
+    RedisCache -.->|Fallback on Miss/Offline| LocalCache
+    CatalogController --> MongoCluster
+    OrderController --> MongoCluster
+    AuthController --> MongoCluster
+    FleetController --> MongoCluster
+
+    OrderController --> StripeAPI
+    CatalogController --> CloudinaryCDN
+    ChatbotService --> GeminiLLM
+    ChatbotService --> RedisCache
+```
+
+---
+
+### 2. 10-Minute Hyperlocal Order Lifecycle
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Customer as Customer
+    participant Frontend as Grocerin Frontend
+    participant API as Express API Server
+    participant DB as MongoDB Atlas
+    participant DarkStore as Dark Store Hub Picker
+    participant Rider as EV Delivery Rider
+
+    Customer->>Frontend: Selects items & chooses 10-Min Rush Delivery Slot
+    Customer->>Frontend: Applies promo code (e.g. GROCER100) & places order
+    Frontend->>API: POST /api/order/cod or /api/order/stripe
+    API->>DB: Lock inventory, calculate tax & generate 4-digit Delivery OTP
+    DB-->>API: Order Record Created (Status: "Order Placed")
+    API-->>Frontend: Confirmation with Order ID & Telemetry Access
+
+    Note over API,DarkStore: Phase 1: Sub-2 Minute Warehouse Packing
+    API->>DarkStore: Automated Dispatch: Order alert pushed to Hub #102 queue
+    DarkStore->>DarkStore: Picker bags items across temperature zones (Ambient / Chilled / Frozen)
+    DarkStore->>API: POST /api/order/status -> Updates to "Packing" then "Confirmed"
+
+    Note over API,Rider: Phase 2: Sub-6 Minute Road Transit
+    API->>Rider: Auto-assigns nearest available fleet EV Rider (BIKER-101)
+    Rider->>API: POST /api/order/biker/status -> Updates to "Out for Delivery"
+    Rider->>API: Real-time telemetry broadcast (Speed, Distance, Cold-Chain Temp)
+    Customer->>Frontend: Watches live bike transit radar & ETA countdown on /tractOrder
+
+    Note over Customer,Rider: Phase 3: Doorstep Arrival & Secure OTP Handover
+    Rider->>Customer: Arrives at customer doorstep with sealed thermal bag
+    Customer->>Rider: Shares confidential 4-digit Delivery OTP
+    Rider->>API: POST /api/order/biker/verify-otp { orderId, otp }
+    API->>DB: Validate OTP match & transition status to "Delivered"
+    DB-->>API: Handover Verified
+    API-->>Rider: Handover approved & trip earning credited to biker wallet
+    API-->>Frontend: Real-time UI updates to "Delivered Successfully"
+```
+
+---
+
+### 3. Grocerin AI Assistant (RAG Grounding Pipeline)
+
+```mermaid
+flowchart LR
+    subgraph UserInteraction["User Interaction"]
+        User["Customer Query<br/>('Ingredients for Paneer Butter Masala under ₹300')"]
+    end
+
+    subgraph AIProcessing["AI Orchestration Pipeline (/api/chat)"]
+        ChatEngine["Chat Controller Engine"]
+        InventoryFetcher["Real-Time Catalog Grounder"]
+        PromptAssembler["System Prompt & Context Assembler"]
+        GeminiCall["Google Gemini 1.5 Flash API"]
+        HeuristicFallback["Offline Heuristic Rule Engine"]
+    end
+
+    subgraph DataContext["Catalog Data Context"]
+        RedisInventory[("Redis / In-Memory Cache<br/>Live SKUs, Prices, In-Stock Flags")]
+    end
+
+    subgraph ResponseLayer["Structured Response"]
+        ClientResponse["Smart Recipe Recommendations +<br/>1-Click 'Add Meal Kit to Cart' Action"]
+    end
+
+    User --> ChatEngine
+    ChatEngine --> InventoryFetcher
+    InventoryFetcher --> RedisInventory
+    RedisInventory --> InventoryFetcher
+    InventoryFetcher --> PromptAssembler
+    PromptAssembler --> GeminiCall
+    GeminiCall -.->|Fallback on Quota/Limit| HeuristicFallback
+    GeminiCall --> ClientResponse
+    HeuristicFallback --> ClientResponse
+    ClientResponse --> User
+```
+
+---
+
+### 4. Rider Fleet Dispatch State Machine
+
+```mermaid
+stateDiagram-v2
+    [*] --> Available : Rider Logs In & Toggles Shift On-Duty
+    Available --> Assigned : Order Dispatched by Dark Store Hub
+    Assigned --> PackingWait : Rider Arrives at Micro-Fulfillment Dark Store
+    PackingWait --> OutForDelivery : Insulated Thermal Bag Loaded & Dispatched
+    OutForDelivery --> DoorstepArrived : GPS Proximity Reaches Delivery Address (< 50m)
+    DoorstepArrived --> Delivered : Customer 4-Digit Handover OTP Verified
+    Delivered --> Available : Trip Earnings Settled & Rider Status Set to Available
+    Available --> OnBreak : Rider Toggles Shift Off-Duty
+    OnBreak --> Available : Rider Resumes Shift
+    DoorstepArrived --> Cancelled : Customer Cancelled Prior to Packing
+```
+
+---
+
 ## Key Highlights & Core Modules
 
 ### 1. 10-Minute Micro-Warehouse Fulfillment SLA
-- **Hyperlocal Dark Store Hub Network**: Micro-fulfillment centers positioned within 3 km of customer neighborhoods (e.g. Boring Road Hub #102, Bailey Road Hub #108).
-- **Sub-2-Minute Order Picking**: Streamlined SKU racking allows pickers to bag groceries in under 120 seconds.
+- **Hyperlocal Dark Store Hub Network**: Micro-fulfillment centers strategically situated within 3 km of customer neighborhoods (e.g. Boring Road Hub #102, Bailey Road Hub #108).
+- **Sub-2-Minute Order Picking**: Standardized SKU aisle racking enables warehouse pickers to assemble and bag groceries in under 120 seconds.
 - **Strict Cold Chain Preservation**: Dedicated multi-temperature packing (Frozen at -18°C, Dairy at 3-4°C, Fresh Produce at 22°C).
 
 ### 2. Live Rider GPS Telemetry & Transit Tracking
-- **Real-Time Synchronized Movement**: Delivery bike moves dynamically across the transit route aligned with the delivery countdown timer.
-- **Dynamic Speed & Route Optimization**: Dynamically adjusts speeds to reflect street transit, neighborhood navigation, and doorstep arrival.
-- **Secure Delivery Hand-off**: Contactless 4-digit OTP handover confirmation directly with the customer.
-- **Real-Time Telemetry Metrics**: Live rider speed, distance remaining, EV battery levels, and insulated cold-chain bag temperature monitoring.
+- **Real-Time Synchronized Movement**: Delivery bike moves dynamically across the transit route synchronized with a live countdown timer.
+- **Dynamic Speed & Route Modeling**: Adjusts speeds dynamically to reflect street transit, neighborhood navigation, and doorstep arrival.
+- **Secure Delivery Hand-off**: Contactless 4-digit OTP handover confirmation directly between rider and customer.
+- **Telemetry Sensor Metrics**: Real-time display of rider speed, distance remaining, EV battery levels, and insulated cold-chain bag temperature monitoring.
 
 ### 3. Grocerin AI Shopping Assistant
-- **Google Gemini Generative AI**: Powered by `gemini-1.5-flash` with multi-model fallback (`gemini-2.0-flash`, `gemini-1.5-flash-8b`, `gemini-1.5-pro`).
+- **Google Gemini Generative AI**: Powered by `gemini-1.5-flash` with automatic multi-model fallback (`gemini-2.0-flash`, `gemini-1.5-flash-8b`, `gemini-1.5-pro`).
 - **Dynamic Catalog Grounding**: Reads real-time in-stock inventory and prices for instant recommendation of recipes, ingredient kits, and budget combos.
 - **1-Click Meal Kit Additions**: Add complete ingredient bundles directly to cart from the chat assistant.
 - **100% Uptime Rule Engine**: High-speed offline grocery heuristic engine ensures zero downtime even during upstream provider limits.
@@ -74,57 +236,9 @@ Access the live cloud deployment directly:
 - **Dual-Engine Location Detection**: 1-Click GPS reverse geocoding pinpoints locality and 6-digit postal PIN code.
 
 ### 6. Interactive Flash Deals & Scratch Card Engine
-- **Active Promo Codes**: 1-Click clipboard copy for `GROCER100`, `GROCER250`, `FRESH50`, and `QUICKFREE`.
+- **Active Promo Codes**: 1-Click clipboard copy for `GROCER100`, `GROCER250`, `GROCER300`, `FREEDEL`, `FIRSTBITE`, and `NIGHTOWL`.
 - **HTML5 Canvas Scratch Card**: Gamified scratch-to-reveal discount vouchers with particle confetti animations.
 - **Smart Recipe Bundles**: 1-Click addition of complete meal kits (Paneer Butter Masala, Healthy Breakfast, Veg Biryani).
-
----
-
-## Engineering Architecture
-
-```
-+----------------------------------------------------------------------------------------------------+
-|                                         CLIENT LAYER                                               |
-|  React 19 + Vite 7 + Tailwind CSS 4 + React Router v7 + Context API + React Hot Toast              |
-|  - Delivery Biker Terminal (/biker, /rider): Shift toggle, Google Maps GPS & OTP verify            |
-|  - Admin Fleet Dispatcher (/seller/bikers): Real-time roster telemetry & 1-click trip dispatch     |
-|  - Customer Live Tracking (/tractOrder): Live ETA, Biker telemetry, OTP code & doorstep arrival   |
-|  - Dark Store Seller Portal (/seller): Margin calculator, stock toggles & order queue              |
-|  - Grocerin AI Chatbot: Catalog RAG grounding & 1-click meal kit add-to-cart                       |
-|  - Gamified Canvas Scratch & Win Promo Cards with particle confetti engine                         |
-|  - 1-Click Smart Meal Kits & Recipe Bundles (Instant Batch Cart Addition)                          |
-|  - GPS Geolocation Engine (Auto-detects Locality & 6-digit PIN code)                               |
-+----------------------------------------------------------------------------------------------------+
-                                                  |
-                                                  | HTTPS / REST JSON
-                                                  v
-+----------------------------------------------------------------------------------------------------+
-|                                      EDGE & REVERSE PROXY                                          |
-|  NGINX Reverse Proxy (Gzip, HTTP/2, Cache-Control: public, max-age=30, Security Headers)           |
-+----------------------------------------------------------------------------------------------------+
-                                                  |
-                                                  v
-+----------------------------------------------------------------------------------------------------+
-|                                          BACKEND API                                               |
-|  Node.js + Express.js + Compression (Level 6) + Helmet + ETags                                     |
-|  - Global API Limiter (500 req / 15m)                                                              |
-|  - Sensitive Auth Limiter (15 req / 15m)                                                           |
-|  - Order Checkout Limiter (20 req / 30m)                                                           |
-|  - Biker Fleet Dispatch & OTP Verification Engine (/api/order/biker/*)                             |
-|  - Dynamic Coupon Engine (GROCER100, GROCER250, FRESH50, QUICKFREE)                                 |
-|  - Order Cancellation & Automated Refund Pipeline                                                  |
-|  - ChatBot LLM Grounding & Heuristic Extractor Pipeline                                            |
-+----------------------------------------------------------------------------------------------------+
-         |                                |                                   |
-         v                                v                                   v
-+------------------+             +------------------+                +------------------+
-|   CACHE LAYER    |             |   PERSISTENCE    |                |    AI ENGINE     |
-|  Redis (ioredis) |             |  MongoDB Atlas   |                |  Google Gemini   |
-|  - Catalog Cache |             |  - 100 Conn Pool |                |  - Flash 1.5/2.0 |
-|  - Fallback Dict |             |  - Index Shards  |                |  - Grounded RAG  |
-|  - TTL Invalidate|             |  - ACID Webhooks |                |  - Multi-Model   |
-+------------------+             +------------------+                +------------------+
-```
 
 ---
 
@@ -161,7 +275,7 @@ Grocerin/
 │   │   ├── sellerController.js         # Dark store admin authentication
 │   │   └── userController.js           # Customer registration, JWT login, OTP reset & profile
 │   ├── middlewares/
-│   │   ├── auth.js                     # Customer JWT verification middleware
+│   │   ├── authUser.js                 # Customer JWT verification middleware
 │   │   ├── authSeller.js               # Dark store manager JWT verification
 │   │   ├── multer.js                   # Multi-part form-data image buffer parser
 │   │   └── rateLimiter.js              # Triple-layer rate-limiting rules
@@ -295,6 +409,8 @@ CLOUDINARY_SECRET_KEY=your_cloudinary_secret_key
 STRIPE_SECRET_KEY=your_stripe_secret_key
 GEMINI_API_KEY=your_google_gemini_api_key
 REDIS_URL=redis://localhost:6379
+SELLER_EMAIL=seller@grocerin.com
+SELLER_PASSWORD=your_seller_password
 ```
 
 #### 3. Start Backend Server
